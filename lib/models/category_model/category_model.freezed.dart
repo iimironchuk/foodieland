@@ -16,7 +16,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$CategoryModel {
 
- String get title; String get imageUrl; String get backgroundColor;
+ String get title;@ImagePathConverter() String get categoryImage; String get backgroundColor;
 /// Create a copy of CategoryModel
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -29,16 +29,16 @@ $CategoryModelCopyWith<CategoryModel> get copyWith => _$CategoryModelCopyWithImp
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is CategoryModel&&(identical(other.title, title) || other.title == title)&&(identical(other.imageUrl, imageUrl) || other.imageUrl == imageUrl)&&(identical(other.backgroundColor, backgroundColor) || other.backgroundColor == backgroundColor));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is CategoryModel&&(identical(other.title, title) || other.title == title)&&(identical(other.categoryImage, categoryImage) || other.categoryImage == categoryImage)&&(identical(other.backgroundColor, backgroundColor) || other.backgroundColor == backgroundColor));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,title,imageUrl,backgroundColor);
+int get hashCode => Object.hash(runtimeType,title,categoryImage,backgroundColor);
 
 @override
 String toString() {
-  return 'CategoryModel(title: $title, imageUrl: $imageUrl, backgroundColor: $backgroundColor)';
+  return 'CategoryModel(title: $title, categoryImage: $categoryImage, backgroundColor: $backgroundColor)';
 }
 
 
@@ -49,7 +49,7 @@ abstract mixin class $CategoryModelCopyWith<$Res>  {
   factory $CategoryModelCopyWith(CategoryModel value, $Res Function(CategoryModel) _then) = _$CategoryModelCopyWithImpl;
 @useResult
 $Res call({
- String title, String imageUrl, String backgroundColor
+ String title,@ImagePathConverter() String categoryImage, String backgroundColor
 });
 
 
@@ -66,10 +66,10 @@ class _$CategoryModelCopyWithImpl<$Res>
 
 /// Create a copy of CategoryModel
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? title = null,Object? imageUrl = null,Object? backgroundColor = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? title = null,Object? categoryImage = null,Object? backgroundColor = null,}) {
   return _then(_self.copyWith(
 title: null == title ? _self.title : title // ignore: cast_nullable_to_non_nullable
-as String,imageUrl: null == imageUrl ? _self.imageUrl : imageUrl // ignore: cast_nullable_to_non_nullable
+as String,categoryImage: null == categoryImage ? _self.categoryImage : categoryImage // ignore: cast_nullable_to_non_nullable
 as String,backgroundColor: null == backgroundColor ? _self.backgroundColor : backgroundColor // ignore: cast_nullable_to_non_nullable
 as String,
   ));
@@ -82,11 +82,11 @@ as String,
 @JsonSerializable()
 
 class _CategoryModel implements CategoryModel {
-   _CategoryModel({required this.title, required this.imageUrl, required this.backgroundColor});
+   _CategoryModel({required this.title, @ImagePathConverter() required this.categoryImage, required this.backgroundColor});
   factory _CategoryModel.fromJson(Map<String, dynamic> json) => _$CategoryModelFromJson(json);
 
 @override final  String title;
-@override final  String imageUrl;
+@override@ImagePathConverter() final  String categoryImage;
 @override final  String backgroundColor;
 
 /// Create a copy of CategoryModel
@@ -102,16 +102,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _CategoryModel&&(identical(other.title, title) || other.title == title)&&(identical(other.imageUrl, imageUrl) || other.imageUrl == imageUrl)&&(identical(other.backgroundColor, backgroundColor) || other.backgroundColor == backgroundColor));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _CategoryModel&&(identical(other.title, title) || other.title == title)&&(identical(other.categoryImage, categoryImage) || other.categoryImage == categoryImage)&&(identical(other.backgroundColor, backgroundColor) || other.backgroundColor == backgroundColor));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,title,imageUrl,backgroundColor);
+int get hashCode => Object.hash(runtimeType,title,categoryImage,backgroundColor);
 
 @override
 String toString() {
-  return 'CategoryModel(title: $title, imageUrl: $imageUrl, backgroundColor: $backgroundColor)';
+  return 'CategoryModel(title: $title, categoryImage: $categoryImage, backgroundColor: $backgroundColor)';
 }
 
 
@@ -122,7 +122,7 @@ abstract mixin class _$CategoryModelCopyWith<$Res> implements $CategoryModelCopy
   factory _$CategoryModelCopyWith(_CategoryModel value, $Res Function(_CategoryModel) _then) = __$CategoryModelCopyWithImpl;
 @override @useResult
 $Res call({
- String title, String imageUrl, String backgroundColor
+ String title,@ImagePathConverter() String categoryImage, String backgroundColor
 });
 
 
@@ -139,10 +139,10 @@ class __$CategoryModelCopyWithImpl<$Res>
 
 /// Create a copy of CategoryModel
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? title = null,Object? imageUrl = null,Object? backgroundColor = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? title = null,Object? categoryImage = null,Object? backgroundColor = null,}) {
   return _then(_CategoryModel(
 title: null == title ? _self.title : title // ignore: cast_nullable_to_non_nullable
-as String,imageUrl: null == imageUrl ? _self.imageUrl : imageUrl // ignore: cast_nullable_to_non_nullable
+as String,categoryImage: null == categoryImage ? _self.categoryImage : categoryImage // ignore: cast_nullable_to_non_nullable
 as String,backgroundColor: null == backgroundColor ? _self.backgroundColor : backgroundColor // ignore: cast_nullable_to_non_nullable
 as String,
   ));

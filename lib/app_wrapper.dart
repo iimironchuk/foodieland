@@ -79,17 +79,19 @@ backgroundColor: Colors.white,
           ),
         ),
       ),
-      body: Column(
-        children: [
-          Divider(color: AppColors.dividerColor),
-          child,
-          Center(
-            child: ConstrainedBox(
-              constraints: BoxConstraints(maxWidth: 1280.0),
-              child: Footer(),
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            Divider(color: AppColors.dividerColor),
+            child,
+            Center(
+              child: ConstrainedBox(
+                constraints: BoxConstraints(maxWidth: 1280.0),
+                child: Footer(),
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
