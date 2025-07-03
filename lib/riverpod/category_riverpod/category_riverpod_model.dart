@@ -10,11 +10,11 @@ class CategoryRiverpodModel extends ChangeNotifier {
   List<CategoryModel> categories = [];
   bool isLoading = false;
 
-  Future<void> getCategories() async {
+  Future<void> getCategories({int limit = 6}) async {
     isLoading = true;
     notifyListeners();
 
-    categories = await _repository.getCategories();
+    categories = await _repository.getCategories(limit);
 
     isLoading = false;
     notifyListeners();

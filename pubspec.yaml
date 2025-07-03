@@ -24,6 +24,7 @@ dependencies:
   riverpod: ^2.6.1
   get_it: ^8.0.3
   flutter_riverpod: ^2.6.1
+  riverpod_annotation: ^2.6.1
   cached_network_image: ^3.4.1
 
 dev_dependencies:
@@ -35,6 +36,7 @@ dev_dependencies:
   flutter_gen_runner: ^5.10.0
   freezed: ^3.0.6
   json_serializable: ^6.9.5
+  riverpod_generator: ^2.6.5
 
 flutter:
 
