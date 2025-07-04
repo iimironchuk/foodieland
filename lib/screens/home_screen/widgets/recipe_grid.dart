@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:foodieland/gen/assets.gen.dart';
 import 'package:foodieland/models/recipe_model/recipe_model.dart';
 import 'package:foodieland/screens/home_screen/widgets/recipe_item.dart';
 
@@ -12,7 +13,7 @@ class RecipeGrid extends StatelessWidget {
     return GridView.builder(
       physics: NeverScrollableScrollPhysics(),
       shrinkWrap: true,
-      itemCount: recipeList.length,
+      itemCount: recipeList.length + 1,
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 3,
         mainAxisSpacing: 40.0,
@@ -20,7 +21,12 @@ class RecipeGrid extends StatelessWidget {
         childAspectRatio: 400 / 434,
       ),
       itemBuilder: (context, index) {
-        return RecipeItem(recipe: recipeList[index]);
+        if(index == 5){
+          return Assets.images.advertisment.image();
+        }
+
+        final adjustedIndex = index > 5 ? index - 1 : index;
+        return RecipeItem(recipe: recipeList[adjustedIndex]);
       },
     );
   }

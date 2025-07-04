@@ -7,6 +7,7 @@ import 'package:foodieland/screens/home_screen/home_screen_providers/categories_
 import 'package:foodieland/screens/home_screen/home_screen_providers/recipes_providers/home_recipes_providers.dart';
 import 'package:foodieland/screens/home_screen/widgets/category_item.dart';
 import 'package:foodieland/screens/home_screen/widgets/hot_recipe_item.dart';
+import 'package:foodieland/screens/home_screen/widgets/recipe_grid.dart';
 
 class HomeScreen extends ConsumerWidget {
   const HomeScreen({super.key});
@@ -106,18 +107,24 @@ class HomeScreen extends ConsumerWidget {
                   Padding(
                     padding: const EdgeInsets.only(top: 24.0),
                     child: ConstrainedBox(
-                      constraints: BoxConstraints(
-                        maxWidth: 700.0
-                      ),
+                      constraints: BoxConstraints(maxWidth: 700.0),
                       child: Center(
                         child: Text(
                           'Lorem ipsum dolor sit amet, consectetuipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqut enim ad minim ',
                           style: textTheme.labelSmall!.copyWith(fontSize: 16.0),
+                          textAlign: TextAlign.center,
                         ),
                       ),
                     ),
                   ),
-                  SizedBox(height: 100,)
+                  SizedBox(height: 100),
+                  recipeList.when(
+                    data: (recipes) {
+                      return RecipeGrid(recipeList: recipes);
+                    },
+                    error: (error, stack) => Text('Error: $error'),
+                    loading: () => CircularProgressIndicator(),
+                  ),
                 ],
               ),
             ),

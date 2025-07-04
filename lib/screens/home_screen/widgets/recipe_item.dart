@@ -31,13 +31,14 @@ class RecipeItem extends StatelessWidget {
     final textTheme = Theme.of(context).textTheme;
     return Container(
       decoration: BoxDecoration(
+        // color: AppColors.lightBlue,
         gradient: LinearGradient(
           colors: [
             AppColors.scaffold,
-            AppColors.lightBlue.withValues(alpha: 0),
-            AppColors.lightBlue.withValues(alpha: 0.1),
+            // AppColors.lightBlue.withValues(alpha: 0),
+            AppColors.lightBlue,
           ],
-          stops: [0.0, 0.0, 1.0],
+          stops: [0.0, 1.0],
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,
         ),
@@ -49,16 +50,42 @@ class RecipeItem extends StatelessWidget {
           children: [
             AspectRatio(
               aspectRatio: 368 / 250,
-              child: CachedNetworkImage(
-                imageUrl: recipe.recipeAvatar,
-                fit: BoxFit.cover,
+              child: Stack(
+                fit: StackFit.expand,
+                children: [
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(30),
+                    child: CachedNetworkImage(
+                      imageUrl: recipe.recipeAvatar,
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                  Positioned(
+                    top: 20.0,
+                    right: 20.0,
+                    child: Container(
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: AppColors.scaffold,
+                      ),
+                      child: Padding(
+                        padding: EdgeInsets.all(12),
+                        child: SvgPicture.asset(Assets.icons.favorite),
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ),
-            Text(
-              recipe.title,
-              style: textTheme.labelMedium!.copyWith(
-                fontSize: 24.0,
-                fontWeight: FontWeight.w600,
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 24.0),
+              child: Text(
+                recipe.title,
+                style: textTheme.labelMedium!.copyWith(
+                  fontSize: 24.0,
+                  fontWeight: FontWeight.w600,
+                ),
+                maxLines: 2,
               ),
             ),
             Row(
@@ -68,6 +95,7 @@ class RecipeItem extends StatelessWidget {
                   Assets.icons.duration,
                   '${recipe.duration} Minutes',
                 ),
+                SizedBox(width: 24.0),
                 _buildInfoIconRow(
                   textTheme,
                   Assets.icons.recipeCategory,

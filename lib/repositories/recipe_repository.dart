@@ -32,7 +32,7 @@ class RecipeRepository {
     final response = await _dio.get(
       'recipes',
       queryParameters: {
-        'populate': {'recipeAvatar': '*', 'category': '*'},
+        'populate': {'recipeAvatar': true, 'category': true},
         'pagination[pageSize]': limit,
       },
     );
