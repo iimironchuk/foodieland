@@ -18,6 +18,9 @@ class $AssetsIconsGen {
   /// File path: assets/icons/facebook.svg
   String get facebook => 'assets/icons/facebook.svg';
 
+  /// File path: assets/icons/favorite.svg
+  String get favorite => 'assets/icons/favorite.svg';
+
   /// File path: assets/icons/instagarm.svg
   String get instagarm => 'assets/icons/instagarm.svg';
 
@@ -31,6 +34,7 @@ class $AssetsIconsGen {
   List<String> get values => [
     duration,
     facebook,
+    favorite,
     instagarm,
     recipeCategory,
     twitter,
