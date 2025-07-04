@@ -1,110 +1,127 @@
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:foodieland/app_wrapper.dart';
 import 'package:foodieland/resources/app_colors.dart';
-import 'package:foodieland/riverpod/recipe_riverpod/recipe_provider.dart';
 import 'package:foodieland/screens/home_screen/home_screen_providers/categories_provider/categories_provider.dart';
-import 'package:foodieland/screens/home_screen/home_screen_providers/recipes_providers/hot_recipes_provider.dart';
+import 'package:foodieland/screens/home_screen/home_screen_providers/recipes_providers/home_recipes_providers.dart';
 import 'package:foodieland/screens/home_screen/widgets/category_item.dart';
 import 'package:foodieland/screens/home_screen/widgets/hot_recipe_item.dart';
 
-import '../../riverpod/category_riverpod/category_provider.dart';
-
-class HomeScreen extends ConsumerStatefulWidget {
+class HomeScreen extends ConsumerWidget {
   const HomeScreen({super.key});
 
   @override
-  ConsumerState<HomeScreen> createState() => _HomeScreenState();
-}
-
-class _HomeScreenState extends ConsumerState<HomeScreen> {
-  @override
-  void initState() {
-    super.initState();
-    Future.microtask(() {
-      ref.read(categoryRiverpodProvider).getCategories();
-    });
-
-    Future.microtask(() {
-      ref.read(recipeRiverpodProvider).getRecipesForOverview();
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final textTheme = Theme.of(context).textTheme;
     final categoryListAsync = ref.watch(categoryListProvider);
-    final recipeList = ref.watch(hotRecipesListProvider);
+    final hotRecipeList = ref.watch(hotRecipesListProvider);
+    final recipeList = ref.watch(recipesListProvider);
     // final recipe = ref.watch(recipeRiverpodProvider);
     return AppWrapper(
-      child: ConstrainedBox(
-        constraints: BoxConstraints(maxWidth: 1280.0),
-        child: Center(
-          child: Column(
-            children: [
-              recipeList.when(
-                data: (recipes) => SizedBox(
-                  height: 640,
-                  child: PageView(
-                    children: [
-                      ...recipes.map((recipe) => HotRecipeItem(recipe: recipe)),
-                    ],
+      child: Center(
+        child: Column(
+          children: [
+            hotRecipeList.when(
+              data: (recipes) => SizedBox(
+                height: 640,
+                child: CarouselSlider.builder(
+                  itemCount: recipes.length,
+                  itemBuilder: (context, index, realIndex) {
+                    return HotRecipeItem(recipe: recipes[index]);
+                  },
+                  options: CarouselOptions(
+                    height: 640,
+                    viewportFraction: 0.85,
+                    enlargeCenterPage: true,
+                    enlargeFactor: 0.25,
+                    enlargeStrategy: CenterPageEnlargeStrategy.scale,
+                    enableInfiniteScroll: false,
                   ),
                 ),
-                error: (error, _) => Text('Error: $error'),
-                loading: () => CircularProgressIndicator(),
               ),
-              SizedBox(height: 160.0),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              error: (error, _) => Text('Error: $error'),
+              loading: () => Center(child: CircularProgressIndicator()),
+            ),
+            ConstrainedBox(
+              constraints: BoxConstraints(maxWidth: 1280.0),
+              child: Column(
                 children: [
+                  SizedBox(height: 160.0),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        'Category',
+                        style: textTheme.labelMedium!.copyWith(
+                          fontSize: 48.0,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+
+                      SizedBox(
+                        // width: 200.0,
+                        height: 60.0,
+                        child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(16),
+                            ),
+                            textStyle: textTheme.labelMedium!.copyWith(
+                              fontWeight: FontWeight.w600,
+                              fontSize: 16.0,
+                              color: Colors.black,
+                            ),
+                            backgroundColor: AppColors.lightBlue,
+                            foregroundColor: Colors.black,
+                          ),
+                          onPressed: () => ref
+                              .read(categoryListProvider.notifier)
+                              .loadAllCategories(),
+                          child: Text('View All Categories'),
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 80.0),
+                  categoryListAsync.when(
+                    data: (categories) => Wrap(
+                      spacing: 40.0,
+                      children: [
+                        ...categories.map(
+                          (category) => CategoryItem(category: category),
+                        ),
+                      ],
+                    ),
+                    loading: () => const CircularProgressIndicator(),
+                    error: (error, stack) => Text('Error: $error'),
+                  ),
                   Text(
-                    'Category',
+                    'Simple and tasty recipes',
                     style: textTheme.labelMedium!.copyWith(
                       fontSize: 48.0,
                       fontWeight: FontWeight.w600,
                     ),
                   ),
-
-                  SizedBox(
-                    // width: 200.0,
-                    height: 60.0,
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(16),
-                        ),
-                        textStyle: textTheme.labelMedium!.copyWith(
-                          fontWeight: FontWeight.w600,
-                          fontSize: 16.0,
-                          color: Colors.black,
-                        ),
-                        backgroundColor: AppColors.lightBlue,
-                        foregroundColor: Colors.black,
+                  Padding(
+                    padding: const EdgeInsets.only(top: 24.0),
+                    child: ConstrainedBox(
+                      constraints: BoxConstraints(
+                        maxWidth: 700.0
                       ),
-                      onPressed: () => ref
-                          .read(categoryListProvider.notifier)
-                          .loadAllCategories(),
-                      child: Text('View All Categories'),
+                      child: Center(
+                        child: Text(
+                          'Lorem ipsum dolor sit amet, consectetuipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqut enim ad minim ',
+                          style: textTheme.labelSmall!.copyWith(fontSize: 16.0),
+                        ),
+                      ),
                     ),
                   ),
+                  SizedBox(height: 100,)
                 ],
               ),
-              SizedBox(height: 80.0),
-              categoryListAsync.when(
-                data: (categories) => Wrap(
-                  spacing: 40.0,
-                  children: [
-                    ...categories.map(
-                      (category) => CategoryItem(category: category),
-                    ),
-                  ],
-                ),
-                loading: () => const CircularProgressIndicator(),
-                error: (error, stack) => Text('Error: $error'),
-              ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

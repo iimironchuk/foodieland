@@ -12,15 +12,36 @@ class RecipeRepository {
   final Dio _dio = ApiService().dio;
 
   RecipeRepository._internal();
-  
-  Future<List<RecipeModel>> getRecipesForOverview() async {
-    final response = await _dio.get('recipes?populate=recipeAvatar');
 
-    if(response.isSuccess){
+  Future<List<RecipeModel>> getHotRecipes() async {
+    final response = await _dio.get(
+      'recipes',
+      queryParameters: {'populate': '*', 'filters[isHotRecipe][\$eq]': true},
+    );
+
+    if (response.isSuccess) {
       return (response.data['data'] as List)
           .map((json) => RecipeModel.fromJson(json as Map<String, dynamic>))
           .toList();
-    } else{
+    } else {
+      return [];
+    }
+  }
+
+  Future<List<RecipeModel>> getRecipesForOverview({int limit = 8}) async {
+    final response = await _dio.get(
+      'recipes',
+      queryParameters: {
+        'populate': {'recipeAvatar': '*', 'category': '*'},
+        'pagination[pageSize]': limit,
+      },
+    );
+
+    if (response.isSuccess) {
+      return (response.data['data'] as List)
+          .map((json) => RecipeModel.fromJson(json as Map<String, dynamic>))
+          .toList();
+    } else {
       return [];
     }
   }
