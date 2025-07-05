@@ -3,14 +3,25 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:foodieland/gen/assets.gen.dart';
 import 'package:foodieland/resources/app_colors.dart';
 import 'package:foodieland/screens/widgets/footer.dart';
+import 'package:go_router/go_router.dart';
 import 'package:separated_row/separated_row.dart';
 
-import 'gen/fonts.gen.dart';
+import '../gen/fonts.gen.dart';
 
 class AppWrapper extends StatelessWidget {
-  final Widget child;
+  final StatefulNavigationShell navigationShell;
 
-  const AppWrapper({super.key, required this.child});
+   const AppWrapper({super.key, required this.navigationShell});
+
+  void _goToBranch(int index) {
+
+      navigationShell.goBranch(
+        index,
+        initialLocation: index == navigationShell.currentIndex,
+      );
+
+
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -83,7 +94,7 @@ backgroundColor: Colors.white,
         child: Column(
           children: [
             Divider(color: AppColors.dividerColor),
-            child,
+            navigationShell,
             Center(
               child: ConstrainedBox(
                 constraints: BoxConstraints(maxWidth: 1280.0),
