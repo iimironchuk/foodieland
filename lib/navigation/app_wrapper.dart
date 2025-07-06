@@ -6,21 +6,16 @@ import 'package:foodieland/screens/widgets/footer.dart';
 import 'package:go_router/go_router.dart';
 import 'package:separated_row/separated_row.dart';
 
-import '../gen/fonts.gen.dart';
-
 class AppWrapper extends StatelessWidget {
   final StatefulNavigationShell navigationShell;
 
-   const AppWrapper({super.key, required this.navigationShell});
+  const AppWrapper({super.key, required this.navigationShell});
 
   void _goToBranch(int index) {
-
-      navigationShell.goBranch(
-        index,
-        initialLocation: index == navigationShell.currentIndex,
-      );
-
-
+    navigationShell.goBranch(
+      index,
+      initialLocation: index == navigationShell.currentIndex,
+    );
   }
 
   @override
@@ -31,7 +26,7 @@ class AppWrapper extends StatelessWidget {
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(110),
         child: AppBar(
-backgroundColor: Colors.white,
+          backgroundColor: Colors.white,
           title: Center(
             child: ConstrainedBox(
               constraints: BoxConstraints(maxWidth: 1280.0),
@@ -39,30 +34,48 @@ backgroundColor: Colors.white,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text.rich(
-                    TextSpan(
-                      children: [
-                        TextSpan(
-                          text: 'Foodieland',
-                          style: textTheme.titleMedium,
-                        ),
-                        TextSpan(
-                          text: '.',
-                          style: textTheme.titleMedium!.copyWith(
-                            color: Colors.red,
+                  GestureDetector(
+                    onTap: () => _goToBranch(0),
+                    child: Text.rich(
+                      TextSpan(
+                        children: [
+                          TextSpan(
+                            text: 'Foodieland',
+                            style: textTheme.titleMedium,
                           ),
-                        ),
-                      ],
+                          TextSpan(
+                            text: '.',
+                            style: textTheme.titleMedium!.copyWith(
+                              color: Colors.red,
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                   SeparatedRow(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      TextButton(onPressed: () {}, child: Text('Home')),
-                      TextButton(onPressed: () {}, child: Text('Recipes')),
-                      TextButton(onPressed: () {}, child: Text('Blog')),
-                      TextButton(onPressed: () {}, child: Text('Contact')),
-                      TextButton(onPressed: () {}, child: Text('About us')),
+                      TextButton(
+                        onPressed: () => _goToBranch(0),
+                        child: Text('Home'),
+                      ),
+                      TextButton(
+                        onPressed: () => _goToBranch(1),
+                        child: Text('Recipes'),
+                      ),
+                      TextButton(
+                        onPressed: () => _goToBranch(2),
+                        child: Text('Blog'),
+                      ),
+                      TextButton(
+                        onPressed: () => _goToBranch(3),
+                        child: Text('Contact'),
+                      ),
+                      TextButton(
+                        onPressed: () => _goToBranch(4),
+                        child: Text('About us'),
+                      ),
                     ],
                     separatorBuilder: (context, index) => SizedBox(width: 60.0),
                   ),

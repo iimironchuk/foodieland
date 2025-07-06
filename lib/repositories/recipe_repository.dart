@@ -28,12 +28,16 @@ class RecipeRepository {
     }
   }
 
-  Future<List<RecipeModel>> getRecipesForOverview({int limit = 8}) async {
+  Future<List<RecipeModel>> getRecipesForOverview({
+    required int page,
+    required int limit,
+  }) async {
     final response = await _dio.get(
       'recipes',
       queryParameters: {
         'populate': {'recipeAvatar': true, 'category': true},
         'pagination[pageSize]': limit,
+        'pagination[page]': page,
       },
     );
 

@@ -13,12 +13,13 @@ class CategoryRepository {
 
   CategoryRepository._internal();
 
-  Future<List<CategoryModel>> getCategories(int limit) async {
+  Future<List<CategoryModel>> getCategories({required int limit, required int page}) async {
     final response = await _dio.get(
       'categories',
       queryParameters: {
         'populate': '*',
         'pagination[pageSize]': limit,
+        'pagination[page]': page,
       },
     );
 

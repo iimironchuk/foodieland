@@ -1,7 +1,6 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:foodieland/navigation/app_wrapper.dart';
 import 'package:foodieland/resources/app_colors.dart';
 import 'package:foodieland/screens/home_screen/home_screen_providers/categories_provider/categories_provider.dart';
 import 'package:foodieland/screens/home_screen/home_screen_providers/recipes_providers/home_recipes_providers.dart';
@@ -17,7 +16,7 @@ class HomeScreen extends ConsumerWidget {
     final textTheme = Theme.of(context).textTheme;
     final categoryListAsync = ref.watch(categoryListProvider);
     final hotRecipeList = ref.watch(hotRecipesListProvider);
-    final recipeList = ref.watch(recipesListProvider);
+    final recipeList = ref.watch(recipeListProvider);
     // final recipe = ref.watch(recipeRiverpodProvider);
     return Center(
       child: Column(
@@ -123,6 +122,32 @@ class HomeScreen extends ConsumerWidget {
                   },
                   error: (error, stack) => Text('Error: $error'),
                   loading: () => CircularProgressIndicator(),
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 15.0),
+                  child: Align(
+                    alignment: Alignment.centerRight,
+                    child: SizedBox(
+                      height: 60.0,
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(16),
+                          ),
+                          textStyle: textTheme.labelMedium!.copyWith(
+                            fontWeight: FontWeight.w600,
+                            fontSize: 16.0,
+                            color: Colors.black,
+                          ),
+                          backgroundColor: AppColors.lightBlue,
+                          foregroundColor: Colors.black,
+                        ),
+                        onPressed: () =>
+                            ref.read(recipeListProvider.notifier).loadMore(),
+                        child: Text('Load more'),
+                      ),
+                    ),
+                  ),
                 ),
               ],
             ),
