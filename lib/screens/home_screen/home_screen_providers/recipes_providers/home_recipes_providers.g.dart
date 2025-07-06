@@ -24,23 +24,21 @@ final hotRecipesListProvider =
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
 typedef HotRecipesListRef = AutoDisposeFutureProviderRef<List<RecipeModel>>;
-String _$recipesListHash() => r'27df8c8d608d97f3d137b3e8c66b74935d94d706';
+String _$recipeListHash() => r'a7ca16b7b8e60775e638a224746088d83aa76329';
 
-/// See also [recipesList].
-@ProviderFor(recipesList)
-final recipesListProvider =
-    AutoDisposeFutureProvider<List<RecipeModel>>.internal(
-      recipesList,
-      name: r'recipesListProvider',
+/// See also [RecipeList].
+@ProviderFor(RecipeList)
+final recipeListProvider =
+    AutoDisposeAsyncNotifierProvider<RecipeList, List<RecipeModel>>.internal(
+      RecipeList.new,
+      name: r'recipeListProvider',
       debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
           ? null
-          : _$recipesListHash,
+          : _$recipeListHash,
       dependencies: null,
       allTransitiveDependencies: null,
     );
 
-@Deprecated('Will be removed in 3.0. Use Ref instead')
-// ignore: unused_element
-typedef RecipesListRef = AutoDisposeFutureProviderRef<List<RecipeModel>>;
+typedef _$RecipeList = AutoDisposeAsyncNotifier<List<RecipeModel>>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

@@ -14,11 +14,45 @@ Future<List<RecipeModel>> hotRecipesList(Ref ref) async {
   return hotRecipes;
 }
 
-@riverpod
-Future<List<RecipeModel>> recipesList(Ref ref) async {
-  final repository = ref.watch(recipeRepositoryProvider);
+@Riverpod(keepAlive: false)
+class RecipeList extends _$RecipeList {
+  int _page = 1;
+  int _limit = 8;
+  bool _isLoadingNext = false;
+  bool _hasReachedEnd = false;
+  List<RecipeModel> _recipes = [];
 
-  final hotRecipes = await repository.getRecipesForOverview(limit: 100);
+  @override
+  Future<List<RecipeModel>> build() async {
+    final repository = ref.watch(recipeRepositoryProvider);
+    final recipesFromServer = await repository.getRecipesForOverview(
+      page: _page,
+      limit: _limit,
+    );
 
-  return hotRecipes;
+    _recipes = recipesFromServer;
+    _hasReachedEnd = _recipes.length < _limit;
+
+    return _recipes;
+  }
+
+  Future<void> loadMore() async {
+    if (_isLoadingNext || _hasReachedEnd) return;
+
+    _isLoadingNext = true;
+    _page++;
+    _limit = 9;
+    final repository = ref.watch(recipeRepositoryProvider);
+    final recipesFromServer = await repository.getRecipesForOverview(
+      page: _page,
+      limit: _limit,
+    );
+
+    _recipes = [..._recipes, ...recipesFromServer];
+
+    _hasReachedEnd = recipesFromServer.length < _limit;
+    _isLoadingNext = false;
+
+    state = AsyncData(_recipes);
+  }
 }

@@ -51,12 +51,28 @@ class $AssetsImagesGen {
   /// File path: assets/images/badge.png
   AssetGenImage get badge => const AssetGenImage('assets/images/badge.png');
 
+  /// File path: assets/images/chef.png
+  AssetGenImage get chef => const AssetGenImage('assets/images/chef.png');
+
   /// File path: assets/images/hot_recipe.png
   AssetGenImage get hotRecipe =>
       const AssetGenImage('assets/images/hot_recipe.png');
 
+  /// File path: assets/images/salad1.png
+  AssetGenImage get salad1 => const AssetGenImage('assets/images/salad1.png');
+
+  /// File path: assets/images/salad2.png
+  AssetGenImage get salad2 => const AssetGenImage('assets/images/salad2.png');
+
   /// List of all assets
-  List<AssetGenImage> get values => [advertisment, badge, hotRecipe];
+  List<AssetGenImage> get values => [
+    advertisment,
+    badge,
+    chef,
+    hotRecipe,
+    salad1,
+    salad2,
+  ];
 }
 
 class Assets {
