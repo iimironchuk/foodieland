@@ -24,7 +24,7 @@ final hotRecipesListProvider =
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
 typedef HotRecipesListRef = AutoDisposeFutureProviderRef<List<RecipeModel>>;
-String _$recipeListHash() => r'eccbe440508e9b5ae56d080507699ab4740a27f4';
+String _$recipeListHash() => r'a7ca16b7b8e60775e638a224746088d83aa76329';
 
 /// See also [RecipeList].
 @ProviderFor(RecipeList)

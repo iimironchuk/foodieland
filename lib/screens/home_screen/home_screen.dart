@@ -6,6 +6,7 @@ import 'package:foodieland/screens/home_screen/home_screen_providers/categories_
 import 'package:foodieland/screens/home_screen/home_screen_providers/recipes_providers/home_recipes_providers.dart';
 import 'package:foodieland/screens/home_screen/widgets/category_item.dart';
 import 'package:foodieland/screens/home_screen/widgets/hot_recipe_item.dart';
+import 'package:foodieland/screens/home_screen/widgets/own_kitchen_card.dart';
 import 'package:foodieland/screens/home_screen/widgets/recipe_grid.dart';
 
 class HomeScreen extends ConsumerWidget {
@@ -124,9 +125,9 @@ class HomeScreen extends ConsumerWidget {
                   loading: () => CircularProgressIndicator(),
                 ),
                 Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 15.0),
+                  padding: const EdgeInsets.only(top: 50.0),
                   child: Align(
-                    alignment: Alignment.centerRight,
+                    alignment: Alignment.center,
                     child: SizedBox(
                       height: 60.0,
                       child: ElevatedButton(
@@ -149,6 +150,7 @@ class HomeScreen extends ConsumerWidget {
                     ),
                   ),
                 ),
+                OwnKitchenCard()
               ],
             ),
           ),
