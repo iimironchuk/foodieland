@@ -1,3 +1,4 @@
+import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:foodieland/navigation/app_router.dart';
 import 'package:foodieland/resources/app_theme.dart';
@@ -15,6 +16,10 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp.router(
+      builder: (context, child){
+        child = BotToastInit()(context, child);
+        return child;
+      },
       title: 'Flutter Demo',
       theme: AppTheme.themeData,
       routeInformationParser: AppRouter.router.routeInformationParser,

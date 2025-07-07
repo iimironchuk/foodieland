@@ -1,4 +1,6 @@
+import 'package:bot_toast/bot_toast.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 
@@ -34,12 +36,12 @@ class ApiService {
                       return handler.next(options);
           },
           onError: (exception, handler) {
-            // if (exception.response?.statusCode != 200) {
-            //   BotToast.showNotification(
-            //     title: (_) =>
-            //         Text(exception.response?.data['error']['message']),
-            //   );
-            // }
+            if (exception.response?.statusCode != 200) {
+              BotToast.showNotification(
+                title: (_) =>
+                    Text(exception.response?.data['error']['message']),
+              );
+            }
             return handler.next(exception);
           },
         ),

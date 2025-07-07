@@ -7,7 +7,7 @@ part 'categories_provider.g.dart';
 @Riverpod(keepAlive: false)
 class CategoryList extends _$CategoryList {
   int _page = 1;
-  int _limit = 6;
+  final int _limit = 6;
   bool _isLoadingNext = false;
   bool _hasReachedEnd = false;
   List<CategoryModel> _categories = [];
