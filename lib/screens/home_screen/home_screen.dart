@@ -8,6 +8,7 @@ import 'package:foodieland/screens/home_screen/widgets/category_item.dart';
 import 'package:foodieland/screens/home_screen/widgets/hot_recipe_item.dart';
 import 'package:foodieland/screens/home_screen/widgets/own_kitchen_card.dart';
 import 'package:foodieland/screens/home_screen/widgets/recipe_grid.dart';
+import 'package:foodieland/screens/widgets/subscription_section.dart';
 
 class HomeScreen extends ConsumerWidget {
   const HomeScreen({super.key});
@@ -150,7 +151,10 @@ class HomeScreen extends ConsumerWidget {
                     ),
                   ),
                 ),
-                OwnKitchenCard()
+                OwnKitchenCard(),
+                SizedBox(height: 160.0),
+                SubscriptionSection(),
+                SizedBox(height: 160.0),
               ],
             ),
           ),
