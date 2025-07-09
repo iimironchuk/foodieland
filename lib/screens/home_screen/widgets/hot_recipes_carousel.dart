@@ -11,26 +11,26 @@ class HotRecipesCarousel extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final smallerThanDesktop = ResponsiveBreakpoints.of(
-      context,
-    ).smallerThan(DESKTOP);
     final smallerThanLaptop = ResponsiveBreakpoints.of(
       context,
     ).smallerThan('Laptop');
-    final smallerThanTablet = ResponsiveBreakpoints.of(
-      context,
-    ).smallerThan(TABLET);
     final hotRecipeList = ref.watch(hotRecipesListProvider);
+    final isSmallTablet = MediaQuery.of(context).size.width < 600;
+    final isMobile = ResponsiveBreakpoints.of(context).isMobile;
     return hotRecipeList.when(
-      data: (recipes) => SizedBox(
-        height: 640,
+      data: (recipes) => IntrinsicHeight(
+        // height: 640,
         child: CarouselSlider.builder(
           itemCount: recipes.length,
           itemBuilder: (context, index, realIndex) {
             return HotRecipeItem(recipe: recipes[index]);
           },
           options: CarouselOptions(
-            height: 640,
+            height: isMobile ? 380.0 : isSmallTablet
+                ? 440
+                : smallerThanLaptop
+                ? 540
+                : 640,
             viewportFraction: 0.85,
             enlargeCenterPage: true,
             enlargeFactor: 0.25,
