@@ -12,6 +12,9 @@ import 'package:flutter/widgets.dart';
 class $AssetsIconsGen {
   const $AssetsIconsGen();
 
+  /// File path: assets/icons/drawer.svg
+  String get drawer => 'assets/icons/drawer.svg';
+
   /// File path: assets/icons/duration.svg
   String get duration => 'assets/icons/duration.svg';
 
@@ -32,6 +35,7 @@ class $AssetsIconsGen {
 
   /// List of all assets
   List<String> get values => [
+    drawer,
     duration,
     facebook,
     favorite,
