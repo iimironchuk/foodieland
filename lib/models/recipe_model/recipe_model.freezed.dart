@@ -16,7 +16,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$RecipeModel {
 
- String get title; int get duration; String get description; String get authorName; CategoryModel get category;@ImagePathConverter() String get authorAvatar;@ImagePathConverter() String get recipeAvatar; bool get isHotRecipe;@DateTimeConverter() DateTime get publishedAt;
+ int get id; String get title; int get duration; String get description; String get authorName; CategoryModel get category;@ImagePathConverter() String get authorAvatar;@ImagePathConverter() String get recipeAvatar; bool get isHotRecipe;@DateTimeConverter() DateTime get publishedAt; bool get isFavorite;
 /// Create a copy of RecipeModel
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -29,16 +29,16 @@ $RecipeModelCopyWith<RecipeModel> get copyWith => _$RecipeModelCopyWithImpl<Reci
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is RecipeModel&&(identical(other.title, title) || other.title == title)&&(identical(other.duration, duration) || other.duration == duration)&&(identical(other.description, description) || other.description == description)&&(identical(other.authorName, authorName) || other.authorName == authorName)&&(identical(other.category, category) || other.category == category)&&(identical(other.authorAvatar, authorAvatar) || other.authorAvatar == authorAvatar)&&(identical(other.recipeAvatar, recipeAvatar) || other.recipeAvatar == recipeAvatar)&&(identical(other.isHotRecipe, isHotRecipe) || other.isHotRecipe == isHotRecipe)&&(identical(other.publishedAt, publishedAt) || other.publishedAt == publishedAt));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is RecipeModel&&(identical(other.id, id) || other.id == id)&&(identical(other.title, title) || other.title == title)&&(identical(other.duration, duration) || other.duration == duration)&&(identical(other.description, description) || other.description == description)&&(identical(other.authorName, authorName) || other.authorName == authorName)&&(identical(other.category, category) || other.category == category)&&(identical(other.authorAvatar, authorAvatar) || other.authorAvatar == authorAvatar)&&(identical(other.recipeAvatar, recipeAvatar) || other.recipeAvatar == recipeAvatar)&&(identical(other.isHotRecipe, isHotRecipe) || other.isHotRecipe == isHotRecipe)&&(identical(other.publishedAt, publishedAt) || other.publishedAt == publishedAt)&&(identical(other.isFavorite, isFavorite) || other.isFavorite == isFavorite));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,title,duration,description,authorName,category,authorAvatar,recipeAvatar,isHotRecipe,publishedAt);
+int get hashCode => Object.hash(runtimeType,id,title,duration,description,authorName,category,authorAvatar,recipeAvatar,isHotRecipe,publishedAt,isFavorite);
 
 @override
 String toString() {
-  return 'RecipeModel(title: $title, duration: $duration, description: $description, authorName: $authorName, category: $category, authorAvatar: $authorAvatar, recipeAvatar: $recipeAvatar, isHotRecipe: $isHotRecipe, publishedAt: $publishedAt)';
+  return 'RecipeModel(id: $id, title: $title, duration: $duration, description: $description, authorName: $authorName, category: $category, authorAvatar: $authorAvatar, recipeAvatar: $recipeAvatar, isHotRecipe: $isHotRecipe, publishedAt: $publishedAt, isFavorite: $isFavorite)';
 }
 
 
@@ -49,7 +49,7 @@ abstract mixin class $RecipeModelCopyWith<$Res>  {
   factory $RecipeModelCopyWith(RecipeModel value, $Res Function(RecipeModel) _then) = _$RecipeModelCopyWithImpl;
 @useResult
 $Res call({
- String title, int duration, String description, String authorName, CategoryModel category,@ImagePathConverter() String authorAvatar,@ImagePathConverter() String recipeAvatar, bool isHotRecipe,@DateTimeConverter() DateTime publishedAt
+ int id, String title, int duration, String description, String authorName, CategoryModel category,@ImagePathConverter() String authorAvatar,@ImagePathConverter() String recipeAvatar, bool isHotRecipe,@DateTimeConverter() DateTime publishedAt, bool isFavorite
 });
 
 
@@ -66,9 +66,10 @@ class _$RecipeModelCopyWithImpl<$Res>
 
 /// Create a copy of RecipeModel
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? title = null,Object? duration = null,Object? description = null,Object? authorName = null,Object? category = null,Object? authorAvatar = null,Object? recipeAvatar = null,Object? isHotRecipe = null,Object? publishedAt = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? title = null,Object? duration = null,Object? description = null,Object? authorName = null,Object? category = null,Object? authorAvatar = null,Object? recipeAvatar = null,Object? isHotRecipe = null,Object? publishedAt = null,Object? isFavorite = null,}) {
   return _then(_self.copyWith(
-title: null == title ? _self.title : title // ignore: cast_nullable_to_non_nullable
+id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
+as int,title: null == title ? _self.title : title // ignore: cast_nullable_to_non_nullable
 as String,duration: null == duration ? _self.duration : duration // ignore: cast_nullable_to_non_nullable
 as int,description: null == description ? _self.description : description // ignore: cast_nullable_to_non_nullable
 as String,authorName: null == authorName ? _self.authorName : authorName // ignore: cast_nullable_to_non_nullable
@@ -77,7 +78,8 @@ as CategoryModel,authorAvatar: null == authorAvatar ? _self.authorAvatar : autho
 as String,recipeAvatar: null == recipeAvatar ? _self.recipeAvatar : recipeAvatar // ignore: cast_nullable_to_non_nullable
 as String,isHotRecipe: null == isHotRecipe ? _self.isHotRecipe : isHotRecipe // ignore: cast_nullable_to_non_nullable
 as bool,publishedAt: null == publishedAt ? _self.publishedAt : publishedAt // ignore: cast_nullable_to_non_nullable
-as DateTime,
+as DateTime,isFavorite: null == isFavorite ? _self.isFavorite : isFavorite // ignore: cast_nullable_to_non_nullable
+as bool,
   ));
 }
 /// Create a copy of RecipeModel
@@ -97,9 +99,10 @@ $CategoryModelCopyWith<$Res> get category {
 @JsonSerializable()
 
 class _RecipeModel implements RecipeModel {
-   _RecipeModel({required this.title, required this.duration, required this.description, required this.authorName, required this.category, @ImagePathConverter() required this.authorAvatar, @ImagePathConverter() required this.recipeAvatar, this.isHotRecipe = false, @DateTimeConverter() required this.publishedAt});
+   _RecipeModel({required this.id, required this.title, required this.duration, required this.description, required this.authorName, required this.category, @ImagePathConverter() required this.authorAvatar, @ImagePathConverter() required this.recipeAvatar, this.isHotRecipe = false, @DateTimeConverter() required this.publishedAt, this.isFavorite = false});
   factory _RecipeModel.fromJson(Map<String, dynamic> json) => _$RecipeModelFromJson(json);
 
+@override final  int id;
 @override final  String title;
 @override final  int duration;
 @override final  String description;
@@ -109,6 +112,7 @@ class _RecipeModel implements RecipeModel {
 @override@ImagePathConverter() final  String recipeAvatar;
 @override@JsonKey() final  bool isHotRecipe;
 @override@DateTimeConverter() final  DateTime publishedAt;
+@override@JsonKey() final  bool isFavorite;
 
 /// Create a copy of RecipeModel
 /// with the given fields replaced by the non-null parameter values.
@@ -123,16 +127,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _RecipeModel&&(identical(other.title, title) || other.title == title)&&(identical(other.duration, duration) || other.duration == duration)&&(identical(other.description, description) || other.description == description)&&(identical(other.authorName, authorName) || other.authorName == authorName)&&(identical(other.category, category) || other.category == category)&&(identical(other.authorAvatar, authorAvatar) || other.authorAvatar == authorAvatar)&&(identical(other.recipeAvatar, recipeAvatar) || other.recipeAvatar == recipeAvatar)&&(identical(other.isHotRecipe, isHotRecipe) || other.isHotRecipe == isHotRecipe)&&(identical(other.publishedAt, publishedAt) || other.publishedAt == publishedAt));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _RecipeModel&&(identical(other.id, id) || other.id == id)&&(identical(other.title, title) || other.title == title)&&(identical(other.duration, duration) || other.duration == duration)&&(identical(other.description, description) || other.description == description)&&(identical(other.authorName, authorName) || other.authorName == authorName)&&(identical(other.category, category) || other.category == category)&&(identical(other.authorAvatar, authorAvatar) || other.authorAvatar == authorAvatar)&&(identical(other.recipeAvatar, recipeAvatar) || other.recipeAvatar == recipeAvatar)&&(identical(other.isHotRecipe, isHotRecipe) || other.isHotRecipe == isHotRecipe)&&(identical(other.publishedAt, publishedAt) || other.publishedAt == publishedAt)&&(identical(other.isFavorite, isFavorite) || other.isFavorite == isFavorite));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,title,duration,description,authorName,category,authorAvatar,recipeAvatar,isHotRecipe,publishedAt);
+int get hashCode => Object.hash(runtimeType,id,title,duration,description,authorName,category,authorAvatar,recipeAvatar,isHotRecipe,publishedAt,isFavorite);
 
 @override
 String toString() {
-  return 'RecipeModel(title: $title, duration: $duration, description: $description, authorName: $authorName, category: $category, authorAvatar: $authorAvatar, recipeAvatar: $recipeAvatar, isHotRecipe: $isHotRecipe, publishedAt: $publishedAt)';
+  return 'RecipeModel(id: $id, title: $title, duration: $duration, description: $description, authorName: $authorName, category: $category, authorAvatar: $authorAvatar, recipeAvatar: $recipeAvatar, isHotRecipe: $isHotRecipe, publishedAt: $publishedAt, isFavorite: $isFavorite)';
 }
 
 
@@ -143,7 +147,7 @@ abstract mixin class _$RecipeModelCopyWith<$Res> implements $RecipeModelCopyWith
   factory _$RecipeModelCopyWith(_RecipeModel value, $Res Function(_RecipeModel) _then) = __$RecipeModelCopyWithImpl;
 @override @useResult
 $Res call({
- String title, int duration, String description, String authorName, CategoryModel category,@ImagePathConverter() String authorAvatar,@ImagePathConverter() String recipeAvatar, bool isHotRecipe,@DateTimeConverter() DateTime publishedAt
+ int id, String title, int duration, String description, String authorName, CategoryModel category,@ImagePathConverter() String authorAvatar,@ImagePathConverter() String recipeAvatar, bool isHotRecipe,@DateTimeConverter() DateTime publishedAt, bool isFavorite
 });
 
 
@@ -160,9 +164,10 @@ class __$RecipeModelCopyWithImpl<$Res>
 
 /// Create a copy of RecipeModel
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? title = null,Object? duration = null,Object? description = null,Object? authorName = null,Object? category = null,Object? authorAvatar = null,Object? recipeAvatar = null,Object? isHotRecipe = null,Object? publishedAt = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? title = null,Object? duration = null,Object? description = null,Object? authorName = null,Object? category = null,Object? authorAvatar = null,Object? recipeAvatar = null,Object? isHotRecipe = null,Object? publishedAt = null,Object? isFavorite = null,}) {
   return _then(_RecipeModel(
-title: null == title ? _self.title : title // ignore: cast_nullable_to_non_nullable
+id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
+as int,title: null == title ? _self.title : title // ignore: cast_nullable_to_non_nullable
 as String,duration: null == duration ? _self.duration : duration // ignore: cast_nullable_to_non_nullable
 as int,description: null == description ? _self.description : description // ignore: cast_nullable_to_non_nullable
 as String,authorName: null == authorName ? _self.authorName : authorName // ignore: cast_nullable_to_non_nullable
@@ -171,7 +176,8 @@ as CategoryModel,authorAvatar: null == authorAvatar ? _self.authorAvatar : autho
 as String,recipeAvatar: null == recipeAvatar ? _self.recipeAvatar : recipeAvatar // ignore: cast_nullable_to_non_nullable
 as String,isHotRecipe: null == isHotRecipe ? _self.isHotRecipe : isHotRecipe // ignore: cast_nullable_to_non_nullable
 as bool,publishedAt: null == publishedAt ? _self.publishedAt : publishedAt // ignore: cast_nullable_to_non_nullable
-as DateTime,
+as DateTime,isFavorite: null == isFavorite ? _self.isFavorite : isFavorite // ignore: cast_nullable_to_non_nullable
+as bool,
   ));
 }
 

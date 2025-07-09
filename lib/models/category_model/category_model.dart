@@ -7,6 +7,7 @@ part 'category_model.g.dart';
 @freezed
 abstract class CategoryModel with _$CategoryModel {
   factory CategoryModel({
+    required int id,
     required String title,
     @ImagePathConverter() required String categoryImage,
     required String backgroundColor,
