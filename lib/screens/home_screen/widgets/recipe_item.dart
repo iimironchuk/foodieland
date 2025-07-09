@@ -6,9 +6,21 @@ import 'package:foodieland/models/recipe_model/recipe_model.dart';
 import 'package:foodieland/resources/app_colors.dart';
 
 class RecipeItem extends StatelessWidget {
-  final RecipeModel recipe;
+  final double titleFontSize;
+  final double infoFontSize;
 
-  const RecipeItem({super.key, required this.recipe});
+  final VoidCallback toggleFavorite;
+  final RecipeModel recipe;
+  final bool isGradientNeeded;
+
+  const RecipeItem({
+    super.key,
+    required this.recipe,
+    required this.toggleFavorite,
+    required this.titleFontSize,
+    required this.infoFontSize,
+    required this.isGradientNeeded,
+  });
 
   Widget _buildInfoIconRow(TextTheme textTheme, String asset, String info) {
     return Row(
@@ -18,7 +30,7 @@ class RecipeItem extends StatelessWidget {
         Text(
           info,
           style: textTheme.labelSmall!.copyWith(
-            fontSize: 14.0,
+            fontSize: infoFontSize,
             fontWeight: FontWeight.w500,
           ),
         ),
@@ -32,20 +44,22 @@ class RecipeItem extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
         // color: AppColors.lightBlue,
-        gradient: LinearGradient(
-          colors: [
-            AppColors.scaffold,
-            // AppColors.lightBlue.withValues(alpha: 0),
-            AppColors.lightBlue,
-          ],
-          stops: [0.0, 1.0],
-          begin: Alignment.topCenter,
-          end: Alignment.bottomCenter,
-        ),
+        gradient: isGradientNeeded
+            ? LinearGradient(
+                colors: [
+                  AppColors.scaffold,
+                  // AppColors.lightBlue.withValues(alpha: 0),
+                  AppColors.lightBlue,
+                ],
+                stops: [0.0, 1.0],
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+              )
+            : null,
         borderRadius: BorderRadius.circular(30),
       ),
       child: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: EdgeInsets.all(isGradientNeeded ? 16.0 : 0),
         child: Column(
           children: [
             AspectRatio(
@@ -63,14 +77,25 @@ class RecipeItem extends StatelessWidget {
                   Positioned(
                     top: 20.0,
                     right: 20.0,
-                    child: Container(
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: AppColors.scaffold,
-                      ),
-                      child: Padding(
-                        padding: EdgeInsets.all(12),
-                        child: SvgPicture.asset(Assets.icons.favorite),
+                    child: GestureDetector(
+                      onTap: toggleFavorite,
+                      child: Container(
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: AppColors.scaffold,
+                        ),
+                        child: Padding(
+                          padding: EdgeInsets.all(12),
+                          child: SvgPicture.asset(
+                            Assets.icons.favorite,
+                            colorFilter: ColorFilter.mode(
+                              recipe.isFavorite
+                                  ? Colors.red
+                                  : AppColors.lightGrey,
+                              BlendMode.srcIn,
+                            ),
+                          ),
+                        ),
                       ),
                     ),
                   ),
@@ -78,11 +103,14 @@ class RecipeItem extends StatelessWidget {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.symmetric(vertical: 24.0),
+              padding: EdgeInsets.only(
+                bottom: 24.0,
+                top: isGradientNeeded ? 24.0 : 16.0,
+              ),
               child: Text(
                 recipe.title,
                 style: textTheme.labelMedium!.copyWith(
-                  fontSize: 24.0,
+                  fontSize: titleFontSize,
                   fontWeight: FontWeight.w600,
                 ),
                 maxLines: 2,

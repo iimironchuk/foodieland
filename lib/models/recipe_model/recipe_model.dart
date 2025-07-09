@@ -10,6 +10,7 @@ part 'recipe_model.freezed.dart';
 @freezed
 abstract class RecipeModel with _$RecipeModel {
   factory RecipeModel({
+    required int id,
     required String title,
     required int duration,
     required String description,
@@ -19,6 +20,7 @@ abstract class RecipeModel with _$RecipeModel {
     @ImagePathConverter() required String recipeAvatar,
     @Default(false) bool isHotRecipe,
     @DateTimeConverter() required DateTime publishedAt,
+    @Default(false) bool isFavorite,
 }) = _RecipeModel;
 
   factory RecipeModel.fromJson(Map<String, dynamic> json) => _$RecipeModelFromJson(json);

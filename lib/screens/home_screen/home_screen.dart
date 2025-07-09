@@ -5,6 +5,7 @@ import 'package:foodieland/resources/app_colors.dart';
 import 'package:foodieland/screens/home_screen/home_screen_providers/categories_provider/categories_provider.dart';
 import 'package:foodieland/screens/home_screen/home_screen_providers/recipes_providers/home_recipes_providers.dart';
 import 'package:foodieland/screens/home_screen/widgets/category_item.dart';
+import 'package:foodieland/screens/home_screen/widgets/home_other_recipes_section.dart';
 import 'package:foodieland/screens/home_screen/widgets/hot_recipe_item.dart';
 import 'package:foodieland/screens/home_screen/widgets/own_kitchen_card.dart';
 import 'package:foodieland/screens/home_screen/widgets/recipe_grid.dart';
@@ -20,6 +21,7 @@ class HomeScreen extends ConsumerWidget {
     final hotRecipeList = ref.watch(hotRecipesListProvider);
     final recipeList = ref.watch(recipeListProvider);
     // final recipe = ref.watch(recipeRiverpodProvider);
+    final otherRecipesList = ref.watch(otherRecipesListProvider);
     return Center(
       child: Column(
         children: [
@@ -117,7 +119,9 @@ class HomeScreen extends ConsumerWidget {
                     ),
                   ),
                 ),
-                SizedBox(height: 100),
+                SizedBox(height: 100.0),
+                Row(mainAxisSize: MainAxisSize.min, children: []),
+                SizedBox(height: 50.0),
                 recipeList.when(
                   data: (recipes) {
                     return RecipeGrid(recipeList: recipes);
@@ -125,33 +129,35 @@ class HomeScreen extends ConsumerWidget {
                   error: (error, stack) => Text('Error: $error'),
                   loading: () => CircularProgressIndicator(),
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 50.0),
-                  child: Align(
-                    alignment: Alignment.center,
-                    child: SizedBox(
-                      height: 60.0,
-                      child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(16),
-                          ),
-                          textStyle: textTheme.labelMedium!.copyWith(
-                            fontWeight: FontWeight.w600,
-                            fontSize: 16.0,
-                            color: Colors.black,
-                          ),
-                          backgroundColor: AppColors.lightBlue,
-                          foregroundColor: Colors.black,
-                        ),
-                        onPressed: () =>
-                            ref.read(recipeListProvider.notifier).loadMore(),
-                        child: Text('Load more'),
-                      ),
-                    ),
-                  ),
-                ),
+                // Padding(
+                //   padding: const EdgeInsets.only(top: 50.0),
+                //   child: Align(
+                //     alignment: Alignment.center,
+                //     child: SizedBox(
+                //       height: 60.0,
+                //       child: ElevatedButton(
+                //         style: ElevatedButton.styleFrom(
+                //           shape: RoundedRectangleBorder(
+                //             borderRadius: BorderRadius.circular(16),
+                //           ),
+                //           textStyle: textTheme.labelMedium!.copyWith(
+                //             fontWeight: FontWeight.w600,
+                //             fontSize: 16.0,
+                //             color: Colors.black,
+                //           ),
+                //           backgroundColor: AppColors.lightBlue,
+                //           foregroundColor: Colors.black,
+                //         ),
+                //         onPressed: () =>
+                //             ref.read(recipeListProvider.notifier).loadMore(),
+                //         child: Text('Load more'),
+                //       ),
+                //     ),
+                //   ),
+                // ),
                 OwnKitchenCard(),
+                SizedBox(height: 160.0),
+                HomeOtherRecipesSection(),
                 SizedBox(height: 160.0),
                 SubscriptionSection(),
                 SizedBox(height: 160.0),

@@ -7,6 +7,7 @@ part of 'recipe_model.dart';
 // **************************************************************************
 
 _RecipeModel _$RecipeModelFromJson(Map<String, dynamic> json) => _RecipeModel(
+  id: (json['id'] as num).toInt(),
   title: json['title'] as String,
   duration: (json['duration'] as num).toInt(),
   description: json['description'] as String,
@@ -22,10 +23,12 @@ _RecipeModel _$RecipeModelFromJson(Map<String, dynamic> json) => _RecipeModel(
   publishedAt: const DateTimeConverter().fromJson(
     json['publishedAt'] as String,
   ),
+  isFavorite: json['isFavorite'] as bool? ?? false,
 );
 
 Map<String, dynamic> _$RecipeModelToJson(_RecipeModel instance) =>
     <String, dynamic>{
+      'id': instance.id,
       'title': instance.title,
       'duration': instance.duration,
       'description': instance.description,
@@ -35,4 +38,5 @@ Map<String, dynamic> _$RecipeModelToJson(_RecipeModel instance) =>
       'recipeAvatar': const ImagePathConverter().toJson(instance.recipeAvatar),
       'isHotRecipe': instance.isHotRecipe,
       'publishedAt': const DateTimeConverter().toJson(instance.publishedAt),
+      'isFavorite': instance.isFavorite,
     };

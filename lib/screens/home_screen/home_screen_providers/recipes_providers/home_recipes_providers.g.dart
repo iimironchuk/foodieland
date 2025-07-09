@@ -24,7 +24,25 @@ final hotRecipesListProvider =
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
 typedef HotRecipesListRef = AutoDisposeFutureProviderRef<List<RecipeModel>>;
-String _$recipeListHash() => r'a7ca16b7b8e60775e638a224746088d83aa76329';
+String _$otherRecipesListHash() => r'e5e0f24df9a7156c08372aa0045169b711498527';
+
+/// See also [otherRecipesList].
+@ProviderFor(otherRecipesList)
+final otherRecipesListProvider =
+    AutoDisposeFutureProvider<List<RecipeModel>>.internal(
+      otherRecipesList,
+      name: r'otherRecipesListProvider',
+      debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+          ? null
+          : _$otherRecipesListHash,
+      dependencies: null,
+      allTransitiveDependencies: null,
+    );
+
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
+typedef OtherRecipesListRef = AutoDisposeFutureProviderRef<List<RecipeModel>>;
+String _$recipeListHash() => r'838fbac11430403d5d73d7da4170e1d26100587e';
 
 /// See also [RecipeList].
 @ProviderFor(RecipeList)
