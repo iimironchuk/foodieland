@@ -14,6 +14,7 @@ class AppTheme {
   static TextStyle interBlackText = TextStyle(
     fontWeight: FontWeight.w600,
     fontFamily: FontFamily.inter,
+    fontSize: 48.0,
   );
 
   static TextStyle interGreyText = TextStyle(
@@ -34,6 +35,22 @@ class AppTheme {
     ),
   );
 
+  static ElevatedButtonThemeData elevatedButtonStyle = ElevatedButtonThemeData(
+    style: ElevatedButton.styleFrom(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(16.0)
+      ),
+      foregroundColor: AppColors.scaffold,
+      backgroundColor: Colors.black,
+      textStyle: TextStyle(
+          fontSize: 14.0,
+          fontWeight: FontWeight.w600,
+          fontFamily: FontFamily.inter,
+          color: AppColors.scaffold
+      )
+    )
+  );
+
   static ThemeData themeData = ThemeData(
     fontFamily: 'Montserrat',
     textTheme: TextTheme(
@@ -41,6 +58,7 @@ class AppTheme {
       labelMedium: interBlackText,
       labelSmall: interGreyText,
     ),
+    elevatedButtonTheme: elevatedButtonStyle,
     textButtonTheme: textButtonStyle,
   );
 }

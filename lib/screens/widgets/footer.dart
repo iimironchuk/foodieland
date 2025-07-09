@@ -75,6 +75,7 @@ class Footer extends StatelessWidget {
                 ],
               ),
             ),
+            SizedBox(height: 48.0,)
           ],
         ),
       ),

@@ -58,6 +58,22 @@ class $AssetsImagesGen {
   AssetGenImage get hotRecipe =>
       const AssetGenImage('assets/images/hot_recipe.png');
 
+  /// File path: assets/images/instagram_post_1.png
+  AssetGenImage get instagramPost1 =>
+      const AssetGenImage('assets/images/instagram_post_1.png');
+
+  /// File path: assets/images/instagram_post_2.png
+  AssetGenImage get instagramPost2 =>
+      const AssetGenImage('assets/images/instagram_post_2.png');
+
+  /// File path: assets/images/instagram_post_3.png
+  AssetGenImage get instagramPost3 =>
+      const AssetGenImage('assets/images/instagram_post_3.png');
+
+  /// File path: assets/images/instagram_post_4.png
+  AssetGenImage get instagramPost4 =>
+      const AssetGenImage('assets/images/instagram_post_4.png');
+
   /// File path: assets/images/salad1.png
   AssetGenImage get salad1 => const AssetGenImage('assets/images/salad1.png');
 
@@ -70,6 +86,10 @@ class $AssetsImagesGen {
     badge,
     chef,
     hotRecipe,
+    instagramPost1,
+    instagramPost2,
+    instagramPost3,
+    instagramPost4,
     salad1,
     salad2,
   ];
