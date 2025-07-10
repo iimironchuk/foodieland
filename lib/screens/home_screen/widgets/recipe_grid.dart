@@ -4,23 +4,53 @@ import 'package:foodieland/gen/assets.gen.dart';
 import 'package:foodieland/models/recipe_model/recipe_model.dart';
 import 'package:foodieland/screens/home_screen/home_screen_providers/recipes_providers/home_recipes_providers.dart';
 import 'package:foodieland/screens/home_screen/widgets/recipe_item.dart';
+import 'package:responsive_framework/responsive_framework.dart';
 
 class RecipeGrid extends ConsumerWidget {
+  final int crossAxisCount;
   final List<RecipeModel> recipeList;
 
-  const RecipeGrid({super.key, required this.recipeList});
+  const RecipeGrid( {super.key, required this.crossAxisCount, required this.recipeList});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final smallerThanDesktop = ResponsiveBreakpoints.of(
+      context,
+    ).smallerThan(DESKTOP);
+    final smallerThanLaptop = ResponsiveBreakpoints.of(
+      context,
+    ).smallerThan('Laptop');
+    final isSmallLaptop = MediaQuery.of(context).size.width < 1100 &&  MediaQuery.of(context).size.width > 800;
+    final isVerySmallLaptop = MediaQuery.of(context).size.width < 900 &&  MediaQuery.of(context).size.width > 800;
+
+    final isSmallTablet = MediaQuery.of(context).size.width < 650;
+    final isLittleBiggerThanMobile = MediaQuery.of(context).size.width < 550.0;
+
+    final isMobile = ResponsiveBreakpoints.of(context).isMobile;
+
+    double getAspectRatio() {
+      if(isLittleBiggerThanMobile) {
+        return 400 / 540;
+      }
+      else
+      if(isVerySmallLaptop){
+        return 400/550;
+      }
+     else if(isSmallLaptop || isSmallTablet){
+        return 400/460;
+      }
+      return 400/434;
+    }
+
     return GridView.builder(
       physics: NeverScrollableScrollPhysics(),
       shrinkWrap: true,
-      itemCount: recipeList.length + 1,
+      itemCount: smallerThanLaptop ? recipeList.length : recipeList.length + 1,
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 3,
-        mainAxisSpacing: 40.0,
-        crossAxisSpacing: 40.0,
-        childAspectRatio: 400 / 434,
+        crossAxisCount: crossAxisCount,
+        mainAxisSpacing: isSmallTablet ? 10.0 : smallerThanLaptop ? 20.0 : 40.0,
+        crossAxisSpacing:  isSmallTablet ? 10.0 : smallerThanLaptop ? 20.0 : 40.0,
+        childAspectRatio: getAspectRatio(),
       ),
       itemBuilder: (context, index) {
         if (index == 5) {
@@ -29,8 +59,8 @@ class RecipeGrid extends ConsumerWidget {
 
         final adjustedIndex = index > 5 ? index - 1 : index;
         return RecipeItem(
-          titleFontSize: 24.0,
-          infoFontSize: 14.0,
+          titleFontSize: isMobile ? 12.0 : smallerThanLaptop ? 16.0 : smallerThanDesktop ? 18.0 : 24.0,
+          infoFontSize: smallerThanLaptop ? 10.0 : smallerThanDesktop ? 12.0 : 14.0,
           isGradientNeeded: true,
           recipe: recipeList[adjustedIndex],
           toggleFavorite: () => ref
