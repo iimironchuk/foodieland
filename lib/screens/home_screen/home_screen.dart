@@ -67,7 +67,9 @@ class HomeScreen extends ConsumerWidget {
                         child: ElevatedButton(
                           style: ElevatedButton.styleFrom(
                             shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(smallerThanLaptop ? 8 : 16),
+                              borderRadius: BorderRadius.circular(
+                                smallerThanLaptop ? 8 : 16,
+                              ),
                             ),
                             textStyle: textTheme.labelMedium!.copyWith(
                               fontWeight: FontWeight.w600,
@@ -120,11 +122,13 @@ class HomeScreen extends ConsumerWidget {
                       child: Center(
                         child: Text(
                           'Lorem ipsum dolor sit amet, consectetuipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqut enim ad minim ',
-                          style: textTheme.labelSmall!.copyWith(fontSize: smallerThanLaptop
-                              ? 12.0
-                              : smallerThanDesktop
-                              ? 14.0
-                              :  16.0),
+                          style: textTheme.labelSmall!.copyWith(
+                            fontSize: smallerThanLaptop
+                                ? 12.0
+                                : smallerThanDesktop
+                                ? 14.0
+                                : 16.0,
+                          ),
                           textAlign: TextAlign.center,
                         ),
                       ),
@@ -133,13 +137,30 @@ class HomeScreen extends ConsumerWidget {
                   SizedBox(height: 50.0),
                   recipeList.when(
                     data: (recipes) {
-                      return RecipeGrid(crossAxisCount: smallerThanLaptop ? 2 : 3,recipeList: recipes,);
+                      return RecipeGrid(
+                        crossAxisCount: smallerThanLaptop ? 2 : 3,
+                        recipeList: recipes,
+                      );
                     },
                     error: (error, stack) => Text('Error: $error'),
                     loading: () => CircularProgressIndicator(),
                   ),
+                  SizedBox(
+                    height: smallerThanLaptop
+                        ? 70.0
+                        : smallerThanDesktop
+                        ? 100.0
+                        : 140.0,
+                  ),
                   OwnKitchenCard(),
-                  SizedBox(width: double.infinity, child: InstagramSection()),
+                ],
+              ),
+            ),
+            InstagramSection(),
+            ConstrainedBox(
+              constraints: BoxConstraints(maxWidth: 1280.0),
+              child: Column(
+                children: [
                   SizedBox(height: 160.0),
                   HomeOtherRecipesSection(),
                   SizedBox(height: 160.0),

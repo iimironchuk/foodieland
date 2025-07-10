@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:foodieland/gen/assets.gen.dart';
+import 'package:responsive_framework/responsive_framework.dart';
 
 import '../../../resources/app_colors.dart';
 
@@ -9,43 +10,85 @@ class OwnKitchenCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
+    final smallerThanDesktop = ResponsiveBreakpoints.of(
+      context,
+    ).smallerThan(DESKTOP);
+    final smallerThanLaptop = ResponsiveBreakpoints.of(
+      context,
+    ).smallerThan('Laptop');
+
+    final isMobile = ResponsiveBreakpoints.of(context).isMobile;
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        ConstrainedBox(
-          constraints: BoxConstraints(maxWidth: 540.0),
+        Expanded(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
                 'Everyone can be a chef in their own kitchen',
                 style: textTheme.labelMedium!.copyWith(
-                  fontSize: 48,
+                  fontSize: smallerThanLaptop
+                      ? 24.0
+                      : smallerThanDesktop
+                      ? 36.0
+                      : 48.0,
                   fontWeight: FontWeight.w600,
                 ),
               ),
-              SizedBox(height: 24.0),
+              SizedBox(
+                height: smallerThanLaptop
+                    ? 12.0
+                    : smallerThanDesktop
+                    ? 18.0
+                    : 24.0,
+              ),
               Text(
                 'Lorem ipsum dolor sit amet, consectetuipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqut enim ad minim',
-                style: textTheme.labelSmall!.copyWith(fontSize: 16.0),
+                style: textTheme.labelSmall!.copyWith(
+                  fontSize: smallerThanLaptop
+                      ? 12.0
+                      : smallerThanDesktop
+                      ? 14.0
+                      : 16.0,
+                ),
               ),
-              SizedBox(height: 72.0,),
               SizedBox(
-                height: 60.0,
+                height: smallerThanLaptop
+                    ? 24.0
+                    : smallerThanDesktop
+                    ? 48.0
+                    : 72.0,
+              ),
+              SizedBox(
+                height: smallerThanLaptop
+                    ? 40.0
+                    : smallerThanDesktop
+                    ? 50.0
+                    : 60.0,
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-                    backgroundColor: Colors.black,
-                    foregroundColor: AppColors.scaffold,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(
+                        smallerThanLaptop
+                            ? 10.0
+                            : smallerThanDesktop
+                            ? 13.0
+                            : 16,
+                      ),
+                    ),
                   ),
                   onPressed: () {},
                   child: Text(
                     'Learn More',
                     style: textTheme.labelSmall!.copyWith(
-                        fontWeight: FontWeight.w600,
-                        fontSize: 16.0,
-                        color: AppColors.scaffold
+                      fontSize: smallerThanLaptop
+                          ? 12.0
+                          : smallerThanDesktop
+                          ? 14.0
+                          : 16.0,
+                      color: AppColors.scaffold,
                     ),
                   ),
                 ),
@@ -53,42 +96,28 @@ class OwnKitchenCard extends StatelessWidget {
             ],
           ),
         ),
-        Expanded(
+        SizedBox(width: 10.0,),
+        if(!isMobile) Expanded(
           child: AspectRatio(
             aspectRatio: 660 / 597,
-            child: Stack(
-              children: [
-                Positioned(
-                  bottom: 0,
-                  right: 0,
-                  child: Container(
-                    width: 650,
-                    height: 500,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(30),
-                      gradient: LinearGradient(
-                        colors: [
-                          AppColors.scaffold,
-                          AppColors.lightBlue.withValues(alpha: 0),
-                          AppColors.lightBlue,
-                        ],
-                        stops: [0.0, 0.0, 1.0],
-                        begin: Alignment.topCenter,
-                        end: Alignment.bottomCenter,
-                      ),
-                    ),
-                  ),
+            child: Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(30),
+                gradient: LinearGradient(
+                  colors: [
+                    AppColors.scaffold,
+                    AppColors.lightBlue.withValues(alpha: 0),
+                    AppColors.lightBlue,
+                  ],
+                  stops: [0.0, 0.0, 1.0],
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
                 ),
-                Positioned(
-                  bottom: 0,
-                  left:30,
-                  child: SizedBox(
-                    width: 660 ,
-                    height: 597,
-                    child: Assets.images.chef.image(fit: BoxFit.contain),
-                  ),
-                ),
-              ],
+              ),
+              child: Transform.translate(
+                offset: Offset(smallerThanLaptop ? -25.0 : smallerThanDesktop ? -40.0 : -50, 0),
+                child: Assets.images.chef.image(),
+              ),
             ),
           ),
         ),
