@@ -4,6 +4,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:foodieland/gen/assets.gen.dart';
 import 'package:foodieland/models/recipe_model/recipe_model.dart';
 import 'package:foodieland/resources/app_colors.dart';
+import 'package:responsive_framework/responsive_framework.dart';
 
 class RecipeItem extends StatelessWidget {
   final double titleFontSize;
@@ -22,11 +23,20 @@ class RecipeItem extends StatelessWidget {
     required this.isGradientNeeded,
   });
 
-  Widget _buildInfoIconRow(TextTheme textTheme, String asset, String info) {
+  Widget _buildInfoIconRow(
+    TextTheme textTheme,
+    String asset,
+    String info,
+    bool isMobile,
+  ) {
     return Row(
       children: [
-        SvgPicture.asset(asset),
-        SizedBox(width: 10.0),
+        SvgPicture.asset(
+          asset,
+          width: isMobile ? 15.0 : null,
+          height: isMobile ? 15.0 : null,
+        ),
+        SizedBox(width: isMobile ? 5.0 : 10.0),
         Text(
           info,
           style: textTheme.labelSmall!.copyWith(
@@ -41,6 +51,13 @@ class RecipeItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
+    final smallerThanDesktop = ResponsiveBreakpoints.of(
+      context,
+    ).smallerThan(DESKTOP);
+    final smallerThanLaptop = ResponsiveBreakpoints.of(
+      context,
+    ).smallerThan('Laptop');
+    final isMobile = ResponsiveBreakpoints.of(context).isMobile;
     return Container(
       decoration: BoxDecoration(
         // color: AppColors.lightBlue,
@@ -56,7 +73,7 @@ class RecipeItem extends StatelessWidget {
                 end: Alignment.bottomCenter,
               )
             : null,
-        borderRadius: BorderRadius.circular(30),
+        borderRadius: BorderRadius.circular(smallerThanLaptop ? 20.0 : 30),
       ),
       child: Padding(
         padding: EdgeInsets.all(isGradientNeeded ? 16.0 : 0),
@@ -68,15 +85,17 @@ class RecipeItem extends StatelessWidget {
                 fit: StackFit.expand,
                 children: [
                   ClipRRect(
-                    borderRadius: BorderRadius.circular(30),
+                    borderRadius: BorderRadius.circular(
+                      smallerThanLaptop ? 20.0 : 30,
+                    ),
                     child: CachedNetworkImage(
                       imageUrl: recipe.recipeAvatar,
                       fit: BoxFit.cover,
                     ),
                   ),
                   Positioned(
-                    top: 20.0,
-                    right: 20.0,
+                    top: smallerThanLaptop ? 10.0 : 20.0,
+                    right: smallerThanLaptop ? 10.0 : 20.0,
                     child: GestureDetector(
                       onTap: toggleFavorite,
                       child: Container(
@@ -85,9 +104,11 @@ class RecipeItem extends StatelessWidget {
                           color: AppColors.scaffold,
                         ),
                         child: Padding(
-                          padding: EdgeInsets.all(12),
+                          padding: EdgeInsets.all(isMobile ? 6.0 : 12.0),
                           child: SvgPicture.asset(
                             Assets.icons.favorite,
+                            width: isMobile ? 15.0 : null,
+                            height: isMobile ? 15.0 : null,
                             colorFilter: ColorFilter.mode(
                               recipe.isFavorite
                                   ? Colors.red
@@ -104,32 +125,53 @@ class RecipeItem extends StatelessWidget {
             ),
             Padding(
               padding: EdgeInsets.only(
-                bottom: 24.0,
-                top: isGradientNeeded ? 24.0 : 16.0,
+                bottom: smallerThanLaptop
+                    ? 8.0
+                    : smallerThanDesktop
+                    ? 16.0
+                    : 24.0,
+                top: isGradientNeeded && isMobile ? 8.0 : isGradientNeeded ? 24.0 : 16.0,
               ),
-              child: Text(
-                recipe.title,
-                style: textTheme.labelMedium!.copyWith(
-                  fontSize: titleFontSize,
-                  fontWeight: FontWeight.w600,
+              child: Align(
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  recipe.title,
+                  style: textTheme.labelMedium!.copyWith(
+                    fontSize: titleFontSize,
+                    fontWeight: FontWeight.w600,
+                  ),
+                  textAlign: TextAlign.start,
+                  maxLines: 2,
                 ),
-                maxLines: 2,
               ),
             ),
-            Row(
-              children: [
-                _buildInfoIconRow(
-                  textTheme,
-                  Assets.icons.duration,
-                  '${recipe.duration} Minutes',
-                ),
-                SizedBox(width: 24.0),
-                _buildInfoIconRow(
-                  textTheme,
-                  Assets.icons.recipeCategory,
-                  recipe.category.title,
-                ),
-              ],
+            Spacer(),
+
+            Align(
+              alignment: Alignment.centerLeft,
+              child: Wrap(
+                spacing: 10.0,
+                runSpacing: 10.0,
+                alignment: WrapAlignment.start,
+                children: [
+                  IntrinsicWidth(
+                    child: _buildInfoIconRow(
+                      textTheme,
+                      Assets.icons.duration,
+                      '${recipe.duration} Minutes',
+                      isMobile
+                    ),
+                  ),
+                  IntrinsicWidth(
+                    child: _buildInfoIconRow(
+                      textTheme,
+                      Assets.icons.recipeCategory,
+                      recipe.category.title,
+                      isMobile,
+                    ),
+                  ),
+                ],
+              ),
             ),
           ],
         ),
