@@ -42,30 +42,33 @@ class RecipeGrid extends ConsumerWidget {
       return 400/434;
     }
 
+    int adCount = (recipeList.length / 5).floor();
+
     return GridView.builder(
       physics: NeverScrollableScrollPhysics(),
       shrinkWrap: true,
-      itemCount: smallerThanLaptop ? recipeList.length : recipeList.length + 1,
+      itemCount: recipeList.length + adCount,
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: crossAxisCount,
         mainAxisSpacing: isSmallTablet ? 10.0 : smallerThanLaptop ? 20.0 : 40.0,
-        crossAxisSpacing:  isSmallTablet ? 10.0 : smallerThanLaptop ? 20.0 : 40.0,
+        crossAxisSpacing: isSmallTablet ? 10.0 : smallerThanLaptop ? 20.0 : 40.0,
         childAspectRatio: getAspectRatio(),
       ),
       itemBuilder: (context, index) {
-        if (index == 5) {
+        if ((index + 1) % 6 == 0) {
           return Assets.images.advertisment.image();
         }
+        final numOfAdsBefore = (index / 6).floor();
+        final recipeIndex = index - numOfAdsBefore;
 
-        final adjustedIndex = index > 5 ? index - 1 : index;
         return RecipeItem(
           titleFontSize: isMobile ? 12.0 : smallerThanLaptop ? 16.0 : smallerThanDesktop ? 18.0 : 24.0,
           infoFontSize: smallerThanLaptop ? 10.0 : smallerThanDesktop ? 12.0 : 14.0,
           isGradientNeeded: true,
-          recipe: recipeList[adjustedIndex],
+          recipe: recipeList[recipeIndex],
           toggleFavorite: () => ref
               .read(recipeListProvider.notifier)
-              .toggleFavorite(recipeList[adjustedIndex]),
+              .toggleFavorite(recipeList[recipeIndex]),
         );
       },
     );
