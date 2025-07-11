@@ -26,9 +26,6 @@ class HomeScreen extends ConsumerWidget {
     final smallerThanLaptop = ResponsiveBreakpoints.of(
       context,
     ).smallerThan('Laptop');
-    final isSmallLaptop = MediaQuery.of(context).size.width < 1100;
-    final isSmallTablet = MediaQuery.of(context).size.width < 600;
-    final isMobile = ResponsiveBreakpoints.of(context).isMobile;
     return Center(
       child: Padding(
         padding: EdgeInsets.symmetric(
