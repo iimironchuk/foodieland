@@ -20,6 +20,7 @@ class AppTheme {
   static TextStyle interGreyText = TextStyle(
     fontWeight: FontWeight.w400,
     fontFamily: FontFamily.inter,
+    fontSize: 14.0,
     color: AppColors.lightGrey,
   );
 
@@ -30,25 +31,23 @@ class AppTheme {
         fontSize: 16.0,
         fontWeight: FontWeight.w500,
         fontFamily: FontFamily.inter,
-        color: Colors.black
+        color: Colors.black,
       ),
     ),
   );
 
   static ElevatedButtonThemeData elevatedButtonStyle = ElevatedButtonThemeData(
     style: ElevatedButton.styleFrom(
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(16.0)
-      ),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.0)),
       foregroundColor: AppColors.scaffold,
       backgroundColor: Colors.black,
       textStyle: TextStyle(
-          fontSize: 14.0,
-          fontWeight: FontWeight.w600,
-          fontFamily: FontFamily.inter,
-          color: AppColors.scaffold
-      )
-    )
+        fontSize: 14.0,
+        fontWeight: FontWeight.w600,
+        fontFamily: FontFamily.inter,
+        color: AppColors.scaffold,
+      ),
+    ),
   );
 
   static ThemeData themeData = ThemeData(

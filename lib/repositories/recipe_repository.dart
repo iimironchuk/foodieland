@@ -49,4 +49,24 @@ class RecipeRepository {
       return [];
     }
   }
+
+  Future<RecipeModel> getRecipeWithDetails({required String documentId}) async {
+    final response = await _dio.get(
+      'recipes/$documentId',
+      queryParameters: {
+        'populate': {
+          'authorAvatar': true,
+          'recipeAvatar': true,
+          'category': true,
+          'videoRecipe': true,
+        },
+      },
+    );
+
+    if (response.isSuccess) {
+      return RecipeModel.fromJson(response.data['data']);
+    } else {
+      throw Exception('Some error with this recipe');
+    }
+  }
 }
