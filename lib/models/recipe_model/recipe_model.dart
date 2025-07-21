@@ -1,3 +1,4 @@
+import 'package:foodieland/models/ingredients_model/ingredients_model.dart';
 import 'package:foodieland/utils/converters/date_time_converter.dart';
 import 'package:foodieland/utils/converters/image_path_converter.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -31,6 +32,7 @@ abstract class RecipeModel with _$RecipeModel {
     @Default(0.0) double totalFat,
     @Default(0.0) double carbohydrate,
     @Default(0.0) double cholesterol,
+    @Default([]) List<IngredientsModel> ingredients,
   }) = _RecipeModel;
 
   factory RecipeModel.fromJson(Map<String, dynamic> json) =>

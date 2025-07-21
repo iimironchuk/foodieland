@@ -1,31 +1,25 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:chewie/chewie.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:foodieland/resources/app_colors.dart';
 import 'package:foodieland/screens/recipe_details_screen/recipe_details_providers/recipe_details_provider/recipe_details_provider.dart';
 import 'package:foodieland/screens/recipe_details_screen/recipe_details_providers/video_player_provider/video_player_provider.dart';
+import 'package:foodieland/screens/recipe_details_screen/widgets/ingredients_section.dart';
 import 'package:foodieland/screens/recipe_details_screen/widgets/nutrition_information.dart';
+import 'package:foodieland/screens/recipe_details_screen/widgets/other_recipe_section.dart';
 import 'package:foodieland/screens/recipe_details_screen/widgets/overview_details_row.dart';
 import 'package:responsive_framework/responsive_framework.dart';
-import 'package:video_player/video_player.dart';
 
-class RecipeDetailsScreen extends ConsumerStatefulWidget {
+class RecipeDetailsScreen extends ConsumerWidget {
   final String recipeId;
 
   const RecipeDetailsScreen({super.key, required this.recipeId});
 
   @override
-  ConsumerState<RecipeDetailsScreen> createState() =>
-      _RecipeVideoPlayerWidgetState();
-}
-
-class _RecipeVideoPlayerWidgetState
-    extends ConsumerState<RecipeDetailsScreen> {
-  bool _isHovered = false;
-
-  @override
-  Widget build(BuildContext context, ) {
-    final recipeAsync = ref.watch(recipeWithDetailsProvider(widget.recipeId));
+  Widget build(BuildContext context, WidgetRef ref) {
+    final otherRecipesAsync = ref.watch(otherThreeRecipesProvider);
+    final recipeAsync = ref.watch(recipeWithDetailsProvider(recipeId));
     final textTheme = Theme.of(context).textTheme;
     final smallerThanDesktop = ResponsiveBreakpoints.of(
       context,
@@ -60,21 +54,26 @@ class _RecipeVideoPlayerWidgetState
                       RecipeVideoPlayerProvider(recipe.videoRecipe).notifier,
                     )
                     .isStopped;
-                final controller = ref
+
+                final chewieController = ref
                     .read(
                       RecipeVideoPlayerProvider(recipe.videoRecipe).notifier,
                     )
-                    .controller;
+                    .chewieController;
+
                 return Column(
                   children: [
-                    Text(
-                      recipe.title,
-                      style: textTheme.labelMedium!.copyWith(
-                        fontSize: smallerThanLaptop
-                            ? 28.0
-                            : smallerThanDesktop
-                            ? 46.0
-                            : 64.0,
+                    Align(
+                      alignment: Alignment.centerLeft,
+                      child: Text(
+                        recipe.title,
+                        style: textTheme.labelMedium!.copyWith(
+                          fontSize: smallerThanLaptop
+                              ? 28.0
+                              : smallerThanDesktop
+                              ? 46.0
+                              : 64.0,
+                        ),
                       ),
                     ),
                     SizedBox(height: 50.0),
@@ -100,65 +99,8 @@ class _RecipeVideoPlayerWidgetState
                               child: Stack(
                                 children: [
                                   Positioned.fill(
-                                    child: MouseRegion(
-                                      onEnter: (_) => setState(() => _isHovered = true ),
-                                        onExit: (_) => setState(() => _isHovered = false ),
-                                        child: VideoPlayer(controller)),
+                                    child: Chewie(controller: chewieController),
                                   ),
-                                  if (isPlaying && _isHovered)
-                                    Center(
-                                      child: Container(
-                                        width: 120.0,
-                                        height: 120.0,
-                                        decoration: BoxDecoration(
-                                          shape: BoxShape.circle,
-                                          color: Colors.grey.withValues(
-                                            alpha: 0.5,
-                                          ),
-                                        ),
-                                        child: IconButton(
-                                          onPressed: () => ref
-                                              .read(
-                                                RecipeVideoPlayerProvider(
-                                                  recipe.videoRecipe,
-                                                ).notifier,
-                                              )
-                                              .pauseVideo(),
-                                          icon: Icon(
-                                            Icons.pause,
-                                            color: AppColors.lightGrey,
-                                            size: 50.0,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  // if (_isHovered && isPaused)
-                                  //   Center(
-                                  //     child: Container(
-                                  //       width: 120.0,
-                                  //       height: 120.0,
-                                  //       decoration: BoxDecoration(
-                                  //         shape: BoxShape.circle,
-                                  //         color: Colors.grey.withValues(
-                                  //           alpha: 0.5,
-                                  //         ),
-                                  //       ),
-                                  //       child: IconButton(
-                                  //         onPressed: () => ref
-                                  //             .read(
-                                  //           RecipeVideoPlayerProvider(
-                                  //             recipe.videoRecipe,
-                                  //           ).notifier,
-                                  //         )
-                                  //             .playVideo(),
-                                  //         icon: Icon(
-                                  //           Icons.play_arrow,
-                                  //           color: AppColors.lightGrey,
-                                  //           size: 50.0,
-                                  //         ),
-                                  //       ),
-                                  //     ),
-                                  //   ),
                                   if (!isPlaying && !isPaused)
                                     Positioned.fill(
                                       child: CachedNetworkImage(
@@ -215,16 +157,47 @@ class _RecipeVideoPlayerWidgetState
                         ),
                       ],
                     ),
-                    ElevatedButton(
-                      onPressed: () => ref
-                          .read(
-                            RecipeVideoPlayerProvider(
-                              recipe.videoRecipe,
-                            ).notifier,
-                          )
-                          .pauseVideo(),
-                      child: Text('Pause'),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 80.0),
+                      child: Align(
+                        alignment: Alignment.centerLeft,
+                        child: Text(
+                          recipe.description,
+                          style: textTheme.labelSmall!.copyWith(fontSize: 16.0),
+                          textAlign: TextAlign.start,
+                        ),
+                      ),
                     ),
+                    // Row(
+                    //   children: [
+                    //     Expanded(
+                    //       flex: 2,
+                    //       // constraints: BoxConstraints(maxWidth: 840.0),
+                    //       child: IngredientsSection(
+                    //         ingredients: recipe.ingredients,
+                    //       ),
+                    //     ),
+                    //     Expanded(
+                    //       flex: 1,
+                    //       // constraints: BoxConstraints(maxWidth: 400.0),
+                    //       child: otherRecipesAsync.when(
+                    //         data: (recipes) => OtherRecipeSection(recipes: recipes),
+                    //         error: (error, stack) => Text('Error: $error'),
+                    //         loading: () => CircularProgressIndicator(),
+                    //       ),
+                    //     ),
+                    //   ],
+                    // ),
+                    IngredientsSection(ingredients: recipe.ingredients),
+
+                    // otherRecipesAsync.when(
+                    //   data: (recipes) => ConstrainedBox(
+                    //     constraints: BoxConstraints(maxWidth: 400),
+                    //       child: OtherRecipeSection(recipes: recipes)),
+                    //   error: (error, stack) => Text('Error: $error'),
+                    //   loading: () => CircularProgressIndicator(),
+                    // ),
+
                   ],
                 );
               },

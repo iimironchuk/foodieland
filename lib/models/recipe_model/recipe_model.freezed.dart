@@ -16,7 +16,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$RecipeModel {
 
- int get id; String get documentId; String get title; int get duration; String get description; String get authorName; CategoryModel get category;@ImagePathConverter() String get authorAvatar;@ImagePathConverter() String get recipeAvatar; bool get isHotRecipe;@DateTimeConverter() DateTime get publishedAt; bool get isFavorite; int get prepTime; int get cookTime;@ImagePathConverter() String get videoRecipe; double get calories; double get protein; double get totalFat; double get carbohydrate; double get cholesterol;
+ int get id; String get documentId; String get title; int get duration; String get description; String get authorName; CategoryModel get category;@ImagePathConverter() String get authorAvatar;@ImagePathConverter() String get recipeAvatar; bool get isHotRecipe;@DateTimeConverter() DateTime get publishedAt; bool get isFavorite; int get prepTime; int get cookTime;@ImagePathConverter() String get videoRecipe; double get calories; double get protein; double get totalFat; double get carbohydrate; double get cholesterol; List<IngredientsModel> get ingredients;
 /// Create a copy of RecipeModel
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -29,16 +29,16 @@ $RecipeModelCopyWith<RecipeModel> get copyWith => _$RecipeModelCopyWithImpl<Reci
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is RecipeModel&&(identical(other.id, id) || other.id == id)&&(identical(other.documentId, documentId) || other.documentId == documentId)&&(identical(other.title, title) || other.title == title)&&(identical(other.duration, duration) || other.duration == duration)&&(identical(other.description, description) || other.description == description)&&(identical(other.authorName, authorName) || other.authorName == authorName)&&(identical(other.category, category) || other.category == category)&&(identical(other.authorAvatar, authorAvatar) || other.authorAvatar == authorAvatar)&&(identical(other.recipeAvatar, recipeAvatar) || other.recipeAvatar == recipeAvatar)&&(identical(other.isHotRecipe, isHotRecipe) || other.isHotRecipe == isHotRecipe)&&(identical(other.publishedAt, publishedAt) || other.publishedAt == publishedAt)&&(identical(other.isFavorite, isFavorite) || other.isFavorite == isFavorite)&&(identical(other.prepTime, prepTime) || other.prepTime == prepTime)&&(identical(other.cookTime, cookTime) || other.cookTime == cookTime)&&(identical(other.videoRecipe, videoRecipe) || other.videoRecipe == videoRecipe)&&(identical(other.calories, calories) || other.calories == calories)&&(identical(other.protein, protein) || other.protein == protein)&&(identical(other.totalFat, totalFat) || other.totalFat == totalFat)&&(identical(other.carbohydrate, carbohydrate) || other.carbohydrate == carbohydrate)&&(identical(other.cholesterol, cholesterol) || other.cholesterol == cholesterol));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is RecipeModel&&(identical(other.id, id) || other.id == id)&&(identical(other.documentId, documentId) || other.documentId == documentId)&&(identical(other.title, title) || other.title == title)&&(identical(other.duration, duration) || other.duration == duration)&&(identical(other.description, description) || other.description == description)&&(identical(other.authorName, authorName) || other.authorName == authorName)&&(identical(other.category, category) || other.category == category)&&(identical(other.authorAvatar, authorAvatar) || other.authorAvatar == authorAvatar)&&(identical(other.recipeAvatar, recipeAvatar) || other.recipeAvatar == recipeAvatar)&&(identical(other.isHotRecipe, isHotRecipe) || other.isHotRecipe == isHotRecipe)&&(identical(other.publishedAt, publishedAt) || other.publishedAt == publishedAt)&&(identical(other.isFavorite, isFavorite) || other.isFavorite == isFavorite)&&(identical(other.prepTime, prepTime) || other.prepTime == prepTime)&&(identical(other.cookTime, cookTime) || other.cookTime == cookTime)&&(identical(other.videoRecipe, videoRecipe) || other.videoRecipe == videoRecipe)&&(identical(other.calories, calories) || other.calories == calories)&&(identical(other.protein, protein) || other.protein == protein)&&(identical(other.totalFat, totalFat) || other.totalFat == totalFat)&&(identical(other.carbohydrate, carbohydrate) || other.carbohydrate == carbohydrate)&&(identical(other.cholesterol, cholesterol) || other.cholesterol == cholesterol)&&const DeepCollectionEquality().equals(other.ingredients, ingredients));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hashAll([runtimeType,id,documentId,title,duration,description,authorName,category,authorAvatar,recipeAvatar,isHotRecipe,publishedAt,isFavorite,prepTime,cookTime,videoRecipe,calories,protein,totalFat,carbohydrate,cholesterol]);
+int get hashCode => Object.hashAll([runtimeType,id,documentId,title,duration,description,authorName,category,authorAvatar,recipeAvatar,isHotRecipe,publishedAt,isFavorite,prepTime,cookTime,videoRecipe,calories,protein,totalFat,carbohydrate,cholesterol,const DeepCollectionEquality().hash(ingredients)]);
 
 @override
 String toString() {
-  return 'RecipeModel(id: $id, documentId: $documentId, title: $title, duration: $duration, description: $description, authorName: $authorName, category: $category, authorAvatar: $authorAvatar, recipeAvatar: $recipeAvatar, isHotRecipe: $isHotRecipe, publishedAt: $publishedAt, isFavorite: $isFavorite, prepTime: $prepTime, cookTime: $cookTime, videoRecipe: $videoRecipe, calories: $calories, protein: $protein, totalFat: $totalFat, carbohydrate: $carbohydrate, cholesterol: $cholesterol)';
+  return 'RecipeModel(id: $id, documentId: $documentId, title: $title, duration: $duration, description: $description, authorName: $authorName, category: $category, authorAvatar: $authorAvatar, recipeAvatar: $recipeAvatar, isHotRecipe: $isHotRecipe, publishedAt: $publishedAt, isFavorite: $isFavorite, prepTime: $prepTime, cookTime: $cookTime, videoRecipe: $videoRecipe, calories: $calories, protein: $protein, totalFat: $totalFat, carbohydrate: $carbohydrate, cholesterol: $cholesterol, ingredients: $ingredients)';
 }
 
 
@@ -49,7 +49,7 @@ abstract mixin class $RecipeModelCopyWith<$Res>  {
   factory $RecipeModelCopyWith(RecipeModel value, $Res Function(RecipeModel) _then) = _$RecipeModelCopyWithImpl;
 @useResult
 $Res call({
- int id, String documentId, String title, int duration, String description, String authorName, CategoryModel category,@ImagePathConverter() String authorAvatar,@ImagePathConverter() String recipeAvatar, bool isHotRecipe,@DateTimeConverter() DateTime publishedAt, bool isFavorite, int prepTime, int cookTime,@ImagePathConverter() String videoRecipe, double calories, double protein, double totalFat, double carbohydrate, double cholesterol
+ int id, String documentId, String title, int duration, String description, String authorName, CategoryModel category,@ImagePathConverter() String authorAvatar,@ImagePathConverter() String recipeAvatar, bool isHotRecipe,@DateTimeConverter() DateTime publishedAt, bool isFavorite, int prepTime, int cookTime,@ImagePathConverter() String videoRecipe, double calories, double protein, double totalFat, double carbohydrate, double cholesterol, List<IngredientsModel> ingredients
 });
 
 
@@ -66,7 +66,7 @@ class _$RecipeModelCopyWithImpl<$Res>
 
 /// Create a copy of RecipeModel
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? documentId = null,Object? title = null,Object? duration = null,Object? description = null,Object? authorName = null,Object? category = null,Object? authorAvatar = null,Object? recipeAvatar = null,Object? isHotRecipe = null,Object? publishedAt = null,Object? isFavorite = null,Object? prepTime = null,Object? cookTime = null,Object? videoRecipe = null,Object? calories = null,Object? protein = null,Object? totalFat = null,Object? carbohydrate = null,Object? cholesterol = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? documentId = null,Object? title = null,Object? duration = null,Object? description = null,Object? authorName = null,Object? category = null,Object? authorAvatar = null,Object? recipeAvatar = null,Object? isHotRecipe = null,Object? publishedAt = null,Object? isFavorite = null,Object? prepTime = null,Object? cookTime = null,Object? videoRecipe = null,Object? calories = null,Object? protein = null,Object? totalFat = null,Object? carbohydrate = null,Object? cholesterol = null,Object? ingredients = null,}) {
   return _then(_self.copyWith(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as int,documentId: null == documentId ? _self.documentId : documentId // ignore: cast_nullable_to_non_nullable
@@ -88,7 +88,8 @@ as double,protein: null == protein ? _self.protein : protein // ignore: cast_nul
 as double,totalFat: null == totalFat ? _self.totalFat : totalFat // ignore: cast_nullable_to_non_nullable
 as double,carbohydrate: null == carbohydrate ? _self.carbohydrate : carbohydrate // ignore: cast_nullable_to_non_nullable
 as double,cholesterol: null == cholesterol ? _self.cholesterol : cholesterol // ignore: cast_nullable_to_non_nullable
-as double,
+as double,ingredients: null == ingredients ? _self.ingredients : ingredients // ignore: cast_nullable_to_non_nullable
+as List<IngredientsModel>,
   ));
 }
 /// Create a copy of RecipeModel
@@ -108,7 +109,7 @@ $CategoryModelCopyWith<$Res> get category {
 @JsonSerializable()
 
 class _RecipeModel implements RecipeModel {
-   _RecipeModel({required this.id, required this.documentId, required this.title, required this.duration, required this.description, required this.authorName, required this.category, @ImagePathConverter() required this.authorAvatar, @ImagePathConverter() required this.recipeAvatar, this.isHotRecipe = false, @DateTimeConverter() required this.publishedAt, this.isFavorite = false, this.prepTime = 0, this.cookTime = 0, @ImagePathConverter() required this.videoRecipe, this.calories = 0.0, this.protein = 0.0, this.totalFat = 0.0, this.carbohydrate = 0.0, this.cholesterol = 0.0});
+   _RecipeModel({required this.id, required this.documentId, required this.title, required this.duration, required this.description, required this.authorName, required this.category, @ImagePathConverter() required this.authorAvatar, @ImagePathConverter() required this.recipeAvatar, this.isHotRecipe = false, @DateTimeConverter() required this.publishedAt, this.isFavorite = false, this.prepTime = 0, this.cookTime = 0, @ImagePathConverter() required this.videoRecipe, this.calories = 0.0, this.protein = 0.0, this.totalFat = 0.0, this.carbohydrate = 0.0, this.cholesterol = 0.0, final  List<IngredientsModel> ingredients = const []}): _ingredients = ingredients;
   factory _RecipeModel.fromJson(Map<String, dynamic> json) => _$RecipeModelFromJson(json);
 
 @override final  int id;
@@ -131,6 +132,13 @@ class _RecipeModel implements RecipeModel {
 @override@JsonKey() final  double totalFat;
 @override@JsonKey() final  double carbohydrate;
 @override@JsonKey() final  double cholesterol;
+ final  List<IngredientsModel> _ingredients;
+@override@JsonKey() List<IngredientsModel> get ingredients {
+  if (_ingredients is EqualUnmodifiableListView) return _ingredients;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(_ingredients);
+}
+
 
 /// Create a copy of RecipeModel
 /// with the given fields replaced by the non-null parameter values.
@@ -145,16 +153,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _RecipeModel&&(identical(other.id, id) || other.id == id)&&(identical(other.documentId, documentId) || other.documentId == documentId)&&(identical(other.title, title) || other.title == title)&&(identical(other.duration, duration) || other.duration == duration)&&(identical(other.description, description) || other.description == description)&&(identical(other.authorName, authorName) || other.authorName == authorName)&&(identical(other.category, category) || other.category == category)&&(identical(other.authorAvatar, authorAvatar) || other.authorAvatar == authorAvatar)&&(identical(other.recipeAvatar, recipeAvatar) || other.recipeAvatar == recipeAvatar)&&(identical(other.isHotRecipe, isHotRecipe) || other.isHotRecipe == isHotRecipe)&&(identical(other.publishedAt, publishedAt) || other.publishedAt == publishedAt)&&(identical(other.isFavorite, isFavorite) || other.isFavorite == isFavorite)&&(identical(other.prepTime, prepTime) || other.prepTime == prepTime)&&(identical(other.cookTime, cookTime) || other.cookTime == cookTime)&&(identical(other.videoRecipe, videoRecipe) || other.videoRecipe == videoRecipe)&&(identical(other.calories, calories) || other.calories == calories)&&(identical(other.protein, protein) || other.protein == protein)&&(identical(other.totalFat, totalFat) || other.totalFat == totalFat)&&(identical(other.carbohydrate, carbohydrate) || other.carbohydrate == carbohydrate)&&(identical(other.cholesterol, cholesterol) || other.cholesterol == cholesterol));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _RecipeModel&&(identical(other.id, id) || other.id == id)&&(identical(other.documentId, documentId) || other.documentId == documentId)&&(identical(other.title, title) || other.title == title)&&(identical(other.duration, duration) || other.duration == duration)&&(identical(other.description, description) || other.description == description)&&(identical(other.authorName, authorName) || other.authorName == authorName)&&(identical(other.category, category) || other.category == category)&&(identical(other.authorAvatar, authorAvatar) || other.authorAvatar == authorAvatar)&&(identical(other.recipeAvatar, recipeAvatar) || other.recipeAvatar == recipeAvatar)&&(identical(other.isHotRecipe, isHotRecipe) || other.isHotRecipe == isHotRecipe)&&(identical(other.publishedAt, publishedAt) || other.publishedAt == publishedAt)&&(identical(other.isFavorite, isFavorite) || other.isFavorite == isFavorite)&&(identical(other.prepTime, prepTime) || other.prepTime == prepTime)&&(identical(other.cookTime, cookTime) || other.cookTime == cookTime)&&(identical(other.videoRecipe, videoRecipe) || other.videoRecipe == videoRecipe)&&(identical(other.calories, calories) || other.calories == calories)&&(identical(other.protein, protein) || other.protein == protein)&&(identical(other.totalFat, totalFat) || other.totalFat == totalFat)&&(identical(other.carbohydrate, carbohydrate) || other.carbohydrate == carbohydrate)&&(identical(other.cholesterol, cholesterol) || other.cholesterol == cholesterol)&&const DeepCollectionEquality().equals(other._ingredients, _ingredients));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hashAll([runtimeType,id,documentId,title,duration,description,authorName,category,authorAvatar,recipeAvatar,isHotRecipe,publishedAt,isFavorite,prepTime,cookTime,videoRecipe,calories,protein,totalFat,carbohydrate,cholesterol]);
+int get hashCode => Object.hashAll([runtimeType,id,documentId,title,duration,description,authorName,category,authorAvatar,recipeAvatar,isHotRecipe,publishedAt,isFavorite,prepTime,cookTime,videoRecipe,calories,protein,totalFat,carbohydrate,cholesterol,const DeepCollectionEquality().hash(_ingredients)]);
 
 @override
 String toString() {
-  return 'RecipeModel(id: $id, documentId: $documentId, title: $title, duration: $duration, description: $description, authorName: $authorName, category: $category, authorAvatar: $authorAvatar, recipeAvatar: $recipeAvatar, isHotRecipe: $isHotRecipe, publishedAt: $publishedAt, isFavorite: $isFavorite, prepTime: $prepTime, cookTime: $cookTime, videoRecipe: $videoRecipe, calories: $calories, protein: $protein, totalFat: $totalFat, carbohydrate: $carbohydrate, cholesterol: $cholesterol)';
+  return 'RecipeModel(id: $id, documentId: $documentId, title: $title, duration: $duration, description: $description, authorName: $authorName, category: $category, authorAvatar: $authorAvatar, recipeAvatar: $recipeAvatar, isHotRecipe: $isHotRecipe, publishedAt: $publishedAt, isFavorite: $isFavorite, prepTime: $prepTime, cookTime: $cookTime, videoRecipe: $videoRecipe, calories: $calories, protein: $protein, totalFat: $totalFat, carbohydrate: $carbohydrate, cholesterol: $cholesterol, ingredients: $ingredients)';
 }
 
 
@@ -165,7 +173,7 @@ abstract mixin class _$RecipeModelCopyWith<$Res> implements $RecipeModelCopyWith
   factory _$RecipeModelCopyWith(_RecipeModel value, $Res Function(_RecipeModel) _then) = __$RecipeModelCopyWithImpl;
 @override @useResult
 $Res call({
- int id, String documentId, String title, int duration, String description, String authorName, CategoryModel category,@ImagePathConverter() String authorAvatar,@ImagePathConverter() String recipeAvatar, bool isHotRecipe,@DateTimeConverter() DateTime publishedAt, bool isFavorite, int prepTime, int cookTime,@ImagePathConverter() String videoRecipe, double calories, double protein, double totalFat, double carbohydrate, double cholesterol
+ int id, String documentId, String title, int duration, String description, String authorName, CategoryModel category,@ImagePathConverter() String authorAvatar,@ImagePathConverter() String recipeAvatar, bool isHotRecipe,@DateTimeConverter() DateTime publishedAt, bool isFavorite, int prepTime, int cookTime,@ImagePathConverter() String videoRecipe, double calories, double protein, double totalFat, double carbohydrate, double cholesterol, List<IngredientsModel> ingredients
 });
 
 
@@ -182,7 +190,7 @@ class __$RecipeModelCopyWithImpl<$Res>
 
 /// Create a copy of RecipeModel
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? documentId = null,Object? title = null,Object? duration = null,Object? description = null,Object? authorName = null,Object? category = null,Object? authorAvatar = null,Object? recipeAvatar = null,Object? isHotRecipe = null,Object? publishedAt = null,Object? isFavorite = null,Object? prepTime = null,Object? cookTime = null,Object? videoRecipe = null,Object? calories = null,Object? protein = null,Object? totalFat = null,Object? carbohydrate = null,Object? cholesterol = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? documentId = null,Object? title = null,Object? duration = null,Object? description = null,Object? authorName = null,Object? category = null,Object? authorAvatar = null,Object? recipeAvatar = null,Object? isHotRecipe = null,Object? publishedAt = null,Object? isFavorite = null,Object? prepTime = null,Object? cookTime = null,Object? videoRecipe = null,Object? calories = null,Object? protein = null,Object? totalFat = null,Object? carbohydrate = null,Object? cholesterol = null,Object? ingredients = null,}) {
   return _then(_RecipeModel(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as int,documentId: null == documentId ? _self.documentId : documentId // ignore: cast_nullable_to_non_nullable
@@ -204,7 +212,8 @@ as double,protein: null == protein ? _self.protein : protein // ignore: cast_nul
 as double,totalFat: null == totalFat ? _self.totalFat : totalFat // ignore: cast_nullable_to_non_nullable
 as double,carbohydrate: null == carbohydrate ? _self.carbohydrate : carbohydrate // ignore: cast_nullable_to_non_nullable
 as double,cholesterol: null == cholesterol ? _self.cholesterol : cholesterol // ignore: cast_nullable_to_non_nullable
-as double,
+as double,ingredients: null == ingredients ? _self._ingredients : ingredients // ignore: cast_nullable_to_non_nullable
+as List<IngredientsModel>,
   ));
 }
 

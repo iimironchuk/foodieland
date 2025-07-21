@@ -1,3 +1,4 @@
+import 'package:chewie/chewie.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:video_player/video_player.dart';
 
@@ -6,6 +7,7 @@ part 'video_player_provider.g.dart';
 @riverpod
 class RecipeVideoPlayer extends _$RecipeVideoPlayer {
   late VideoPlayerController _controller;
+  late ChewieController _chewieController;
 
   bool _isStopped = false;
   bool _isPlaying = false;
@@ -16,8 +18,15 @@ class RecipeVideoPlayer extends _$RecipeVideoPlayer {
     _controller = VideoPlayerController.networkUrl(Uri.parse(videoUrl));
     await _controller.initialize();
 
+    _chewieController = ChewieController(
+      videoPlayerController: controller,
+      autoPlay: false,
+      looping: false,
+    );
+
     ref.onDispose(() {
       _controller.dispose();
+      _chewieController.dispose();
     });
   }
 
@@ -47,7 +56,12 @@ class RecipeVideoPlayer extends _$RecipeVideoPlayer {
   }
 
   bool get isPlaying => _isPlaying;
+
   bool get isPaused => _isPaused;
+
   bool get isStopped => _isStopped;
+
   VideoPlayerController get controller => _controller;
+
+  ChewieController get chewieController => _chewieController;
 }

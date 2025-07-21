@@ -6,7 +6,7 @@ part of 'video_player_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$recipeVideoPlayerHash() => r'21af4110fe7f51224552968d2d6e830ac8ce0060';
+String _$recipeVideoPlayerHash() => r'f8c9d664e3c4a92288b8d8712577d3e9e694d768';
 
 /// Copied from Dart SDK
 class _SystemHash {

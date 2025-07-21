@@ -35,6 +35,11 @@ _RecipeModel _$RecipeModelFromJson(Map<String, dynamic> json) => _RecipeModel(
   totalFat: (json['totalFat'] as num?)?.toDouble() ?? 0.0,
   carbohydrate: (json['carbohydrate'] as num?)?.toDouble() ?? 0.0,
   cholesterol: (json['cholesterol'] as num?)?.toDouble() ?? 0.0,
+  ingredients:
+      (json['ingredients'] as List<dynamic>?)
+          ?.map((e) => IngredientsModel.fromJson(e as Map<String, dynamic>))
+          .toList() ??
+      const [],
 );
 
 Map<String, dynamic> _$RecipeModelToJson(_RecipeModel instance) =>
@@ -59,4 +64,5 @@ Map<String, dynamic> _$RecipeModelToJson(_RecipeModel instance) =>
       'totalFat': instance.totalFat,
       'carbohydrate': instance.carbohydrate,
       'cholesterol': instance.cholesterol,
+      'ingredients': instance.ingredients,
     };

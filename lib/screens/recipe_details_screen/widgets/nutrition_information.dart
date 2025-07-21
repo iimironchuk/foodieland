@@ -34,9 +34,12 @@ class NutritionInformation extends StatelessWidget {
           padding: const EdgeInsets.all(32.0),
           child: Column(
             children: [
-              Text(
-                'Nutrition information',
-                style: textTheme.labelMedium!.copyWith(fontSize: 24.0),
+              Align(
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  'Nutrition information',
+                  style: textTheme.labelMedium!.copyWith(fontSize: 24.0),
+                ),
               ),
               SizedBox(height: 24.0),
               SeparatedColumn(

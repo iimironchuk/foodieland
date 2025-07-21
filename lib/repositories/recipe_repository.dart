@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:foodieland/models/ingredients_model/ingredients_mapper.dart';
 import 'package:foodieland/models/recipe_model/recipe_model.dart';
 import 'package:foodieland/utils/extensions.dart';
 
@@ -64,9 +65,40 @@ class RecipeRepository {
     );
 
     if (response.isSuccess) {
-      return RecipeModel.fromJson(response.data['data']);
+      final data = response.data['data'];
+      final ingredientsJson = data['ingredients'] as List<dynamic>;
+
+      final ingredients = IngredientsMapper.fromJsonList(ingredientsJson);
+
+      final recipe = RecipeModel.fromJson(data);
+
+      return recipe.copyWith(ingredients: ingredients);
     } else {
       throw Exception('Some error with this recipe');
+    }
+  }
+
+  Future<List<RecipeModel>> getThreeRandomRecipe() async {
+    final response = await _dio.get(
+      'recipes',
+      queryParameters: {
+        'populate': {'recipeAvatar': true, 'category': true},
+        'pagination[pageSize]': 10,
+        'pagination[page]': 1,
+      },
+    );
+
+    if (response.isSuccess) {
+      final recipes = (response.data['data'] as List)
+          .map((json) => RecipeModel.fromJson(json as Map<String, dynamic>))
+          .toList();
+
+      List<RecipeModel> shuffledRecipes = List<RecipeModel>.from(recipes)
+        ..shuffle();
+
+      return shuffledRecipes.take(3).toList();
+    } else {
+      return [];
     }
   }
 }

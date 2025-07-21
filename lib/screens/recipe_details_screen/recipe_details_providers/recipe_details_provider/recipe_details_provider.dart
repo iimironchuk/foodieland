@@ -14,3 +14,10 @@ Future<RecipeModel> recipeWithDetails(Ref ref, String documentId) async {
   );
   return recipeModel;
 }
+
+@riverpod
+Future<List<RecipeModel>> otherThreeRecipes(Ref ref) async {
+  final repository = ref.read(recipeRepositoryProvider);
+
+  return repository.getThreeRandomRecipe();
+}
