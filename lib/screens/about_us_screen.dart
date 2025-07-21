@@ -8,7 +8,7 @@ class AboutUsScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final otherRecipesAsync = ref.watch(otherThreeRecipesProvider);
+    final otherRecipesAsync = ref.watch(otherThreeRecipesProvider('ndw32l118dr9idj1arisjm3g'));
     return otherRecipesAsync.when(
       data: (recipes) => ConstrainedBox(
           constraints: BoxConstraints(maxWidth: 400),

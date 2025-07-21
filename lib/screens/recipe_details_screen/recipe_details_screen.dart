@@ -1,8 +1,5 @@
-import 'package:cached_network_image/cached_network_image.dart';
-import 'package:chewie/chewie.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:foodieland/resources/app_colors.dart';
 import 'package:foodieland/screens/recipe_details_screen/recipe_details_providers/recipe_details_provider/recipe_details_provider.dart';
 import 'package:foodieland/screens/recipe_details_screen/recipe_details_providers/video_player_provider/video_player_provider.dart';
 import 'package:foodieland/screens/recipe_details_screen/widgets/directions_section.dart';
@@ -13,25 +10,41 @@ import 'package:foodieland/screens/recipe_details_screen/widgets/overview_detail
 import 'package:foodieland/screens/recipe_details_screen/widgets/video_widget.dart';
 import 'package:foodieland/screens/widgets/other_recipes_grid.dart';
 import 'package:foodieland/screens/widgets/subscription_section.dart';
-import 'package:go_router/go_router.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 
-import '../../navigation/routes.dart';
+import '../../models/recipe_model/recipe_model.dart';
 
-class RecipeDetailsScreen extends ConsumerWidget {
+class RecipeDetailsScreen extends ConsumerStatefulWidget {
   final String recipeId;
 
   const RecipeDetailsScreen({super.key, required this.recipeId});
 
-  void _goToAnotherRecipe(String recipeId, BuildContext context) {
-    final path = RecipeDetailRoute(id: recipeId).location;
-    context.push(path);
+  @override
+  ConsumerState<RecipeDetailsScreen> createState() =>
+      _RecipeDetailsScreenState();
+}
+
+class _RecipeDetailsScreenState extends ConsumerState<RecipeDetailsScreen> {
+  late final RecipeModel currentRecipe;
+
+  @override
+  void initState() {
+    super.initState();
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      currentRecipe = ref
+          .read(recipeWithDetailsProvider(widget.recipeId))
+          .value!;
+      ref.watch(RecipeVideoPlayerProvider(currentRecipe.videoRecipe));
+    });
   }
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final otherRecipesAsync = ref.watch(otherThreeRecipesProvider);
-    final recipeAsync = ref.watch(recipeWithDetailsProvider(recipeId));
+  Widget build(BuildContext context) {
+    final otherRecipesAsync = ref.watch(
+      otherThreeRecipesProvider(widget.recipeId),
+    );
+    final recipeAsync = ref.watch(recipeWithDetailsProvider(widget.recipeId));
     final textTheme = Theme.of(context).textTheme;
     final smallerThanDesktop = ResponsiveBreakpoints.of(
       context,

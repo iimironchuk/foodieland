@@ -83,7 +83,7 @@ class RecipeRepository {
     }
   }
 
-  Future<List<RecipeModel>> getThreeRandomRecipe() async {
+  Future<List<RecipeModel>> getThreeRandomRecipe({required String currentRecipeId}) async {
     final response = await _dio.get(
       'recipes',
       queryParameters: {
@@ -98,7 +98,9 @@ class RecipeRepository {
           .map((json) => RecipeModel.fromJson(json as Map<String, dynamic>))
           .toList();
 
-      List<RecipeModel> shuffledRecipes = List<RecipeModel>.from(recipes)
+      final filteredRecipes = recipes.where((recipe) => recipe.documentId != currentRecipeId).toList();
+
+      List<RecipeModel> shuffledRecipes = List<RecipeModel>.from(filteredRecipes)
         ..shuffle();
 
       return shuffledRecipes.take(3).toList();
