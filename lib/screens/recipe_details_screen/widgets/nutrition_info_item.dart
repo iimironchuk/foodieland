@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:responsive_framework/responsive_framework.dart';
 
 class NutritionInfoItem extends StatelessWidget {
   final String title;
@@ -8,17 +9,32 @@ class NutritionInfoItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
+    final smallerThanDesktop = ResponsiveBreakpoints.of(
+      context,
+    ).smallerThan(DESKTOP);
+    final smallerThanLaptop = ResponsiveBreakpoints.of(
+      context,
+    ).smallerThan('Laptop');
+    final isMobile = ResponsiveBreakpoints.of(context).isMobile;
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Text(
           title,
-          style: textTheme.labelSmall!.copyWith(fontSize: 18.0),
+          style: textTheme.labelSmall!.copyWith(fontSize: isMobile
+              ? 10.0
+              : smallerThanDesktop
+              ? 14.0
+              : 18.0),
         ),
         Text(
           '$value kcal',
           style: textTheme.labelMedium!.copyWith(
-            fontSize: 18.0,
+            fontSize: isMobile
+                ? 10.0
+                : smallerThanDesktop
+                ? 14.0
+                : 18.0,
             fontWeight: FontWeight.w500,
           ),
         ),

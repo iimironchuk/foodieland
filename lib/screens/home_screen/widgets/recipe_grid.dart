@@ -20,7 +20,6 @@ class RecipeGrid extends ConsumerWidget {
 
   void _goToDetails(BuildContext context, String recipeId) {
     final path = RecipeDetailRoute(id: recipeId).location;
-    debugPrint('PUSHING TO: $path');
     context.push(path);
   }
 

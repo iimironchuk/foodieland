@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:foodieland/models/direction_model/cooking_step_model.dart';
+import 'package:responsive_framework/responsive_framework.dart';
 
 import '../../../resources/app_colors.dart';
 
@@ -25,12 +26,22 @@ class _DirectionsSectionState extends State<DirectionsSection> {
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
+    final smallerThanDesktop = ResponsiveBreakpoints.of(
+      context,
+    ).smallerThan(DESKTOP);
+    final isMobile = ResponsiveBreakpoints.of(context).isMobile;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
           'Directions',
-          style: textTheme.labelMedium!.copyWith(fontSize: 36.0),
+          style: textTheme.labelMedium!.copyWith(
+            fontSize: isMobile
+                ? 20.0
+                : smallerThanDesktop
+                ? 28.0
+                : 36.0,
+          ),
         ),
         // SizedBox(height: 48.0),
         ListView.builder(
@@ -41,11 +52,17 @@ class _DirectionsSectionState extends State<DirectionsSection> {
             final step = widget.steps[index];
             if (step.type == StepBlockType.heading) {
               return Padding(
-                padding: const EdgeInsets.only( top: 32.0),
+                padding: EdgeInsets.only(
+                  top: isMobile
+                      ? 16.0
+                      : smallerThanDesktop
+                      ? 24.0
+                      : 32.0,
+                ),
                 child: ListTile(
                   contentPadding: EdgeInsets.zero,
                   leading: Transform.scale(
-                    scale: 1.5,
+                    scale: isMobile ? 1.0 : 1.5,
                     child: Checkbox(
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(60.0),
@@ -69,7 +86,11 @@ class _DirectionsSectionState extends State<DirectionsSection> {
                       color: _checkedList[index] == true
                           ? Color.fromRGBO(0, 0, 0, 0.6)
                           : Colors.black,
-                      fontSize: 24.0,
+                      fontSize: isMobile
+                          ? 16.0
+                          : smallerThanDesktop
+                          ? 20.0
+                          : 24.0,
                       decoration: _checkedList[index] == true
                           ? TextDecoration.lineThrough
                           : null,
@@ -90,10 +111,18 @@ class _DirectionsSectionState extends State<DirectionsSection> {
               );
             } else if (step.type == StepBlockType.paragraph) {
               return Padding(
-                padding: const EdgeInsets.symmetric(vertical: 48.0),
+                padding:  EdgeInsets.symmetric(vertical: isMobile
+                    ? 16.0
+                    : smallerThanDesktop
+                    ? 36.0
+                    : 48.0),
                 child: Text(
                   step.content,
-                  style: textTheme.labelSmall!.copyWith(fontSize: 16.0),
+                  style: textTheme.labelSmall!.copyWith(fontSize: isMobile
+                      ? 12.0
+                      : smallerThanDesktop
+                      ? 14.0
+                      : 16.0,),
                 ),
               );
             } else {
