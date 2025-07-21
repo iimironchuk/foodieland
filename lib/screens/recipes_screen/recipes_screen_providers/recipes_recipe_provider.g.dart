@@ -7,7 +7,7 @@ part of 'recipes_recipe_provider.dart';
 // **************************************************************************
 
 String _$recipesScreenRecipeListHash() =>
-    r'03cc3d77d02b851c4e85ab80858e90f5c629d2dd';
+    r'b4477c8e83e0557ff37ac53be7a4ba76b65b9273';
 
 /// See also [RecipesScreenRecipeList].
 @ProviderFor(RecipesScreenRecipeList)

@@ -27,8 +27,14 @@ class $AssetsIconsGen {
   /// File path: assets/icons/instagarm.svg
   String get instagarm => 'assets/icons/instagarm.svg';
 
+  /// File path: assets/icons/print.svg
+  String get print => 'assets/icons/print.svg';
+
   /// File path: assets/icons/recipe_category.svg
   String get recipeCategory => 'assets/icons/recipe_category.svg';
+
+  /// File path: assets/icons/share.svg
+  String get share => 'assets/icons/share.svg';
 
   /// File path: assets/icons/twitter.svg
   String get twitter => 'assets/icons/twitter.svg';
@@ -40,7 +46,9 @@ class $AssetsIconsGen {
     facebook,
     favorite,
     instagarm,
+    print,
     recipeCategory,
+    share,
     twitter,
   ];
 }
