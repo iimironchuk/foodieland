@@ -11,63 +11,77 @@ class OtherRecipeSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
-    return Column(
-      children: [
-        Text(
-          'Other Recipe',
-          style: textTheme.labelMedium!.copyWith(fontSize: 32.0),
-        ),
-        SizedBox(height: 32.0),
-        ListView.builder(
-          physics: NeverScrollableScrollPhysics(),
-          shrinkWrap: true,
-          itemCount: recipes.length,
-          itemBuilder: (context, index) {
-            final recipe = recipes[index];
-            return Padding(
-              padding: const EdgeInsets.only(bottom: 24.0),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  AspectRatio(
-                    aspectRatio: 180 / 120,
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(20.0),
-                      child: CachedNetworkImage(imageUrl: recipe.recipeAvatar),
-                    ),
-                  ),
-                  SizedBox(width: 24.0),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          recipe.title,
-                          style: textTheme.labelMedium!.copyWith(fontSize: 20.0),
-                          overflow: TextOverflow.ellipsis,
-                          softWrap: true,
-                          maxLines: 2,
+    return ConstrainedBox(
+      constraints: BoxConstraints(maxWidth: 400.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            'Other Recipe',
+            style: textTheme.labelMedium!.copyWith(fontSize: 32.0),
+          ),
+          SizedBox(height: 20.0),
+          ListView.builder(
+            physics: NeverScrollableScrollPhysics(),
+            shrinkWrap: true,
+            itemCount: recipes.length,
+            itemBuilder: (context, index) {
+              final recipe = recipes[index];
+              return Padding(
+                padding: const EdgeInsets.symmetric(vertical: 12.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    ConstrainedBox(
+                      constraints: BoxConstraints(
+                        maxWidth: 180.0,
+                        maxHeight: 120.0,
+                      ),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(15.0),
+                        child: SizedBox(
+                          width: double.infinity,
+                          child: CachedNetworkImage(
+                            imageUrl: recipe.recipeAvatar,
+                            fit: BoxFit.cover,
+                          ),
                         ),
-                        SizedBox(height: 16.0),
-                        Text(
-                          'By ${recipe.authorName}',
-                          style: textTheme.labelSmall,
-                        ),
-                      ],
+                      ),
                     ),
-                  ),
-                ],
-              ),
-            );
-          },
-        ),
-
-        SizedBox(height: 80.0),
-        AspectRatio(
-          aspectRatio: 400 / 434,
-          child: Assets.images.advertisment.image(),
-        ),
-      ],
+                    ConstrainedBox(
+                      constraints: BoxConstraints(maxWidth: 196.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            recipe.title,
+                            style: textTheme.labelMedium!.copyWith(
+                              fontSize: 20.0,
+                            ),
+                            maxLines: 2,
+                            softWrap: true,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                          SizedBox(height: 16.0),
+                          Text(
+                            'By ${recipe.authorName}',
+                            style: textTheme.labelSmall,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              );
+            },
+          ),
+          SizedBox(height: 65.0),
+          AspectRatio(
+            aspectRatio: 400 / 434,
+            child: Assets.images.advertisment.image(),
+          ),
+        ],
+      ),
     );
   }
 }

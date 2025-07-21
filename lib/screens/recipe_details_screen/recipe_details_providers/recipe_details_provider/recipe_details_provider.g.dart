@@ -165,5 +165,132 @@ final otherThreeRecipesProvider =
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
 typedef OtherThreeRecipesRef = AutoDisposeFutureProviderRef<List<RecipeModel>>;
+String _$otherRecipesByCategoryHash() =>
+    r'ec7b9a1a1857f303877278d9b0c1de3af9a03bd0';
+
+/// See also [otherRecipesByCategory].
+@ProviderFor(otherRecipesByCategory)
+const otherRecipesByCategoryProvider = OtherRecipesByCategoryFamily();
+
+/// See also [otherRecipesByCategory].
+class OtherRecipesByCategoryFamily
+    extends Family<AsyncValue<List<RecipeModel>>> {
+  /// See also [otherRecipesByCategory].
+  const OtherRecipesByCategoryFamily();
+
+  /// See also [otherRecipesByCategory].
+  OtherRecipesByCategoryProvider call(String category) {
+    return OtherRecipesByCategoryProvider(category);
+  }
+
+  @override
+  OtherRecipesByCategoryProvider getProviderOverride(
+    covariant OtherRecipesByCategoryProvider provider,
+  ) {
+    return call(provider.category);
+  }
+
+  static const Iterable<ProviderOrFamily>? _dependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
+
+  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
+      _allTransitiveDependencies;
+
+  @override
+  String? get name => r'otherRecipesByCategoryProvider';
+}
+
+/// See also [otherRecipesByCategory].
+class OtherRecipesByCategoryProvider
+    extends AutoDisposeFutureProvider<List<RecipeModel>> {
+  /// See also [otherRecipesByCategory].
+  OtherRecipesByCategoryProvider(String category)
+    : this._internal(
+        (ref) =>
+            otherRecipesByCategory(ref as OtherRecipesByCategoryRef, category),
+        from: otherRecipesByCategoryProvider,
+        name: r'otherRecipesByCategoryProvider',
+        debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+            ? null
+            : _$otherRecipesByCategoryHash,
+        dependencies: OtherRecipesByCategoryFamily._dependencies,
+        allTransitiveDependencies:
+            OtherRecipesByCategoryFamily._allTransitiveDependencies,
+        category: category,
+      );
+
+  OtherRecipesByCategoryProvider._internal(
+    super._createNotifier, {
+    required super.name,
+    required super.dependencies,
+    required super.allTransitiveDependencies,
+    required super.debugGetCreateSourceHash,
+    required super.from,
+    required this.category,
+  }) : super.internal();
+
+  final String category;
+
+  @override
+  Override overrideWith(
+    FutureOr<List<RecipeModel>> Function(OtherRecipesByCategoryRef provider)
+    create,
+  ) {
+    return ProviderOverride(
+      origin: this,
+      override: OtherRecipesByCategoryProvider._internal(
+        (ref) => create(ref as OtherRecipesByCategoryRef),
+        from: from,
+        name: null,
+        dependencies: null,
+        allTransitiveDependencies: null,
+        debugGetCreateSourceHash: null,
+        category: category,
+      ),
+    );
+  }
+
+  @override
+  AutoDisposeFutureProviderElement<List<RecipeModel>> createElement() {
+    return _OtherRecipesByCategoryProviderElement(this);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return other is OtherRecipesByCategoryProvider &&
+        other.category == category;
+  }
+
+  @override
+  int get hashCode {
+    var hash = _SystemHash.combine(0, runtimeType.hashCode);
+    hash = _SystemHash.combine(hash, category.hashCode);
+
+    return _SystemHash.finish(hash);
+  }
+}
+
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
+mixin OtherRecipesByCategoryRef
+    on AutoDisposeFutureProviderRef<List<RecipeModel>> {
+  /// The parameter `category` of this provider.
+  String get category;
+}
+
+class _OtherRecipesByCategoryProviderElement
+    extends AutoDisposeFutureProviderElement<List<RecipeModel>>
+    with OtherRecipesByCategoryRef {
+  _OtherRecipesByCategoryProviderElement(super.provider);
+
+  @override
+  String get category => (origin as OtherRecipesByCategoryProvider).category;
+}
+
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

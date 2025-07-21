@@ -5,10 +5,13 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:foodieland/resources/app_colors.dart';
 import 'package:foodieland/screens/recipe_details_screen/recipe_details_providers/recipe_details_provider/recipe_details_provider.dart';
 import 'package:foodieland/screens/recipe_details_screen/recipe_details_providers/video_player_provider/video_player_provider.dart';
+import 'package:foodieland/screens/recipe_details_screen/widgets/directions_section.dart';
 import 'package:foodieland/screens/recipe_details_screen/widgets/ingredients_section.dart';
 import 'package:foodieland/screens/recipe_details_screen/widgets/nutrition_information.dart';
 import 'package:foodieland/screens/recipe_details_screen/widgets/other_recipe_section.dart';
 import 'package:foodieland/screens/recipe_details_screen/widgets/overview_details_row.dart';
+import 'package:foodieland/screens/widgets/other_recipes_grid.dart';
+import 'package:foodieland/screens/widgets/subscription_section.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 
 class RecipeDetailsScreen extends ConsumerWidget {
@@ -35,9 +38,7 @@ class RecipeDetailsScreen extends ConsumerWidget {
           children: [
             recipeAsync.when(
               data: (recipe) {
-                final videoPlayerAsync = ref.watch(
-                  RecipeVideoPlayerProvider(recipe.videoRecipe),
-                );
+                ref.watch(RecipeVideoPlayerProvider(recipe.videoRecipe));
 
                 final isPlaying = ref
                     .read(
@@ -49,11 +50,9 @@ class RecipeDetailsScreen extends ConsumerWidget {
                       RecipeVideoPlayerProvider(recipe.videoRecipe).notifier,
                     )
                     .isPaused;
-                final isStopped = ref
-                    .read(
-                      RecipeVideoPlayerProvider(recipe.videoRecipe).notifier,
-                    )
-                    .isStopped;
+                final otherCategoryRecipesAsync = ref.watch(
+                  otherRecipesByCategoryProvider(recipe.category.title),
+                );
 
                 final chewieController = ref
                     .read(
@@ -62,6 +61,7 @@ class RecipeDetailsScreen extends ConsumerWidget {
                     .chewieController;
 
                 return Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Align(
                       alignment: Alignment.centerLeft,
@@ -168,36 +168,49 @@ class RecipeDetailsScreen extends ConsumerWidget {
                         ),
                       ),
                     ),
-                    // Row(
-                    //   children: [
-                    //     Expanded(
-                    //       flex: 2,
-                    //       // constraints: BoxConstraints(maxWidth: 840.0),
-                    //       child: IngredientsSection(
-                    //         ingredients: recipe.ingredients,
-                    //       ),
-                    //     ),
-                    //     Expanded(
-                    //       flex: 1,
-                    //       // constraints: BoxConstraints(maxWidth: 400.0),
-                    //       child: otherRecipesAsync.when(
-                    //         data: (recipes) => OtherRecipeSection(recipes: recipes),
-                    //         error: (error, stack) => Text('Error: $error'),
-                    //         loading: () => CircularProgressIndicator(),
-                    //       ),
-                    //     ),
-                    //   ],
-                    // ),
-                    IngredientsSection(ingredients: recipe.ingredients),
 
-                    // otherRecipesAsync.when(
-                    //   data: (recipes) => ConstrainedBox(
-                    //     constraints: BoxConstraints(maxWidth: 400),
-                    //       child: OtherRecipeSection(recipes: recipes)),
-                    //   error: (error, stack) => Text('Error: $error'),
-                    //   loading: () => CircularProgressIndicator(),
-                    // ),
-
+                    Wrap(
+                      spacing: 40.0,
+                      runSpacing: 40.0,
+                      children: [
+                        ConstrainedBox(
+                          constraints: BoxConstraints(maxWidth: 840.0),
+                          child: IngredientsSection(
+                            ingredients: recipe.ingredients,
+                          ),
+                        ),
+                        otherRecipesAsync.when(
+                          data: (recipes) => ConstrainedBox(
+                            constraints: BoxConstraints(maxWidth: 400),
+                            child: OtherRecipeSection(recipes: recipes),
+                          ),
+                          error: (error, stack) => Text('Error: $error'),
+                          loading: () => CircularProgressIndicator(),
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: 88.0),
+                    ConstrainedBox(
+                      constraints: BoxConstraints(maxWidth: 840.0),
+                      child: DirectionsSection(steps: recipe.directions),
+                    ),
+                    SizedBox(height: 160.0),
+                    SubscriptionSection(),
+                    SizedBox(height: 160.0),
+                    Align(
+                      alignment: Alignment.center,
+                      child: Text(
+                        'You may like these recipe too',
+                        style: textTheme.labelMedium!.copyWith(fontSize: 36.0),
+                      ),
+                    ),
+                    SizedBox(height: 80.0),
+                    otherCategoryRecipesAsync.when(
+                      data: (recipes) => OtherRecipesGrid(recipes: recipes),
+                      error: (error, stack) => Text(error.toString()),
+                      loading: () => CircularProgressIndicator(),
+                    ),
+                    SizedBox(height: 160.0),
                   ],
                 );
               },

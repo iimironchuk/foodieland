@@ -21,3 +21,13 @@ Future<List<RecipeModel>> otherThreeRecipes(Ref ref) async {
 
   return repository.getThreeRandomRecipe();
 }
+
+@riverpod
+Future<List<RecipeModel>> otherRecipesByCategory(
+  Ref ref,
+  String category,
+) async {
+  final repository = ref.read(recipeRepositoryProvider);
+
+  return repository.getOtherRecipesByCategory(category: category);
+}

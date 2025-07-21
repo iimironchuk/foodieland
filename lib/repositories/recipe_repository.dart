@@ -1,4 +1,7 @@
+import 'dart:convert';
+
 import 'package:dio/dio.dart';
+import 'package:foodieland/models/direction_model/cooking_step_mapper.dart';
 import 'package:foodieland/models/ingredients_model/ingredients_mapper.dart';
 import 'package:foodieland/models/recipe_model/recipe_model.dart';
 import 'package:foodieland/utils/extensions.dart';
@@ -67,12 +70,14 @@ class RecipeRepository {
     if (response.isSuccess) {
       final data = response.data['data'];
       final ingredientsJson = data['ingredients'] as List<dynamic>;
+      final directionsJson = data['directions'] as List<dynamic>;
 
       final ingredients = IngredientsMapper.fromJsonList(ingredientsJson);
+      final directions = CookingStepMapper.fromJsonList(directionsJson);
 
       final recipe = RecipeModel.fromJson(data);
 
-      return recipe.copyWith(ingredients: ingredients);
+      return recipe.copyWith(ingredients: ingredients, directions: directions);
     } else {
       throw Exception('Some error with this recipe');
     }
@@ -97,6 +102,28 @@ class RecipeRepository {
         ..shuffle();
 
       return shuffledRecipes.take(3).toList();
+    } else {
+      return [];
+    }
+  }
+
+  Future<List<RecipeModel>> getOtherRecipesByCategory({
+    required String category,
+  }) async {
+    final response = await _dio.get(
+      'recipes',
+      queryParameters: {
+        'filters[category][title][\$eq]': category,
+        'populate': {'recipeAvatar': true, 'category': true},
+        'pagination[pageSize]': 4,
+        'pagination[page]': 1,
+      },
+    );
+
+    if (response.isSuccess) {
+      return (response.data['data'] as List)
+          .map((json) => RecipeModel.fromJson(json as Map<String, dynamic>))
+          .toList();
     } else {
       return [];
     }

@@ -62,13 +62,10 @@ class HomeScreenRoute extends GoRouteData with _$HomeScreenRoute{
   const HomeScreenRoute();
 
   @override
-  Widget build(BuildContext context, GoRouterState state) => const HomeScreen();
+  Widget build(BuildContext context, GoRouterState state) =>  HomeScreen();
 }
 
 @TypedGoRoute<RecipesScreenRoute>(path: '/recipes',)
-// routes: [
-//   TypedGoRoute<RecipeDetailRoute>(path: 'recipe/:id')
-// ])
 class RecipesScreenRoute extends GoRouteData with _$RecipesScreenRoute{
   const RecipesScreenRoute();
 
@@ -100,15 +97,20 @@ class AboutUsScreenRoute extends GoRouteData with _$AboutUsScreenRoute{
   Widget build(BuildContext context, GoRouterState state) => const AboutUsScreen();
 }
 
-// @TypedGoRoute<RecipeDetailRoute>(path: '/recipe/:id')
 class RecipeDetailRoute extends GoRouteData with _$RecipeDetailRoute {
   const RecipeDetailRoute({required this.id});
 
   final String id;
 
   @override
-  Widget build(BuildContext context, GoRouterState state) {
-    return RecipeDetailsScreen(recipeId: id);
+  Page<void> buildPage(BuildContext context, GoRouterState state) {
+    return CustomTransitionPage<void>(
+      key: state.pageKey,
+      child: RecipeDetailsScreen(recipeId: id),
+      transitionDuration: Duration.zero,
+      reverseTransitionDuration: Duration.zero,
+      transitionsBuilder: (context, animation, secondaryAnimation, child) => child,
+    );
   }
 }
 
