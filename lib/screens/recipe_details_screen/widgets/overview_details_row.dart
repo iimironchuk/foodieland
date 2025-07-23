@@ -113,9 +113,10 @@ class OverviewDetailsRow extends StatelessWidget {
             _buildDivider(smallerThanDesktop),
             Row(
               mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 SvgPicture.asset(Assets.icons.recipeCategory),
-                SizedBox(width: 10.0),
+                SizedBox(width: 16.0),
                 Text(category, style: textTheme.labelSmall),
               ],
             ),

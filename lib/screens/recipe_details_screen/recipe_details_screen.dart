@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:foodieland/screens/recipe_details_screen/recipe_details_providers/recipe_details_provider/recipe_details_provider.dart';
@@ -14,65 +15,45 @@ import 'package:responsive_framework/responsive_framework.dart';
 
 import '../../models/recipe_model/recipe_model.dart';
 
-class RecipeDetailsScreen extends ConsumerStatefulWidget {
+class RecipeDetailsScreen extends ConsumerWidget {
   final String recipeId;
 
   const RecipeDetailsScreen({super.key, required this.recipeId});
 
-  @override
-  ConsumerState<RecipeDetailsScreen> createState() =>
-      _RecipeDetailsScreenState();
-}
-
-class _RecipeDetailsScreenState extends ConsumerState<RecipeDetailsScreen> {
-  late final RecipeModel currentRecipe;
-
-  @override
-  void initState() {
-    super.initState();
-
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      currentRecipe = ref
-          .read(recipeWithDetailsProvider(widget.recipeId))
-          .value!;
-      ref.watch(RecipeVideoPlayerProvider(currentRecipe.videoRecipe));
-    });
-  }
+  //   @override
+  //   ConsumerState<RecipeDetailsScreen> createState() =>
+  //       _RecipeDetailsScreenState();
+  // }
+  //
+  // class _RecipeDetailsScreenState extends ConsumerState<RecipeDetailsScreen> {
+  //   late final RecipeModel currentRecipe;
 
   @override
-  Widget build(BuildContext context) {
-    final otherRecipesAsync = ref.watch(
-      otherThreeRecipesProvider(widget.recipeId),
-    );
-    final recipeAsync = ref.watch(recipeWithDetailsProvider(widget.recipeId));
+  Widget build(BuildContext context, WidgetRef ref) {
+    final otherRecipesAsync = ref.watch(otherThreeRecipesProvider(recipeId));
+    final recipeAsync = ref.watch(recipeWithDetailsProvider(recipeId));
     final textTheme = Theme.of(context).textTheme;
-    final smallerThanDesktop = ResponsiveBreakpoints.of(
-      context,
-    ).smallerThan(DESKTOP);
+    final smallerThanDesktop = ResponsiveBreakpoints.of(context).smallerThan(DESKTOP);
     final smallerThanLaptop = ResponsiveBreakpoints.of(
       context,
     ).smallerThan('Laptop');
     final isMobile = ResponsiveBreakpoints.of(context).isMobile;
+
     return Center(
       child: ConstrainedBox(
         constraints: BoxConstraints(maxWidth: 1280.0),
         child: recipeAsync.when(
           data: (recipe) {
-            ref.watch(RecipeVideoPlayerProvider(recipe.videoRecipe));
+            final videoAsync = ref.watch(
+              RecipeVideoPlayerProvider(recipe.videoRecipe),
+            );
+            final isVideoInitialized = ref
+                .watch(RecipeVideoPlayerProvider(recipe.videoRecipe).notifier)
+                .isVideoInitialized;
 
-            final isPlaying = ref
-                .read(RecipeVideoPlayerProvider(recipe.videoRecipe).notifier)
-                .isPlaying;
-            final isPaused = ref
-                .read(RecipeVideoPlayerProvider(recipe.videoRecipe).notifier)
-                .isPaused;
             final otherCategoryRecipesAsync = ref.watch(
               otherRecipesByCategoryProvider(recipe.category.title),
             );
-
-            final chewieController = ref
-                .read(RecipeVideoPlayerProvider(recipe.videoRecipe).notifier)
-                .chewieController;
 
             return Padding(
               padding: EdgeInsets.symmetric(
@@ -121,19 +102,28 @@ class _RecipeDetailsScreenState extends ConsumerState<RecipeDetailsScreen> {
                           mainAxisSize: MainAxisSize.min,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            VideoWidget(
-                              isPlaying: isPlaying,
-                              isPaused: isPaused,
-                              chewieController: chewieController,
-                              recipeAvatar: recipe.recipeAvatar,
-                              playVideo: () => ref
-                                  .read(
-                                    RecipeVideoPlayerProvider(
-                                      recipe.videoRecipe,
-                                    ).notifier,
+                            recipe.videoRecipe.isEmpty || !isVideoInitialized
+                                ? AspectRatio(
+                                    aspectRatio: 840 / 600,
+                                    child: ClipRRect(
+                                      borderRadius: BorderRadius.circular(30),
+                                      child: CachedNetworkImage(
+                                        imageUrl: recipe.recipeAvatar,
+                                        fit: BoxFit.cover,
+                                      ),
+                                    ),
                                   )
-                                  .playVideo(),
-                            ),
+                                : VideoWidget(
+                                    videoUrl: recipe.videoRecipe,
+                                    recipeAvatar: recipe.recipeAvatar,
+                                    playVideo: () => ref
+                                        .read(
+                                          RecipeVideoPlayerProvider(
+                                            recipe.videoRecipe,
+                                          ).notifier,
+                                        )
+                                        .playVideo(),
+                                  ),
                             SizedBox(height: 40.0),
                             ConstrainedBox(
                               constraints: BoxConstraints(
@@ -154,19 +144,30 @@ class _RecipeDetailsScreenState extends ConsumerState<RecipeDetailsScreen> {
                           children: [
                             Expanded(
                               flex: 2,
-                              child: VideoWidget(
-                                isPlaying: isPlaying,
-                                isPaused: isPaused,
-                                chewieController: chewieController,
-                                recipeAvatar: recipe.recipeAvatar,
-                                playVideo: () => ref
-                                    .read(
-                                      RecipeVideoPlayerProvider(
-                                        recipe.videoRecipe,
-                                      ).notifier,
+                              child:
+                                  recipe.videoRecipe.isEmpty ||
+                                      !isVideoInitialized
+                                  ? AspectRatio(
+                                      aspectRatio: 840 / 600,
+                                      child: ClipRRect(
+                                        borderRadius: BorderRadius.circular(30),
+                                        child: CachedNetworkImage(
+                                          imageUrl: recipe.recipeAvatar,
+                                          fit: BoxFit.cover,
+                                        ),
+                                      ),
                                     )
-                                    .playVideo(),
-                              ),
+                                  : VideoWidget(
+                                      videoUrl: recipe.videoRecipe,
+                                      recipeAvatar: recipe.recipeAvatar,
+                                      playVideo: () => ref
+                                          .read(
+                                            RecipeVideoPlayerProvider(
+                                              recipe.videoRecipe,
+                                            ).notifier,
+                                          )
+                                          .playVideo(),
+                                    ),
                             ),
                             SizedBox(
                               width: smallerThanLaptop

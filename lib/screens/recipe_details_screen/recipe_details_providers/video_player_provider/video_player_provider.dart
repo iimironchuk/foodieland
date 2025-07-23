@@ -9,9 +9,8 @@ class RecipeVideoPlayer extends _$RecipeVideoPlayer {
   late VideoPlayerController _controller;
   late ChewieController _chewieController;
 
-  bool _isStopped = false;
   bool _isPlaying = false;
-  bool _isPaused = false;
+  bool _isVideoInitialized = false;
 
   @override
   Future<void> build(String videoUrl) async {
@@ -24,6 +23,8 @@ class RecipeVideoPlayer extends _$RecipeVideoPlayer {
       looping: false,
     );
 
+    _isVideoInitialized = true;
+
     ref.onDispose(() {
       _controller.dispose();
       _chewieController.dispose();
@@ -33,33 +34,12 @@ class RecipeVideoPlayer extends _$RecipeVideoPlayer {
   Future<void> playVideo() async {
     await _controller.play();
     _isPlaying = true;
-    _isPaused = false;
-    _isStopped = false;
-    state = AsyncData(null);
-  }
-
-  Future<void> pauseVideo() async {
-    await _controller.pause();
-    _isPlaying = false;
-    _isPaused = true;
-    _isStopped = false;
-    state = AsyncData(null);
-  }
-
-  Future<void> stopVideo() async {
-    await _controller.pause();
-    await _controller.seekTo(Duration.zero);
-    _isPlaying = false;
-    _isPaused = false;
-    _isStopped = true;
     state = AsyncData(null);
   }
 
   bool get isPlaying => _isPlaying;
 
-  bool get isPaused => _isPaused;
-
-  bool get isStopped => _isStopped;
+  bool get isVideoInitialized => _isVideoInitialized;
 
   VideoPlayerController get controller => _controller;
 
