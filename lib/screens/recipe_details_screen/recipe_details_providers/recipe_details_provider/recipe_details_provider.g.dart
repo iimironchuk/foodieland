@@ -147,24 +147,130 @@ class _RecipeWithDetailsProviderElement
   String get documentId => (origin as RecipeWithDetailsProvider).documentId;
 }
 
-String _$otherThreeRecipesHash() => r'56a10c6644c9246600ffb4e420044433289ea774';
+String _$otherThreeRecipesHash() => r'c44ef6830807c9a9b2305f494fe4b9fab213887d';
 
 /// See also [otherThreeRecipes].
 @ProviderFor(otherThreeRecipes)
-final otherThreeRecipesProvider =
-    AutoDisposeFutureProvider<List<RecipeModel>>.internal(
-      otherThreeRecipes,
-      name: r'otherThreeRecipesProvider',
-      debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-          ? null
-          : _$otherThreeRecipesHash,
-      dependencies: null,
-      allTransitiveDependencies: null,
+const otherThreeRecipesProvider = OtherThreeRecipesFamily();
+
+/// See also [otherThreeRecipes].
+class OtherThreeRecipesFamily extends Family<AsyncValue<List<RecipeModel>>> {
+  /// See also [otherThreeRecipes].
+  const OtherThreeRecipesFamily();
+
+  /// See also [otherThreeRecipes].
+  OtherThreeRecipesProvider call(String currentRecipeId) {
+    return OtherThreeRecipesProvider(currentRecipeId);
+  }
+
+  @override
+  OtherThreeRecipesProvider getProviderOverride(
+    covariant OtherThreeRecipesProvider provider,
+  ) {
+    return call(provider.currentRecipeId);
+  }
+
+  static const Iterable<ProviderOrFamily>? _dependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
+
+  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
+      _allTransitiveDependencies;
+
+  @override
+  String? get name => r'otherThreeRecipesProvider';
+}
+
+/// See also [otherThreeRecipes].
+class OtherThreeRecipesProvider
+    extends AutoDisposeFutureProvider<List<RecipeModel>> {
+  /// See also [otherThreeRecipes].
+  OtherThreeRecipesProvider(String currentRecipeId)
+    : this._internal(
+        (ref) =>
+            otherThreeRecipes(ref as OtherThreeRecipesRef, currentRecipeId),
+        from: otherThreeRecipesProvider,
+        name: r'otherThreeRecipesProvider',
+        debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+            ? null
+            : _$otherThreeRecipesHash,
+        dependencies: OtherThreeRecipesFamily._dependencies,
+        allTransitiveDependencies:
+            OtherThreeRecipesFamily._allTransitiveDependencies,
+        currentRecipeId: currentRecipeId,
+      );
+
+  OtherThreeRecipesProvider._internal(
+    super._createNotifier, {
+    required super.name,
+    required super.dependencies,
+    required super.allTransitiveDependencies,
+    required super.debugGetCreateSourceHash,
+    required super.from,
+    required this.currentRecipeId,
+  }) : super.internal();
+
+  final String currentRecipeId;
+
+  @override
+  Override overrideWith(
+    FutureOr<List<RecipeModel>> Function(OtherThreeRecipesRef provider) create,
+  ) {
+    return ProviderOverride(
+      origin: this,
+      override: OtherThreeRecipesProvider._internal(
+        (ref) => create(ref as OtherThreeRecipesRef),
+        from: from,
+        name: null,
+        dependencies: null,
+        allTransitiveDependencies: null,
+        debugGetCreateSourceHash: null,
+        currentRecipeId: currentRecipeId,
+      ),
     );
+  }
+
+  @override
+  AutoDisposeFutureProviderElement<List<RecipeModel>> createElement() {
+    return _OtherThreeRecipesProviderElement(this);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return other is OtherThreeRecipesProvider &&
+        other.currentRecipeId == currentRecipeId;
+  }
+
+  @override
+  int get hashCode {
+    var hash = _SystemHash.combine(0, runtimeType.hashCode);
+    hash = _SystemHash.combine(hash, currentRecipeId.hashCode);
+
+    return _SystemHash.finish(hash);
+  }
+}
 
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
-typedef OtherThreeRecipesRef = AutoDisposeFutureProviderRef<List<RecipeModel>>;
+mixin OtherThreeRecipesRef on AutoDisposeFutureProviderRef<List<RecipeModel>> {
+  /// The parameter `currentRecipeId` of this provider.
+  String get currentRecipeId;
+}
+
+class _OtherThreeRecipesProviderElement
+    extends AutoDisposeFutureProviderElement<List<RecipeModel>>
+    with OtherThreeRecipesRef {
+  _OtherThreeRecipesProviderElement(super.provider);
+
+  @override
+  String get currentRecipeId =>
+      (origin as OtherThreeRecipesProvider).currentRecipeId;
+}
+
 String _$otherRecipesByCategoryHash() =>
     r'ec7b9a1a1857f303877278d9b0c1de3af9a03bd0';
 

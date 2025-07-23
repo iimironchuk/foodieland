@@ -23,18 +23,18 @@ class NutritionInformation extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final smallerThanDesktop = ResponsiveBreakpoints.of(
-      context,
-    ).smallerThan(DESKTOP);
+    final smallerThanDesktop =
+        ResponsiveBreakpoints.of(context).smallerThan(DESKTOP) &&
+        ResponsiveBreakpoints.of(context).largerThan(TABLET);
     final isSmallLaptop =
         MediaQuery.of(context).size.width < 1100 &&
         MediaQuery.of(context).size.width > 800;
     final isMobile = ResponsiveBreakpoints.of(context).isMobile;
+    final isTablet = ResponsiveBreakpoints.of(context).isTablet;
     final textTheme = Theme.of(context).textTheme;
     return AspectRatio(
       aspectRatio: 400 / 600,
       child: Container(
-
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(30),
           color: AppColors.lightBlue,
@@ -43,6 +43,8 @@ class NutritionInformation extends StatelessWidget {
           padding: EdgeInsets.all(
             isMobile
                 ? 16.0
+                : isTablet
+                ? 32.0
                 : smallerThanDesktop
                 ? 24.0
                 : 32.0,

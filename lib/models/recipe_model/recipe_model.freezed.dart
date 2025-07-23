@@ -16,7 +16,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$RecipeModel {
 
- int get id; String get documentId; String get title; int get duration; String get description; String get authorName; CategoryModel get category;@ImagePathConverter() String get authorAvatar;@ImagePathConverter() String get recipeAvatar; bool get isHotRecipe;@DateTimeConverter() DateTime get publishedAt; bool get isFavorite; int get prepTime; int get cookTime;@ImagePathConverter() String get videoRecipe; double get calories; double get protein; double get totalFat; double get carbohydrate; double get cholesterol; List<IngredientsModel> get ingredients;@JsonKey(includeFromJson: false, includeToJson: false) List<CookingStepModel> get directions;
+ int get id; String get documentId; String get title; int get duration; String get description; String get authorName; CategoryModel get category;@ImagePathConverter() String get authorAvatar;@ImagePathConverter() String get recipeAvatar; bool get isHotRecipe;@DateTimeConverter() DateTime get publishedAt; bool get isFavorite; int get prepTime; int get cookTime;@ImagePathConverter() String get videoRecipe; double get calories; double get protein; double get totalFat; double get carbohydrate; double get cholesterol;@JsonKey(includeFromJson: false, includeToJson: false) List<IngredientsModel> get ingredients;@JsonKey(includeFromJson: false, includeToJson: false) List<CookingStepModel> get directions;
 /// Create a copy of RecipeModel
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -49,7 +49,7 @@ abstract mixin class $RecipeModelCopyWith<$Res>  {
   factory $RecipeModelCopyWith(RecipeModel value, $Res Function(RecipeModel) _then) = _$RecipeModelCopyWithImpl;
 @useResult
 $Res call({
- int id, String documentId, String title, int duration, String description, String authorName, CategoryModel category,@ImagePathConverter() String authorAvatar,@ImagePathConverter() String recipeAvatar, bool isHotRecipe,@DateTimeConverter() DateTime publishedAt, bool isFavorite, int prepTime, int cookTime,@ImagePathConverter() String videoRecipe, double calories, double protein, double totalFat, double carbohydrate, double cholesterol, List<IngredientsModel> ingredients,@JsonKey(includeFromJson: false, includeToJson: false) List<CookingStepModel> directions
+ int id, String documentId, String title, int duration, String description, String authorName, CategoryModel category,@ImagePathConverter() String authorAvatar,@ImagePathConverter() String recipeAvatar, bool isHotRecipe,@DateTimeConverter() DateTime publishedAt, bool isFavorite, int prepTime, int cookTime,@ImagePathConverter() String videoRecipe, double calories, double protein, double totalFat, double carbohydrate, double cholesterol,@JsonKey(includeFromJson: false, includeToJson: false) List<IngredientsModel> ingredients,@JsonKey(includeFromJson: false, includeToJson: false) List<CookingStepModel> directions
 });
 
 
@@ -110,7 +110,7 @@ $CategoryModelCopyWith<$Res> get category {
 @JsonSerializable()
 
 class _RecipeModel implements RecipeModel {
-   _RecipeModel({required this.id, required this.documentId, required this.title, required this.duration, required this.description, required this.authorName, required this.category, @ImagePathConverter() required this.authorAvatar, @ImagePathConverter() required this.recipeAvatar, this.isHotRecipe = false, @DateTimeConverter() required this.publishedAt, this.isFavorite = false, this.prepTime = 0, this.cookTime = 0, @ImagePathConverter() required this.videoRecipe, this.calories = 0.0, this.protein = 0.0, this.totalFat = 0.0, this.carbohydrate = 0.0, this.cholesterol = 0.0, final  List<IngredientsModel> ingredients = const [], @JsonKey(includeFromJson: false, includeToJson: false) final  List<CookingStepModel> directions = const []}): _ingredients = ingredients,_directions = directions;
+   _RecipeModel({required this.id, required this.documentId, required this.title, required this.duration, required this.description, required this.authorName, required this.category, @ImagePathConverter() required this.authorAvatar, @ImagePathConverter() required this.recipeAvatar, this.isHotRecipe = false, @DateTimeConverter() required this.publishedAt, this.isFavorite = false, this.prepTime = 0, this.cookTime = 0, @ImagePathConverter() required this.videoRecipe, this.calories = 0.0, this.protein = 0.0, this.totalFat = 0.0, this.carbohydrate = 0.0, this.cholesterol = 0.0, @JsonKey(includeFromJson: false, includeToJson: false) final  List<IngredientsModel> ingredients = const [], @JsonKey(includeFromJson: false, includeToJson: false) final  List<CookingStepModel> directions = const []}): _ingredients = ingredients,_directions = directions;
   factory _RecipeModel.fromJson(Map<String, dynamic> json) => _$RecipeModelFromJson(json);
 
 @override final  int id;
@@ -134,7 +134,7 @@ class _RecipeModel implements RecipeModel {
 @override@JsonKey() final  double carbohydrate;
 @override@JsonKey() final  double cholesterol;
  final  List<IngredientsModel> _ingredients;
-@override@JsonKey() List<IngredientsModel> get ingredients {
+@override@JsonKey(includeFromJson: false, includeToJson: false) List<IngredientsModel> get ingredients {
   if (_ingredients is EqualUnmodifiableListView) return _ingredients;
   // ignore: implicit_dynamic_type
   return EqualUnmodifiableListView(_ingredients);
@@ -181,7 +181,7 @@ abstract mixin class _$RecipeModelCopyWith<$Res> implements $RecipeModelCopyWith
   factory _$RecipeModelCopyWith(_RecipeModel value, $Res Function(_RecipeModel) _then) = __$RecipeModelCopyWithImpl;
 @override @useResult
 $Res call({
- int id, String documentId, String title, int duration, String description, String authorName, CategoryModel category,@ImagePathConverter() String authorAvatar,@ImagePathConverter() String recipeAvatar, bool isHotRecipe,@DateTimeConverter() DateTime publishedAt, bool isFavorite, int prepTime, int cookTime,@ImagePathConverter() String videoRecipe, double calories, double protein, double totalFat, double carbohydrate, double cholesterol, List<IngredientsModel> ingredients,@JsonKey(includeFromJson: false, includeToJson: false) List<CookingStepModel> directions
+ int id, String documentId, String title, int duration, String description, String authorName, CategoryModel category,@ImagePathConverter() String authorAvatar,@ImagePathConverter() String recipeAvatar, bool isHotRecipe,@DateTimeConverter() DateTime publishedAt, bool isFavorite, int prepTime, int cookTime,@ImagePathConverter() String videoRecipe, double calories, double protein, double totalFat, double carbohydrate, double cholesterol,@JsonKey(includeFromJson: false, includeToJson: false) List<IngredientsModel> ingredients,@JsonKey(includeFromJson: false, includeToJson: false) List<CookingStepModel> directions
 });
 
 

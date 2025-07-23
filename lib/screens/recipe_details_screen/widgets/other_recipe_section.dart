@@ -13,8 +13,7 @@ class OtherRecipeSection extends StatelessWidget {
   const OtherRecipeSection({super.key, required this.recipes});
 
   void _goToAnotherRecipe(String recipeId, BuildContext context) {
-    final path = RecipeDetailRoute(id: recipeId).location;
-    context.push(path);
+    RecipeDetailRoute(id: recipeId).go(context);
   }
 
   @override

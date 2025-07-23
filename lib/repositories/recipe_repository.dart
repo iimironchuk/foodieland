@@ -69,21 +69,30 @@ class RecipeRepository {
 
     if (response.isSuccess) {
       final data = response.data['data'];
-      final ingredientsJson = data['ingredients'] as List<dynamic>;
-      final directionsJson = data['directions'] as List<dynamic>;
+      final ingredientsJson = data['ingredients'] as List<dynamic>?;
+      final directionsJson = data['directions'] as List<dynamic>?;
 
-      final ingredients = IngredientsMapper.fromJsonList(ingredientsJson);
-      final directions = CookingStepMapper.fromJsonList(directionsJson);
+      RecipeModel recipe = RecipeModel.fromJson(data);
 
-      final recipe = RecipeModel.fromJson(data);
+      if (ingredientsJson != null) {
+        final ingredients = IngredientsMapper.fromJsonList(ingredientsJson);
+        recipe = recipe.copyWith(ingredients: ingredients);
+      }
 
-      return recipe.copyWith(ingredients: ingredients, directions: directions);
+      if (directionsJson != null) {
+        final directions = CookingStepMapper.fromJsonList(directionsJson);
+        recipe = recipe.copyWith(directions: directions);
+      }
+
+      return recipe;
     } else {
       throw Exception('Some error with this recipe');
     }
   }
 
-  Future<List<RecipeModel>> getThreeRandomRecipe() async {
+  Future<List<RecipeModel>> getThreeRandomRecipe({
+    required String currentRecipeId,
+  }) async {
     final response = await _dio.get(
       'recipes',
       queryParameters: {
@@ -98,8 +107,13 @@ class RecipeRepository {
           .map((json) => RecipeModel.fromJson(json as Map<String, dynamic>))
           .toList();
 
-      List<RecipeModel> shuffledRecipes = List<RecipeModel>.from(recipes)
-        ..shuffle();
+      final filteredRecipes = recipes
+          .where((recipe) => recipe.documentId != currentRecipeId)
+          .toList();
+
+      List<RecipeModel> shuffledRecipes = List<RecipeModel>.from(
+        filteredRecipes,
+      )..shuffle();
 
       return shuffledRecipes.take(3).toList();
     } else {

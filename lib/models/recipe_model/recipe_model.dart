@@ -33,7 +33,7 @@ abstract class RecipeModel with _$RecipeModel {
     @Default(0.0) double totalFat,
     @Default(0.0) double carbohydrate,
     @Default(0.0) double cholesterol,
-    @Default([]) List<IngredientsModel> ingredients,
+    @Default([]) @JsonKey(includeFromJson: false, includeToJson: false) List<IngredientsModel> ingredients,
 
     @Default([]) @JsonKey(includeFromJson: false, includeToJson: false) List<CookingStepModel> directions,
   }) = _RecipeModel;
