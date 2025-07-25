@@ -2,15 +2,15 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:foodieland/gen/assets.gen.dart';
 import 'package:foodieland/models/recipe_model/recipe_model.dart';
-import 'package:go_router/go_router.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 
-import '../../../navigation/routes.dart';
+import '../../navigation/routes.dart';
 
-class OtherRecipeSection extends StatelessWidget {
+class ThreeOtherRecipeSection extends StatelessWidget {
   final List<RecipeModel> recipes;
+  final String title;
 
-  const OtherRecipeSection({super.key, required this.recipes});
+  const ThreeOtherRecipeSection({super.key, required this.recipes, required this.title});
 
   void _goToAnotherRecipe(String recipeId, BuildContext context) {
     RecipeDetailRoute(id: recipeId).go(context);
@@ -29,7 +29,7 @@ class OtherRecipeSection extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Other Recipe',
+            title,
             style: textTheme.labelMedium!.copyWith(fontSize: isMobile
                 ? 18.0
                 : smallerThanDesktop
