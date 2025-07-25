@@ -144,10 +144,13 @@ class AppWrapper extends StatelessWidget {
           children: [
             Divider(color: AppColors.dividerColor),
             navigationShell,
-            Center(
-              child: ConstrainedBox(
-                constraints: BoxConstraints(maxWidth: 1280.0),
-                child: Footer(),
+            Padding(
+              padding:  EdgeInsets.symmetric(horizontal: smallerThanDesktop ? 10.0 : 0),
+              child: Center(
+                child: ConstrainedBox(
+                  constraints: BoxConstraints(maxWidth: 1280.0),
+                  child: Footer(),
+                ),
               ),
             ),
           ],
