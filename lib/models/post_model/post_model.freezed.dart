@@ -16,7 +16,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$PostModel {
 
- String get title; String get description; String get authorName;@ImagePathConverter() String get authorAvatar;@ImagePathConverter() String get postAvatar;@DateTimeConverter() DateTime get publishedAt;
+ String get documentId; String get title; String get description; String get authorName;@ImagePathConverter() String get authorAvatar;@ImagePathConverter() String get postAvatar;@DateTimeConverter() DateTime get publishedAt;@JsonKey(includeFromJson: false, includeToJson: false) List<PostTextModel> get postTextList;
 /// Create a copy of PostModel
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -29,16 +29,16 @@ $PostModelCopyWith<PostModel> get copyWith => _$PostModelCopyWithImpl<PostModel>
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is PostModel&&(identical(other.title, title) || other.title == title)&&(identical(other.description, description) || other.description == description)&&(identical(other.authorName, authorName) || other.authorName == authorName)&&(identical(other.authorAvatar, authorAvatar) || other.authorAvatar == authorAvatar)&&(identical(other.postAvatar, postAvatar) || other.postAvatar == postAvatar)&&(identical(other.publishedAt, publishedAt) || other.publishedAt == publishedAt));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is PostModel&&(identical(other.documentId, documentId) || other.documentId == documentId)&&(identical(other.title, title) || other.title == title)&&(identical(other.description, description) || other.description == description)&&(identical(other.authorName, authorName) || other.authorName == authorName)&&(identical(other.authorAvatar, authorAvatar) || other.authorAvatar == authorAvatar)&&(identical(other.postAvatar, postAvatar) || other.postAvatar == postAvatar)&&(identical(other.publishedAt, publishedAt) || other.publishedAt == publishedAt)&&const DeepCollectionEquality().equals(other.postTextList, postTextList));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,title,description,authorName,authorAvatar,postAvatar,publishedAt);
+int get hashCode => Object.hash(runtimeType,documentId,title,description,authorName,authorAvatar,postAvatar,publishedAt,const DeepCollectionEquality().hash(postTextList));
 
 @override
 String toString() {
-  return 'PostModel(title: $title, description: $description, authorName: $authorName, authorAvatar: $authorAvatar, postAvatar: $postAvatar, publishedAt: $publishedAt)';
+  return 'PostModel(documentId: $documentId, title: $title, description: $description, authorName: $authorName, authorAvatar: $authorAvatar, postAvatar: $postAvatar, publishedAt: $publishedAt, postTextList: $postTextList)';
 }
 
 
@@ -49,7 +49,7 @@ abstract mixin class $PostModelCopyWith<$Res>  {
   factory $PostModelCopyWith(PostModel value, $Res Function(PostModel) _then) = _$PostModelCopyWithImpl;
 @useResult
 $Res call({
- String title, String description, String authorName,@ImagePathConverter() String authorAvatar,@ImagePathConverter() String postAvatar,@DateTimeConverter() DateTime publishedAt
+ String documentId, String title, String description, String authorName,@ImagePathConverter() String authorAvatar,@ImagePathConverter() String postAvatar,@DateTimeConverter() DateTime publishedAt,@JsonKey(includeFromJson: false, includeToJson: false) List<PostTextModel> postTextList
 });
 
 
@@ -66,15 +66,17 @@ class _$PostModelCopyWithImpl<$Res>
 
 /// Create a copy of PostModel
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? title = null,Object? description = null,Object? authorName = null,Object? authorAvatar = null,Object? postAvatar = null,Object? publishedAt = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? documentId = null,Object? title = null,Object? description = null,Object? authorName = null,Object? authorAvatar = null,Object? postAvatar = null,Object? publishedAt = null,Object? postTextList = null,}) {
   return _then(_self.copyWith(
-title: null == title ? _self.title : title // ignore: cast_nullable_to_non_nullable
+documentId: null == documentId ? _self.documentId : documentId // ignore: cast_nullable_to_non_nullable
+as String,title: null == title ? _self.title : title // ignore: cast_nullable_to_non_nullable
 as String,description: null == description ? _self.description : description // ignore: cast_nullable_to_non_nullable
 as String,authorName: null == authorName ? _self.authorName : authorName // ignore: cast_nullable_to_non_nullable
 as String,authorAvatar: null == authorAvatar ? _self.authorAvatar : authorAvatar // ignore: cast_nullable_to_non_nullable
 as String,postAvatar: null == postAvatar ? _self.postAvatar : postAvatar // ignore: cast_nullable_to_non_nullable
 as String,publishedAt: null == publishedAt ? _self.publishedAt : publishedAt // ignore: cast_nullable_to_non_nullable
-as DateTime,
+as DateTime,postTextList: null == postTextList ? _self.postTextList : postTextList // ignore: cast_nullable_to_non_nullable
+as List<PostTextModel>,
   ));
 }
 
@@ -85,15 +87,23 @@ as DateTime,
 @JsonSerializable()
 
 class _PostModel implements PostModel {
-   _PostModel({required this.title, required this.description, required this.authorName, @ImagePathConverter() required this.authorAvatar, @ImagePathConverter() required this.postAvatar, @DateTimeConverter() required this.publishedAt});
+   _PostModel({required this.documentId, required this.title, required this.description, required this.authorName, @ImagePathConverter() required this.authorAvatar, @ImagePathConverter() required this.postAvatar, @DateTimeConverter() required this.publishedAt, @JsonKey(includeFromJson: false, includeToJson: false) final  List<PostTextModel> postTextList = const []}): _postTextList = postTextList;
   factory _PostModel.fromJson(Map<String, dynamic> json) => _$PostModelFromJson(json);
 
+@override final  String documentId;
 @override final  String title;
 @override final  String description;
 @override final  String authorName;
 @override@ImagePathConverter() final  String authorAvatar;
 @override@ImagePathConverter() final  String postAvatar;
 @override@DateTimeConverter() final  DateTime publishedAt;
+ final  List<PostTextModel> _postTextList;
+@override@JsonKey(includeFromJson: false, includeToJson: false) List<PostTextModel> get postTextList {
+  if (_postTextList is EqualUnmodifiableListView) return _postTextList;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(_postTextList);
+}
+
 
 /// Create a copy of PostModel
 /// with the given fields replaced by the non-null parameter values.
@@ -108,16 +118,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _PostModel&&(identical(other.title, title) || other.title == title)&&(identical(other.description, description) || other.description == description)&&(identical(other.authorName, authorName) || other.authorName == authorName)&&(identical(other.authorAvatar, authorAvatar) || other.authorAvatar == authorAvatar)&&(identical(other.postAvatar, postAvatar) || other.postAvatar == postAvatar)&&(identical(other.publishedAt, publishedAt) || other.publishedAt == publishedAt));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _PostModel&&(identical(other.documentId, documentId) || other.documentId == documentId)&&(identical(other.title, title) || other.title == title)&&(identical(other.description, description) || other.description == description)&&(identical(other.authorName, authorName) || other.authorName == authorName)&&(identical(other.authorAvatar, authorAvatar) || other.authorAvatar == authorAvatar)&&(identical(other.postAvatar, postAvatar) || other.postAvatar == postAvatar)&&(identical(other.publishedAt, publishedAt) || other.publishedAt == publishedAt)&&const DeepCollectionEquality().equals(other._postTextList, _postTextList));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,title,description,authorName,authorAvatar,postAvatar,publishedAt);
+int get hashCode => Object.hash(runtimeType,documentId,title,description,authorName,authorAvatar,postAvatar,publishedAt,const DeepCollectionEquality().hash(_postTextList));
 
 @override
 String toString() {
-  return 'PostModel(title: $title, description: $description, authorName: $authorName, authorAvatar: $authorAvatar, postAvatar: $postAvatar, publishedAt: $publishedAt)';
+  return 'PostModel(documentId: $documentId, title: $title, description: $description, authorName: $authorName, authorAvatar: $authorAvatar, postAvatar: $postAvatar, publishedAt: $publishedAt, postTextList: $postTextList)';
 }
 
 
@@ -128,7 +138,7 @@ abstract mixin class _$PostModelCopyWith<$Res> implements $PostModelCopyWith<$Re
   factory _$PostModelCopyWith(_PostModel value, $Res Function(_PostModel) _then) = __$PostModelCopyWithImpl;
 @override @useResult
 $Res call({
- String title, String description, String authorName,@ImagePathConverter() String authorAvatar,@ImagePathConverter() String postAvatar,@DateTimeConverter() DateTime publishedAt
+ String documentId, String title, String description, String authorName,@ImagePathConverter() String authorAvatar,@ImagePathConverter() String postAvatar,@DateTimeConverter() DateTime publishedAt,@JsonKey(includeFromJson: false, includeToJson: false) List<PostTextModel> postTextList
 });
 
 
@@ -145,15 +155,17 @@ class __$PostModelCopyWithImpl<$Res>
 
 /// Create a copy of PostModel
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? title = null,Object? description = null,Object? authorName = null,Object? authorAvatar = null,Object? postAvatar = null,Object? publishedAt = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? documentId = null,Object? title = null,Object? description = null,Object? authorName = null,Object? authorAvatar = null,Object? postAvatar = null,Object? publishedAt = null,Object? postTextList = null,}) {
   return _then(_PostModel(
-title: null == title ? _self.title : title // ignore: cast_nullable_to_non_nullable
+documentId: null == documentId ? _self.documentId : documentId // ignore: cast_nullable_to_non_nullable
+as String,title: null == title ? _self.title : title // ignore: cast_nullable_to_non_nullable
 as String,description: null == description ? _self.description : description // ignore: cast_nullable_to_non_nullable
 as String,authorName: null == authorName ? _self.authorName : authorName // ignore: cast_nullable_to_non_nullable
 as String,authorAvatar: null == authorAvatar ? _self.authorAvatar : authorAvatar // ignore: cast_nullable_to_non_nullable
 as String,postAvatar: null == postAvatar ? _self.postAvatar : postAvatar // ignore: cast_nullable_to_non_nullable
 as String,publishedAt: null == publishedAt ? _self.publishedAt : publishedAt // ignore: cast_nullable_to_non_nullable
-as DateTime,
+as DateTime,postTextList: null == postTextList ? _self._postTextList : postTextList // ignore: cast_nullable_to_non_nullable
+as List<PostTextModel>,
   ));
 }
 
