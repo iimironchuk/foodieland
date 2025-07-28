@@ -32,14 +32,9 @@ class SubscriptionSection extends ConsumerWidget {
     final isSmallLaptop =
         MediaQuery.of(context).size.width < 1100 &&
         MediaQuery.of(context).size.width > 800;
-    final isVerySmallLaptop =
-        MediaQuery.of(context).size.width < 900 &&
-        MediaQuery.of(context).size.width > 800;
 
     final isSmallTablet = MediaQuery.of(context).size.width < 650;
-    final isSmallMobile = MediaQuery.of(context).size.width < 380;
     final isMobile = ResponsiveBreakpoints.of(context).isMobile;
-    final isTablet = ResponsiveBreakpoints.of(context).isTablet;
     return AspectRatio(
       aspectRatio: isMobile
           ? 1280 / 1050

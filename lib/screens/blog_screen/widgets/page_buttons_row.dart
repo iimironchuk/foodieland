@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:foodieland/resources/app_colors.dart';
 import 'package:foodieland/screens/blog_screen/blog_screen_providers/post_providers/post_providers.dart';
-import 'package:foodieland/screens/blog_screen/blog_screen_providers/text_provider/text_provider.dart';
+import 'package:responsive_framework/responsive_framework.dart';
 
 class PageButtonsRow extends ConsumerStatefulWidget {
   final int pageCount;
@@ -57,11 +57,9 @@ class _PageButtonsRowState extends ConsumerState<PageButtonsRow> {
     return buttons;
   }
 
-
   void selectPage(int pageNumber) {
-    final searchedText = ref.watch(textProvider);
     ref
-        .read(postOverviewProvider(searchedText).notifier)
+        .read(postOverviewProvider.notifier)
         .getPostsOnSelectedPage(selectedPage: pageNumber);
 
     setState(() {
@@ -70,12 +68,12 @@ class _PageButtonsRowState extends ConsumerState<PageButtonsRow> {
   }
 
   Widget _buildButton(dynamic pageNumber, TextTheme textTheme) {
+    final isMobile = ResponsiveBreakpoints.of(context).isMobile;
+    final isTablet = ResponsiveBreakpoints.of(context).isTablet;
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 8.0),
       child: InkWell(
-        onTap: pageNumber is int
-            ? () => selectPage(pageNumber)
-            : () {},
+        onTap: pageNumber is int ? () => selectPage(pageNumber) : () {},
 
         child: Container(
           decoration: BoxDecoration(
@@ -84,16 +82,37 @@ class _PageButtonsRowState extends ConsumerState<PageButtonsRow> {
                   ? Colors.transparent
                   : AppColors.veryLightGrey,
             ),
-            borderRadius: BorderRadius.circular(16),
+            borderRadius: BorderRadius.circular(
+              isMobile
+                  ? 8
+                  : isTablet
+                  ? 12
+                  : 16,
+            ),
             color: currentPageNumber == pageNumber
                 ? Colors.black
                 : Colors.transparent,
           ),
-          padding: EdgeInsets.symmetric(vertical: 20.0, horizontal: 30.0),
+          padding: EdgeInsets.symmetric(
+            vertical: isMobile
+                ? 10.0
+                : isTablet
+                ? 15.0
+                : 20.0,
+            horizontal: isMobile
+                ? 10.0
+                : isTablet
+                ? 20.0
+                : 30.0,
+          ),
           child: Text(
             '$pageNumber',
             style: textTheme.labelMedium!.copyWith(
-              fontSize: 18.0,
+              fontSize: isMobile
+                  ? 10.0
+                  : isTablet
+                  ? 15.0
+                  : 18.0,
               color: currentPageNumber == pageNumber
                   ? AppColors.scaffold
                   : Colors.black,
@@ -107,8 +126,14 @@ class _PageButtonsRowState extends ConsumerState<PageButtonsRow> {
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
+    final isMobile = ResponsiveBreakpoints.of(context).isMobile;
+    final isTablet = ResponsiveBreakpoints.of(context).isTablet;
     return SizedBox(
-      height: 64.0,
+      height: isMobile
+          ? 32.0
+          : isTablet
+          ? 48.0
+          : 64.0,
       child: ListView(
         physics: NeverScrollableScrollPhysics(),
         shrinkWrap: true,
