@@ -3,7 +3,11 @@ import 'package:foodieland/resources/app_colors.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 
 class SearchTextField extends StatelessWidget {
-  const SearchTextField({super.key});
+  final Function(String) onSearch;
+  final Function(String)? onSubmitted;
+  final TextEditingController _controller = TextEditingController();
+
+  SearchTextField({super.key, required this.onSearch, this.onSubmitted});
 
   @override
   Widget build(BuildContext context) {
@@ -29,6 +33,8 @@ class SearchTextField extends StatelessWidget {
                     : 32.0,
               ),
               child: TextField(
+                controller: _controller,
+                onSubmitted: onSubmitted,
                 decoration: InputDecoration(
                   border: InputBorder.none,
                   hintText: 'Search article, news or recipe...',
@@ -57,7 +63,10 @@ class SearchTextField extends StatelessWidget {
                   ),
                   textStyle: TextStyle(fontSize: isMobile ? 14.0 : 16.0),
                 ),
-                onPressed: () {},
+                onPressed: () {
+                  final text = _controller.text;
+                  onSearch(text);
+                },
                 child: Text('Search'),
               ),
             ),

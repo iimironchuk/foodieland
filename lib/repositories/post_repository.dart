@@ -16,6 +16,7 @@ class PostRepository {
   Future<List<PostModel>> getPostsForOverview({
     required int pageSize,
     required int page,
+    String? searchText,
   }) async {
     try {
       final response = await _dio.get(
@@ -24,6 +25,7 @@ class PostRepository {
           'populate': {'authorAvatar': true, 'postAvatar': true},
           'pagination[pageSize]': pageSize,
           'pagination[page]': page,
+          if (searchText != null) 'filters[title][\$contains]': searchText,
         },
       );
 
@@ -39,10 +41,14 @@ class PostRepository {
     }
   }
 
-  Future<int> getPostCount() async {
+  Future<int> getPostCount(String? searchedText) async {
     final response = await _dio.get(
       'posts',
-      queryParameters: {'pagination[pageSize]': 6, 'pagination[page]': 1},
+      queryParameters: {
+        'pagination[pageSize]': 6,
+        'pagination[page]': 1,
+        if (searchedText != null) 'filters[title][\$contains]': searchedText,
+      },
     );
 
     if (response.isSuccess) {
