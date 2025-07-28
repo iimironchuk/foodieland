@@ -9,15 +9,18 @@ import 'package:foodieland/screens/widgets/subscription_section.dart';
 import 'package:foodieland/screens/widgets/three_other_recipe_section.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 
+import 'blog_screen_providers/text_provider/text_provider.dart';
+
 class BlogScreen extends ConsumerWidget {
   const BlogScreen({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final textTheme = Theme.of(context).textTheme;
-    final postListAsync = ref.watch(postOverviewProvider);
+    final searchedText = ref.read(textProvider);
+    final postListAsync = ref.watch(postOverviewProvider(searchedText));
     final threeOtherRecipes = ref.watch(threeOtherRecipesBlogProvider);
-    final postCountAsync = ref.watch(totalPostCountProvider);
+    final postCountAsync = ref.watch(totalPostCountProvider(searchedText));
     final smallerThanDesktop = ResponsiveBreakpoints.of(
       context,
     ).smallerThan(DESKTOP);
@@ -72,7 +75,10 @@ class BlogScreen extends ConsumerWidget {
                 ),
               ),
               SizedBox(height: smallSizedBoxHeight()),
-              SearchTextField(),
+              SearchTextField(
+                onSearch: (value) => ref.read(textProvider.notifier).state = value,
+                onSubmitted: (value) => ref.read(textProvider.notifier).state = value,
+              ),
               SizedBox(height: smallSizedBoxHeight()),
               // Wrap(
               //   spacing: 40.0,
@@ -131,33 +137,34 @@ class BlogScreen extends ConsumerWidget {
                       ],
                     )
                   : Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      postListAsync.when(
-                        data: (posts) =>
-                            PostListBuilder(posts: posts, onPostTap: () {}),
-                        error: (error, stack) => Text('Error: $error'),
-                        loading: () => CircularProgressIndicator(),
-                      ),
-                      threeOtherRecipes.when(
-                        data: (recipes) => ThreeOtherRecipeSection(
-                          recipes: recipes,
-                          title: 'Tasty Recipes',
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        postListAsync.when(
+                          data: (posts) =>
+                              PostListBuilder(posts: posts, onPostTap: () {}),
+                          error: (error, stack) => Text('Error: $error'),
+                          loading: () => CircularProgressIndicator(),
                         ),
-                        error: (error, stack) => Text('Error: $error'),
-                        loading: () => CircularProgressIndicator(),
-                      ),
-                    ],
-                  ),
+                        threeOtherRecipes.when(
+                          data: (recipes) => ThreeOtherRecipeSection(
+                            recipes: recipes,
+                            title: 'Tasty Recipes',
+                          ),
+                          error: (error, stack) => Text('Error: $error'),
+                          loading: () => CircularProgressIndicator(),
+                        ),
+                      ],
+                    ),
               SizedBox(height: smallSizedBoxHeight()),
-              if(!smallerThanDesktop) postCountAsync.when(
-                data: (postCount) =>
-                    PageButtonsRow(pageCount: (postCount / 6).ceil()),
-                // PageButtonsRow(pageCount: 10),
-                error: (error, stack) => Text('Error: $error'),
-                loading: () => CircularProgressIndicator(),
-              ),
+              if (!smallerThanDesktop)
+                postCountAsync.when(
+                  data: (postCount) =>
+                      PageButtonsRow(pageCount: (postCount / 6).ceil()),
+                  // PageButtonsRow(pageCount: 10),
+                  error: (error, stack) => Text('Error: $error'),
+                  loading: () => CircularProgressIndicator(),
+                ),
               SizedBox(height: bigSizedBoxHeight()),
               SubscriptionSection(),
               SizedBox(height: bigSizedBoxHeight()),

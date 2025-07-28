@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:foodieland/resources/app_colors.dart';
 import 'package:foodieland/screens/blog_screen/blog_screen_providers/post_providers/post_providers.dart';
+import 'package:foodieland/screens/blog_screen/blog_screen_providers/text_provider/text_provider.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 
 class PageButtonsRow extends ConsumerStatefulWidget {
@@ -58,8 +59,9 @@ class _PageButtonsRowState extends ConsumerState<PageButtonsRow> {
   }
 
   void selectPage(int pageNumber) {
+    final searchedText = ref.read(textProvider);
     ref
-        .read(postOverviewProvider.notifier)
+        .read(postOverviewProvider(searchedText).notifier)
         .getPostsOnSelectedPage(selectedPage: pageNumber);
 
     setState(() {
