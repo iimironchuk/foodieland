@@ -49,6 +49,13 @@ RouteBase get $homeShellRoute => StatefulShellRouteData.$route(
           path: '/blog',
 
           factory: _$BlogScreenRoute._fromState,
+          routes: [
+            GoRouteData.$route(
+              path: 'post/:id',
+
+              factory: _$PostDetailsRoute._fromState,
+            ),
+          ],
         ),
       ],
     ),
@@ -150,6 +157,30 @@ mixin _$BlogScreenRoute on GoRouteData {
 
   @override
   String get location => GoRouteData.$location('/blog');
+
+  @override
+  void go(BuildContext context) => context.go(location);
+
+  @override
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  @override
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  @override
+  void replace(BuildContext context) => context.replace(location);
+}
+
+mixin _$PostDetailsRoute on GoRouteData {
+  static PostDetailsRoute _fromState(GoRouterState state) =>
+      PostDetailsRoute(id: state.pathParameters['id']!);
+
+  PostDetailsRoute get _self => this as PostDetailsRoute;
+
+  @override
+  String get location =>
+      GoRouteData.$location('/blog/post/${Uri.encodeComponent(_self.id)}');
 
   @override
   void go(BuildContext context) => context.go(location);

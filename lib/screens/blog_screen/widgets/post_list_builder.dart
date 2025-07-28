@@ -5,7 +5,7 @@ import 'package:responsive_framework/responsive_framework.dart';
 
 class PostListBuilder extends StatelessWidget {
   final List<PostModel> posts;
-  final VoidCallback onPostTap;
+  final void Function(String) onPostTap;
 
   const PostListBuilder({
     super.key,
@@ -23,11 +23,12 @@ class PostListBuilder extends StatelessWidget {
         shrinkWrap: true,
         itemCount: posts.length,
         itemBuilder: (context, index) {
+          final post = posts[index];
           return GestureDetector(
-            onTap: onPostTap,
+            onTap: () => onPostTap(post.documentId),
             child: Padding(
               padding: EdgeInsets.only(bottom: isMobile ? 16.0 : 32.0),
-              child: PostItem(post: posts[index]),
+              child: PostItem(post: post),
             ),
           );
         },

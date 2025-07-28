@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:foodieland/navigation/routes.dart';
 import 'package:foodieland/screens/blog_screen/blog_screen_providers/post_providers/post_providers.dart';
 import 'package:foodieland/screens/blog_screen/blog_screen_providers/recipes_provider/blog_recipes_provider.dart';
 import 'package:foodieland/screens/blog_screen/widgets/page_buttons_row.dart';
@@ -13,6 +14,10 @@ import 'blog_screen_providers/text_provider/text_provider.dart';
 
 class BlogScreen extends ConsumerWidget {
   const BlogScreen({super.key});
+
+  void _goToDetailedPost(String postId, BuildContext context) {
+    PostDetailsRoute(id: postId).go(context);
+  }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -76,8 +81,10 @@ class BlogScreen extends ConsumerWidget {
               ),
               SizedBox(height: smallSizedBoxHeight()),
               SearchTextField(
-                onSearch: (value) => ref.read(textProvider.notifier).state = value,
-                onSubmitted: (value) => ref.read(textProvider.notifier).state = value,
+                onSearch: (value) =>
+                    ref.read(textProvider.notifier).state = value,
+                onSubmitted: (value) =>
+                    ref.read(textProvider.notifier).state = value,
               ),
               SizedBox(height: smallSizedBoxHeight()),
               // Wrap(
@@ -106,8 +113,11 @@ class BlogScreen extends ConsumerWidget {
                         Align(
                           alignment: Alignment.centerLeft,
                           child: postListAsync.when(
-                            data: (posts) =>
-                                PostListBuilder(posts: posts, onPostTap: () {}),
+                            data: (posts) => PostListBuilder(
+                              posts: posts,
+                              onPostTap: (postId) =>
+                                  _goToDetailedPost(postId, context),
+                            ),
                             error: (error, stack) => Text('Error: $error'),
                             loading: () => CircularProgressIndicator(),
                           ),
@@ -141,8 +151,11 @@ class BlogScreen extends ConsumerWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         postListAsync.when(
-                          data: (posts) =>
-                              PostListBuilder(posts: posts, onPostTap: () {}),
+                          data: (posts) => PostListBuilder(
+                            posts: posts,
+                            onPostTap: (postId) =>
+                                _goToDetailedPost(postId, context),
+                          ),
                           error: (error, stack) => Text('Error: $error'),
                           loading: () => CircularProgressIndicator(),
                         ),

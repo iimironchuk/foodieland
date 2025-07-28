@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:foodieland/models/post_text_model/post_text_mapper.dart';
 import 'package:foodieland/services/api_service.dart';
 import 'package:foodieland/utils/extensions.dart';
 
@@ -55,6 +56,24 @@ class PostRepository {
       return response.data['meta']['pagination']['total'];
     } else {
       return 0;
+    }
+  }
+
+  Future<PostModel> getPostDetailsById({required String documentId}) async {
+    final response = await _dio.get('posts/$documentId', queryParameters: {
+      'populate': {'authorAvatar': true, 'postAvatar': true},
+    });
+    if(response.isSuccess){
+      final data = response.data['data'];
+      final postTextJson = data['postContent'] as List<dynamic>;
+
+      final postTextList = PostTextMapper.fromJsonList(postTextJson);
+
+      PostModel post = PostModel.fromJson(data);
+
+      return post.copyWith(postTextList: postTextList);
+    } else{
+      throw Exception('Something is wrong with this post');
     }
   }
 }
