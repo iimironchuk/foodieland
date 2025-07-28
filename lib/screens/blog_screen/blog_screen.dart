@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:foodieland/screens/blog_screen/blog_screen_providers/post_providers/post_providers.dart';
 import 'package:foodieland/screens/blog_screen/blog_screen_providers/recipes_provider/blog_recipes_provider.dart';
+import 'package:foodieland/screens/blog_screen/blog_screen_providers/text_provider/text_provider.dart';
 import 'package:foodieland/screens/blog_screen/widgets/page_buttons_row.dart';
 import 'package:foodieland/screens/blog_screen/widgets/post_list_builder.dart';
 import 'package:foodieland/screens/blog_screen/widgets/search_text_field.dart';
@@ -11,12 +12,14 @@ import 'package:foodieland/screens/widgets/three_other_recipe_section.dart';
 class BlogScreen extends ConsumerWidget {
   const BlogScreen({super.key});
 
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final textTheme = Theme.of(context).textTheme;
-    final postListAsync = ref.watch(postOverviewProvider);
+    final searchedText = ref.watch(textProvider);
+    final postListAsync = ref.watch(postOverviewProvider(searchedText));
     final threeOtherRecipes = ref.watch(threeOtherRecipesBlogProvider);
-    final postCountAsync = ref.watch(totalPostCountProvider);
+    final postCountAsync = ref.watch(totalPostCountProvider(searchedText));
     return Center(
       child: ConstrainedBox(
         constraints: BoxConstraints(maxWidth: 1280.0),
@@ -33,7 +36,11 @@ class BlogScreen extends ConsumerWidget {
               style: textTheme.labelSmall!.copyWith(fontSize: 16.0),
             ),
             SizedBox(height: 80.0),
-            SearchTextField(),
+            SearchTextField(
+              onSearch: (value) => ref.read(textProvider.notifier).state = value,
+              onSubmitted: (value) =>
+                  ref.read(textProvider.notifier).state = value,
+            ),
             SizedBox(height: 80.0),
             Wrap(
               spacing: 40.0,
@@ -59,13 +66,13 @@ class BlogScreen extends ConsumerWidget {
             postCountAsync.when(
               data: (postCount) =>
                   PageButtonsRow(pageCount: (postCount / 6).ceil()),
-                  // PageButtonsRow(pageCount: 10),
+              // PageButtonsRow(pageCount: 10),
               error: (error, stack) => Text('Error: $error'),
               loading: () => CircularProgressIndicator(),
             ),
-            SizedBox(height: 160.0,),
+            SizedBox(height: 160.0),
             SubscriptionSection(),
-            SizedBox(height: 160.0,),
+            SizedBox(height: 160.0),
           ],
         ),
       ),

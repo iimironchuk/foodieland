@@ -13,34 +13,39 @@ class PostOverview extends _$PostOverview {
   List<PostModel> _posts = [];
 
   @override
-  Future<List<PostModel>> build() async {
+  Future<List<PostModel>> build(String? searchedText) async {
     final repository = ref.watch(postRepositoryProvider);
 
     _posts = await repository.getPostsForOverview(
       pageSize: _pageSize,
       page: _page,
+      searchText: searchedText,
     );
 
     return _posts;
   }
 
-  Future<void> getPostsOnSelectedPage({required int selectedPage}) async {
+  Future<void> getPostsOnSelectedPage({required int selectedPage, String? searchedText}) async {
     final repository = ref.watch(postRepositoryProvider);
 
     _posts = await repository.getPostsForOverview(
       pageSize: _pageSize,
       page: selectedPage,
+      searchText: searchedText
     );
 
     state = AsyncData(_posts);
   }
+
+  // Future<List<PostModel>> getSearchedPosts
+
 }
 
 @riverpod
-Future<int> totalPostCount(Ref ref) async {
+Future<int> totalPostCount(Ref ref, String? searchedText) async {
   final repository = ref.watch(postRepositoryProvider);
 
-  final postCount = repository.getPostCount();
+  final postCount = repository.getPostCount(searchedText);
 
   return postCount;
 }
