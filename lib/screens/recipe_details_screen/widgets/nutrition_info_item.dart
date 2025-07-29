@@ -17,9 +17,6 @@ class NutritionInfoItem extends StatelessWidget {
     final smallerThanDesktop =
         ResponsiveBreakpoints.of(context).smallerThan(DESKTOP) &&
         ResponsiveBreakpoints.of(context).largerThan(TABLET);
-    final smallerThanLaptop = ResponsiveBreakpoints.of(
-      context,
-    ).smallerThan('Laptop');
     final isMobile = ResponsiveBreakpoints.of(context).isMobile;
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,

@@ -34,6 +34,10 @@ dependencies:
   separated_column: ^3.0.4
   video_player: ^2.10.0
   chewie: ^1.12.1
+  pdf: ^3.11.3
+  printing: ^5.14.2
+  http: ^1.4.0
+  share_plus: ^11.0.0
 
 dev_dependencies:
   flutter_test:

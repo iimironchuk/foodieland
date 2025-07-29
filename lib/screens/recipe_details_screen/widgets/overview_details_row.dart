@@ -15,6 +15,8 @@ class OverviewDetailsRow extends StatelessWidget {
   final int prepTime;
   final int cookTime;
   final String category;
+  final VoidCallback onShare;
+  final VoidCallback onPrint;
 
   const OverviewDetailsRow({
     super.key,
@@ -24,6 +26,8 @@ class OverviewDetailsRow extends StatelessWidget {
     required this.prepTime,
     required this.cookTime,
     required this.category,
+    required this.onShare,
+    required this.onPrint,
   });
 
   Widget _buildTimeRow(String timeType, TextTheme textTheme, int time) {
@@ -71,7 +75,6 @@ class OverviewDetailsRow extends StatelessWidget {
       Align(
         alignment: Alignment.centerLeft,
         child: Wrap(
-
           runSpacing: 12.0,
           children: [
             Row(
@@ -120,15 +123,24 @@ class OverviewDetailsRow extends StatelessWidget {
                 Text(category, style: textTheme.labelSmall),
               ],
             ),
-          ],),
+          ],
+        ),
       ),
 
       smallerThanLaptop ? SizedBox(height: 20.0) : Spacer(),
       Row(
         children: [
-          PrintShareContainer(asset: Assets.icons.print, title: 'PRINT'),
+          PrintShareContainer(
+            asset: Assets.icons.print,
+            title: 'PRINT',
+            onTap: onPrint,
+          ),
           SizedBox(width: smallerThanDesktop ? 16.0 : 32.0),
-          PrintShareContainer(asset: Assets.icons.share, title: 'SHARE'),
+          PrintShareContainer(
+            asset: Assets.icons.share,
+            title: 'SHARE',
+            onTap: onShare,
+          ),
         ],
       ),
     ];

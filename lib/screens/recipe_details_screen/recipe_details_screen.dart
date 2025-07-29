@@ -12,33 +12,33 @@ import 'package:foodieland/screens/recipe_details_screen/widgets/video_widget.da
 import 'package:foodieland/screens/widgets/other_recipes_grid.dart';
 import 'package:foodieland/screens/widgets/subscription_section.dart';
 import 'package:responsive_framework/responsive_framework.dart';
+import 'package:printing/printing.dart';
+import 'package:share_plus/share_plus.dart';
 
-import '../../models/recipe_model/recipe_model.dart';
+import '../../providers/services_providers.dart';
 
 class RecipeDetailsScreen extends ConsumerWidget {
   final String recipeId;
 
   const RecipeDetailsScreen({super.key, required this.recipeId});
 
-  //   @override
-  //   ConsumerState<RecipeDetailsScreen> createState() =>
-  //       _RecipeDetailsScreenState();
-  // }
-  //
-  // class _RecipeDetailsScreenState extends ConsumerState<RecipeDetailsScreen> {
-  //   late final RecipeModel currentRecipe;
+  void _onShare() {
+    final url = Uri.base.toString();
+    SharePlus.instance.share(ShareParams(text: url));
+  }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final otherRecipesAsync = ref.watch(otherThreeRecipesProvider(recipeId));
     final recipeAsync = ref.watch(recipeWithDetailsProvider(recipeId));
     final textTheme = Theme.of(context).textTheme;
-    final smallerThanDesktop = ResponsiveBreakpoints.of(context).smallerThan(DESKTOP);
+    final smallerThanDesktop = ResponsiveBreakpoints.of(
+      context,
+    ).smallerThan(DESKTOP);
     final smallerThanLaptop = ResponsiveBreakpoints.of(
       context,
     ).smallerThan('Laptop');
     final isMobile = ResponsiveBreakpoints.of(context).isMobile;
-
     return Center(
       child: ConstrainedBox(
         constraints: BoxConstraints(maxWidth: 1280.0),
@@ -89,6 +89,16 @@ class RecipeDetailsScreen extends ConsumerWidget {
                     prepTime: recipe.prepTime,
                     cookTime: recipe.cookTime,
                     category: recipe.category.title,
+                    onShare: _onShare,
+                    onPrint: () async {
+                      final pdfService = ref.read(pdfServiceProvider);
+                      final bytes = await pdfService.buildRecipePdf(recipe);
+
+                      await Printing.sharePdf(
+                        bytes: bytes,
+                        filename: 'recipe.pdf',
+                      );
+                    },
                   ),
                   SizedBox(
                     height: smallerThanLaptop
