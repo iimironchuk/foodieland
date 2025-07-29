@@ -7,11 +7,13 @@ import 'package:responsive_framework/responsive_framework.dart';
 class PrintShareContainer extends StatelessWidget {
   final String asset;
   final String title;
+  final VoidCallback onTap;
 
   const PrintShareContainer({
     super.key,
     required this.asset,
     required this.title,
+    required this.onTap,
   });
 
   @override
@@ -23,14 +25,17 @@ class PrintShareContainer extends StatelessWidget {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        Container(
-          width: smallerThanDesktop ? 60.0 :  80.0,
-          height: smallerThanDesktop ? 60.0 : 80.0,
-          decoration: BoxDecoration(
-            shape: BoxShape.circle,
-            color: AppColors.lightBlue,
+        GestureDetector(
+          onTap: onTap,
+          child: Container(
+            width: smallerThanDesktop ? 60.0 : 80.0,
+            height: smallerThanDesktop ? 60.0 : 80.0,
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              color: AppColors.lightBlue,
+            ),
+            child: SvgPicture.asset(asset, fit: BoxFit.scaleDown),
           ),
-          child: SvgPicture.asset(asset, fit: BoxFit.scaleDown,),
         ),
         SizedBox(height: 16.0),
         Text(
