@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
+import 'package:foodieland/models/category_model/category_model.dart';
 import 'package:foodieland/models/direction_model/cooking_step_mapper.dart';
 import 'package:foodieland/models/ingredients_model/ingredients_mapper.dart';
 import 'package:foodieland/models/recipe_model/recipe_model.dart';
@@ -35,6 +36,7 @@ class RecipeRepository {
   Future<List<RecipeModel>> getRecipesForOverview({
     required int page,
     required int limit,
+    CategoryModel? category,
   }) async {
     final response = await _dio.get(
       'recipes',
@@ -42,6 +44,7 @@ class RecipeRepository {
         'populate': {'recipeAvatar': true, 'category': true},
         'pagination[pageSize]': limit,
         'pagination[page]': page,
+        if (category != null) 'filters[category][title][\$eq]': category.title,
       },
     );
 

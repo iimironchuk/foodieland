@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:foodieland/navigation/routes.dart';
+import 'package:foodieland/providers/search_providers/search_providers.dart';
 import 'package:foodieland/resources/app_colors.dart';
 import 'package:foodieland/screens/home_screen/home_screen_providers/categories_provider/categories_provider.dart';
 import 'package:foodieland/screens/home_screen/home_screen_providers/recipes_providers/home_recipes_providers.dart';
@@ -52,6 +54,10 @@ class HomeScreen extends ConsumerWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: children,
           );
+  }
+
+  void _goToRecipesByCategory(BuildContext context) {
+    RecipesScreenRoute().go(context);
   }
 
   @override
@@ -134,7 +140,16 @@ class HomeScreen extends ConsumerWidget {
                       spacing: 40.0,
                       children: [
                         ...categories.map(
-                          (category) => CategoryItem(category: category),
+                          (category) => CategoryItem(
+                            category: category,
+                            onCategoryTap: () {
+                              ref
+                                      .read(categoryForFilterProvider.notifier)
+                                      .state =
+                                  category;
+                              _goToRecipesByCategory(context);
+                            },
+                          ),
                         ),
                       ],
                     ),
