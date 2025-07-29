@@ -22,7 +22,7 @@ class BlogScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final textTheme = Theme.of(context).textTheme;
-    final searchedText = ref.read(textProvider);
+    final searchedText = ref.watch(textProvider);
     final postListAsync = ref.watch(postOverviewProvider(searchedText));
     final threeOtherRecipes = ref.watch(threeOtherRecipesBlogProvider);
     final postCountAsync = ref.watch(totalPostCountProvider(searchedText));

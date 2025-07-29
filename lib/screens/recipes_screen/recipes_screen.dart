@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:foodieland/providers/search_providers/search_providers.dart';
 import 'package:foodieland/screens/home_screen/widgets/recipe_grid.dart';
 import 'package:foodieland/screens/recipes_screen/recipes_screen_providers/recipes_recipe_provider.dart';
 import 'package:foodieland/screens/widgets/subscription_section.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 
+import '../../models/category_model/category_model.dart';
 import '../../resources/app_colors.dart';
 
 class RecipesScreen extends ConsumerWidget {
@@ -13,13 +15,21 @@ class RecipesScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final textTheme = Theme.of(context).textTheme;
-    final recipeList = ref.watch(recipesScreenRecipeListProvider);
+    final CategoryModel? categoryForFilter = ref.watch(
+      categoryForFilterProvider,
+    );
+    final recipeList = ref.watch(
+      recipesScreenRecipeListProvider(categoryForFilter),
+    );
     final smallerThanLaptop = ResponsiveBreakpoints.of(
       context,
     ).smallerThan('Laptop');
     final smallerThanDesktop = ResponsiveBreakpoints.of(
       context,
     ).smallerThan(DESKTOP);
+    final hasReachedEnd = ref
+        .read(recipesScreenRecipeListProvider(categoryForFilter).notifier)
+        .hasReachedEnd;
     return Center(
       child: ConstrainedBox(
         constraints: BoxConstraints(maxWidth: 1280.0),
@@ -29,7 +39,7 @@ class RecipesScreen extends ConsumerWidget {
           ),
           child: Column(
             children: [
-              SizedBox(height: 24.0,),
+              SizedBox(height: 24.0),
               Text(
                 'Simple and tasty recipes',
                 style: textTheme.labelMedium!.copyWith(
@@ -59,7 +69,24 @@ class RecipesScreen extends ConsumerWidget {
                   ),
                 ),
               ),
-              SizedBox(height: 24.0,),
+              if (categoryForFilter != null)
+                Align(
+                  alignment: Alignment.centerRight,
+                  child: SizedBox(
+                    height: smallerThanLaptop
+                        ? 40.0
+                        : smallerThanDesktop
+                        ? 50.0
+                        : 60.0,
+                    child: ElevatedButton(
+                      onPressed: () =>
+                          ref.read(categoryForFilterProvider.notifier).state =
+                              null,
+                      child: Text('See all recipes'),
+                    ),
+                  ),
+                ),
+              SizedBox(height: 24.0),
               recipeList.when(
                 data: (recipes) => RecipeGrid(
                   crossAxisCount: smallerThanLaptop ? 2 : 3,
@@ -75,10 +102,18 @@ class RecipesScreen extends ConsumerWidget {
                     : smallerThanDesktop
                     ? 50.0
                     : 60.0,
-                child: ElevatedButton(
-                  onPressed: () => ref.read(recipesScreenRecipeListProvider.notifier).loadMore(),
-                  child: Text('Show more'),
-                ),
+                child: hasReachedEnd
+                    ? SizedBox()
+                    : ElevatedButton(
+                        onPressed: () => ref
+                            .read(
+                              recipesScreenRecipeListProvider(
+                                categoryForFilter,
+                              ).notifier,
+                            )
+                            .loadMore(categoryForFilter),
+                        child: Text('Show more'),
+                      ),
               ),
               SizedBox(height: 60.0),
               SubscriptionSection(),

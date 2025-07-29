@@ -1,3 +1,4 @@
+import 'package:foodieland/models/category_model/category_model.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../../../models/recipe_model/recipe_model.dart';
@@ -15,12 +16,13 @@ class RecipesScreenRecipeList extends _$RecipesScreenRecipeList {
   List<RecipeModel> _recipes = [];
 
   @override
-  Future<List<RecipeModel>> build() async {
+  Future<List<RecipeModel>> build(CategoryModel? categoryModel) async {
     final repository = ref.watch(recipeRepositoryProvider);
     final sharedPreferences = ref.watch(sharedPreferencesProvider);
     final recipesFromServer = await repository.getRecipesForOverview(
       page: _page,
       limit: _limit,
+      category: categoryModel,
     );
 
     final List<String> favoriteIds = await sharedPreferences
@@ -39,7 +41,7 @@ class RecipesScreenRecipeList extends _$RecipesScreenRecipeList {
     return _recipes;
   }
 
-  Future<void> loadMore() async {
+  Future<void> loadMore(CategoryModel? categoryModel) async {
     if (_isLoadingNext || _hasReachedEnd) return;
 
     _isLoadingNext = true;
@@ -50,6 +52,7 @@ class RecipesScreenRecipeList extends _$RecipesScreenRecipeList {
     final recipesFromServer = await repository.getRecipesForOverview(
       page: _page,
       limit: _limit,
+      category: categoryModel,
     );
 
     final List<String> favoriteIds = await sharedPreferences
@@ -84,4 +87,6 @@ class RecipesScreenRecipeList extends _$RecipesScreenRecipeList {
 
     state = AsyncData(_recipes);
   }
+
+  bool get hasReachedEnd => _hasReachedEnd;
 }
