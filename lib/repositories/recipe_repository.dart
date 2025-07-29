@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
+import 'package:foodieland/models/category_model/category_model.dart';
 import 'package:foodieland/models/direction_model/cooking_step_mapper.dart';
 import 'package:foodieland/models/ingredients_model/ingredients_mapper.dart';
 import 'package:foodieland/models/recipe_model/recipe_model.dart';
@@ -35,6 +36,7 @@ class RecipeRepository {
   Future<List<RecipeModel>> getRecipesForOverview({
     required int page,
     required int limit,
+    CategoryModel? category,
   }) async {
     final response = await _dio.get(
       'recipes',
@@ -42,6 +44,7 @@ class RecipeRepository {
         'populate': {'recipeAvatar': true, 'category': true},
         'pagination[pageSize]': limit,
         'pagination[page]': page,
+        if (category != null) 'filters[category][title][\$eq]': category.title,
       },
     );
 
@@ -91,7 +94,7 @@ class RecipeRepository {
   }
 
   Future<List<RecipeModel>> getThreeRandomRecipe({
-    required String currentRecipeId,
+    String? currentRecipeId,
   }) async {
     final response = await _dio.get(
       'recipes',
@@ -103,17 +106,18 @@ class RecipeRepository {
     );
 
     if (response.isSuccess) {
-      final recipes = (response.data['data'] as List)
+      List<RecipeModel> recipes = (response.data['data'] as List)
           .map((json) => RecipeModel.fromJson(json as Map<String, dynamic>))
           .toList();
 
-      final filteredRecipes = recipes
-          .where((recipe) => recipe.documentId != currentRecipeId)
-          .toList();
+      if (currentRecipeId != null) {
+        recipes = recipes
+            .where((recipe) => recipe.documentId != currentRecipeId)
+            .toList();
+      }
 
-      List<RecipeModel> shuffledRecipes = List<RecipeModel>.from(
-        filteredRecipes,
-      )..shuffle();
+      List<RecipeModel> shuffledRecipes = List<RecipeModel>.from(recipes)
+        ..shuffle();
 
       return shuffledRecipes.take(3).toList();
     } else {

@@ -1,4 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:foodieland/repositories/post_repository.dart';
 import 'package:foodieland/repositories/subscription_repository.dart';
 
 import '../repositories/category_repository.dart';
@@ -14,4 +15,8 @@ final recipeRepositoryProvider = Provider<RecipeRepository>((ref) {
 
 final subscriptionRepositoryProvider = Provider<SubscriptionRepository>((ref) {
   return SubscriptionRepository();
+});
+
+final postRepositoryProvider = Provider<PostRepository>((ref) {
+  return PostRepository();
 });

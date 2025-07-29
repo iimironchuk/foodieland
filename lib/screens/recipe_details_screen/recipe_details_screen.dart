@@ -6,7 +6,7 @@ import 'package:foodieland/screens/recipe_details_screen/recipe_details_provider
 import 'package:foodieland/screens/recipe_details_screen/widgets/directions_section.dart';
 import 'package:foodieland/screens/recipe_details_screen/widgets/ingredients_section.dart';
 import 'package:foodieland/screens/recipe_details_screen/widgets/nutrition_information.dart';
-import 'package:foodieland/screens/recipe_details_screen/widgets/other_recipe_section.dart';
+import 'package:foodieland/screens/widgets/three_other_recipe_section.dart';
 import 'package:foodieland/screens/recipe_details_screen/widgets/overview_details_row.dart';
 import 'package:foodieland/screens/recipe_details_screen/widgets/video_widget.dart';
 import 'package:foodieland/screens/widgets/other_recipes_grid.dart';
@@ -21,6 +21,7 @@ class RecipeDetailsScreen extends ConsumerWidget {
   final String recipeId;
 
   const RecipeDetailsScreen({super.key, required this.recipeId});
+
 
   void _onShare() {
     final url = Uri.base.toString();
@@ -230,7 +231,7 @@ class RecipeDetailsScreen extends ConsumerWidget {
                       otherRecipesAsync.when(
                         data: (recipes) => ConstrainedBox(
                           constraints: BoxConstraints(maxWidth: 400),
-                          child: OtherRecipeSection(recipes: recipes),
+                          child: ThreeOtherRecipeSection(recipes: recipes, title: 'Other recipes',),
                         ),
                         error: (error, stack) => Text('Error: $error'),
                         loading: () => CircularProgressIndicator(),
