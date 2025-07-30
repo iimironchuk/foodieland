@@ -39,6 +39,9 @@ class $AssetsIconsGen {
   /// File path: assets/icons/twitter.svg
   String get twitter => 'assets/icons/twitter.svg';
 
+  /// File path: assets/icons/whatsapp.svg
+  String get whatsapp => 'assets/icons/whatsapp.svg';
+
   /// List of all assets
   List<String> get values => [
     drawer,
@@ -50,6 +53,7 @@ class $AssetsIconsGen {
     recipeCategory,
     share,
     twitter,
+    whatsapp,
   ];
 }
 

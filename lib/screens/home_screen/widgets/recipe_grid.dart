@@ -19,8 +19,7 @@ class RecipeGrid extends ConsumerWidget {
   });
 
   void _goToDetails(BuildContext context, String recipeId) {
-    final path = RecipeDetailRoute(id: recipeId).location;
-    context.push(path);
+    RecipeDetailRoute(id: recipeId).go(context);
   }
 
   @override

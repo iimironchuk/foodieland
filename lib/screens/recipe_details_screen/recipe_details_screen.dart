@@ -6,6 +6,7 @@ import 'package:foodieland/screens/recipe_details_screen/recipe_details_provider
 import 'package:foodieland/screens/recipe_details_screen/widgets/directions_section.dart';
 import 'package:foodieland/screens/recipe_details_screen/widgets/ingredients_section.dart';
 import 'package:foodieland/screens/recipe_details_screen/widgets/nutrition_information.dart';
+import 'package:foodieland/screens/recipe_details_screen/widgets/share_recipe_dialog.dart';
 import 'package:foodieland/screens/widgets/three_other_recipe_section.dart';
 import 'package:foodieland/screens/recipe_details_screen/widgets/overview_details_row.dart';
 import 'package:foodieland/screens/recipe_details_screen/widgets/video_widget.dart';
@@ -23,23 +24,30 @@ class RecipeDetailsScreen extends ConsumerWidget {
   const RecipeDetailsScreen({super.key, required this.recipeId});
 
 
-  void _onShare() {
-    final url = Uri.base.toString();
-    SharePlus.instance.share(ShareParams(text: url));
+  void _onShare(BuildContext context) {
+    showDialog(context: context, builder: (showDialogContext) {
+      return Dialog(child: ShareRecipeDialog());
+    });
+    // final url = Uri.base;
+    // SharePlus.instance.share(ShareParams(uri: url));
   }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final otherRecipesAsync = ref.watch(otherThreeRecipesProvider(recipeId));
     final recipeAsync = ref.watch(recipeWithDetailsProvider(recipeId));
-    final textTheme = Theme.of(context).textTheme;
+    final textTheme = Theme
+        .of(context)
+        .textTheme;
     final smallerThanDesktop = ResponsiveBreakpoints.of(
       context,
     ).smallerThan(DESKTOP);
     final smallerThanLaptop = ResponsiveBreakpoints.of(
       context,
     ).smallerThan('Laptop');
-    final isMobile = ResponsiveBreakpoints.of(context).isMobile;
+    final isMobile = ResponsiveBreakpoints
+        .of(context)
+        .isMobile;
     return Center(
       child: ConstrainedBox(
         constraints: BoxConstraints(maxWidth: 1280.0),
@@ -90,7 +98,7 @@ class RecipeDetailsScreen extends ConsumerWidget {
                     prepTime: recipe.prepTime,
                     cookTime: recipe.cookTime,
                     category: recipe.category.title,
-                    onShare: _onShare,
+                    onShare: () => _onShare(context),
                     onPrint: () async {
                       final pdfService = ref.read(pdfServiceProvider);
                       final bytes = await pdfService.buildRecipePdf(recipe);
@@ -110,96 +118,98 @@ class RecipeDetailsScreen extends ConsumerWidget {
                   ),
                   smallerThanLaptop
                       ? Column(
-                          mainAxisSize: MainAxisSize.min,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            recipe.videoRecipe.isEmpty || !isVideoInitialized
-                                ? AspectRatio(
-                                    aspectRatio: 840 / 600,
-                                    child: ClipRRect(
-                                      borderRadius: BorderRadius.circular(30),
-                                      child: CachedNetworkImage(
-                                        imageUrl: recipe.recipeAvatar,
-                                        fit: BoxFit.cover,
-                                      ),
-                                    ),
-                                  )
-                                : VideoWidget(
-                                    videoUrl: recipe.videoRecipe,
-                                    recipeAvatar: recipe.recipeAvatar,
-                                    playVideo: () => ref
-                                        .read(
-                                          RecipeVideoPlayerProvider(
-                                            recipe.videoRecipe,
-                                          ).notifier,
-                                        )
-                                        .playVideo(),
-                                  ),
-                            SizedBox(height: 40.0),
-                            ConstrainedBox(
-                              constraints: BoxConstraints(
-                                maxWidth: 400.0,
-                                maxHeight: isMobile ? 350.0 : 600.0,
-                              ),
-                              child: NutritionInformation(
-                                calories: recipe.calories,
-                                totalFat: recipe.totalFat,
-                                protein: recipe.protein,
-                                carbohydrate: recipe.carbohydrate,
-                                cholesterol: recipe.cholesterol,
-                              ),
-                            ),
-                          ],
-                        )
-                      : Row(
-                          children: [
-                            Expanded(
-                              flex: 2,
-                              child:
-                                  recipe.videoRecipe.isEmpty ||
-                                      !isVideoInitialized
-                                  ? AspectRatio(
-                                      aspectRatio: 840 / 600,
-                                      child: ClipRRect(
-                                        borderRadius: BorderRadius.circular(30),
-                                        child: CachedNetworkImage(
-                                          imageUrl: recipe.recipeAvatar,
-                                          fit: BoxFit.cover,
-                                        ),
-                                      ),
-                                    )
-                                  : VideoWidget(
-                                      videoUrl: recipe.videoRecipe,
-                                      recipeAvatar: recipe.recipeAvatar,
-                                      playVideo: () => ref
-                                          .read(
-                                            RecipeVideoPlayerProvider(
-                                              recipe.videoRecipe,
-                                            ).notifier,
-                                          )
-                                          .playVideo(),
-                                    ),
-                            ),
-                            SizedBox(
-                              width: smallerThanLaptop
-                                  ? 20.0
-                                  : smallerThanDesktop
-                                  ? 30.0
-                                  : 40.0,
-                            ),
-                            Expanded(
-                              flex: 1,
-                              // width: 400,
-                              child: NutritionInformation(
-                                calories: recipe.calories,
-                                totalFat: recipe.totalFat,
-                                protein: recipe.protein,
-                                carbohydrate: recipe.carbohydrate,
-                                cholesterol: recipe.cholesterol,
-                              ),
-                            ),
-                          ],
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      recipe.videoRecipe.isEmpty || !isVideoInitialized
+                          ? AspectRatio(
+                        aspectRatio: 840 / 600,
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(30),
+                          child: CachedNetworkImage(
+                            imageUrl: recipe.recipeAvatar,
+                            fit: BoxFit.cover,
+                          ),
                         ),
+                      )
+                          : VideoWidget(
+                        videoUrl: recipe.videoRecipe,
+                        recipeAvatar: recipe.recipeAvatar,
+                        playVideo: () =>
+                            ref
+                                .read(
+                              RecipeVideoPlayerProvider(
+                                recipe.videoRecipe,
+                              ).notifier,
+                            )
+                                .playVideo(),
+                      ),
+                      SizedBox(height: 40.0),
+                      ConstrainedBox(
+                        constraints: BoxConstraints(
+                          maxWidth: 400.0,
+                          maxHeight: isMobile ? 350.0 : 600.0,
+                        ),
+                        child: NutritionInformation(
+                          calories: recipe.calories,
+                          totalFat: recipe.totalFat,
+                          protein: recipe.protein,
+                          carbohydrate: recipe.carbohydrate,
+                          cholesterol: recipe.cholesterol,
+                        ),
+                      ),
+                    ],
+                  )
+                      : Row(
+                    children: [
+                      Expanded(
+                        flex: 2,
+                        child:
+                        recipe.videoRecipe.isEmpty ||
+                            !isVideoInitialized
+                            ? AspectRatio(
+                          aspectRatio: 840 / 600,
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(30),
+                            child: CachedNetworkImage(
+                              imageUrl: recipe.recipeAvatar,
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                        )
+                            : VideoWidget(
+                          videoUrl: recipe.videoRecipe,
+                          recipeAvatar: recipe.recipeAvatar,
+                          playVideo: () =>
+                              ref
+                                  .read(
+                                RecipeVideoPlayerProvider(
+                                  recipe.videoRecipe,
+                                ).notifier,
+                              )
+                                  .playVideo(),
+                        ),
+                      ),
+                      SizedBox(
+                        width: smallerThanLaptop
+                            ? 20.0
+                            : smallerThanDesktop
+                            ? 30.0
+                            : 40.0,
+                      ),
+                      Expanded(
+                        flex: 1,
+                        // width: 400,
+                        child: NutritionInformation(
+                          calories: recipe.calories,
+                          totalFat: recipe.totalFat,
+                          protein: recipe.protein,
+                          carbohydrate: recipe.carbohydrate,
+                          cholesterol: recipe.cholesterol,
+                        ),
+                      ),
+                    ],
+                  ),
                   Padding(
                     padding: EdgeInsets.symmetric(
                       vertical: isMobile
@@ -229,10 +239,12 @@ class RecipeDetailsScreen extends ConsumerWidget {
                         ),
                       ),
                       otherRecipesAsync.when(
-                        data: (recipes) => ConstrainedBox(
-                          constraints: BoxConstraints(maxWidth: 400),
-                          child: ThreeOtherRecipeSection(recipes: recipes, title: 'Other recipes',),
-                        ),
+                        data: (recipes) =>
+                            ConstrainedBox(
+                              constraints: BoxConstraints(maxWidth: 400),
+                              child: ThreeOtherRecipeSection(
+                                recipes: recipes, title: 'Other recipes',),
+                            ),
                         error: (error, stack) => Text('Error: $error'),
                         loading: () => CircularProgressIndicator(),
                       ),
