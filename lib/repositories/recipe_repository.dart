@@ -127,6 +127,7 @@ class RecipeRepository {
 
   Future<List<RecipeModel>> getOtherRecipesByCategory({
     required String category,
+    required String currentRecipeId,
   }) async {
     final response = await _dio.get(
       'recipes',
@@ -139,9 +140,16 @@ class RecipeRepository {
     );
 
     if (response.isSuccess) {
-      return (response.data['data'] as List)
+      List<RecipeModel> recipes = (response.data['data'] as List)
           .map((json) => RecipeModel.fromJson(json as Map<String, dynamic>))
           .toList();
+
+        recipes = recipes
+            .where((recipe) => recipe.documentId != currentRecipeId)
+            .toList();
+
+
+      return recipes;
     } else {
       return [];
     }

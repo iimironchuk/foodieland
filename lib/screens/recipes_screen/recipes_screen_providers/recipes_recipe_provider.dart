@@ -2,6 +2,7 @@ import 'package:foodieland/models/category_model/category_model.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../../../models/recipe_model/recipe_model.dart';
+import '../../../providers/favorites_provider/favorites_provider.dart';
 import '../../../providers/repository_providers.dart';
 import '../../../providers/services_providers.dart';
 
@@ -18,23 +19,13 @@ class RecipesScreenRecipeList extends _$RecipesScreenRecipeList {
   @override
   Future<List<RecipeModel>> build(CategoryModel? categoryModel) async {
     final repository = ref.watch(recipeRepositoryProvider);
-    final sharedPreferences = ref.watch(sharedPreferencesProvider);
     final recipesFromServer = await repository.getRecipesForOverview(
       page: _page,
       limit: _limit,
       category: categoryModel,
     );
 
-    final List<String> favoriteIds = await sharedPreferences
-        .getFavoriteRecipes();
-
     _recipes = recipesFromServer;
-
-    _recipes = _recipes.map((recipe) {
-      return recipe.copyWith(
-        isFavorite: favoriteIds.contains(recipe.id.toString()),
-      );
-    }).toList();
 
     _hasReachedEnd = _recipes.length < _limit;
 
@@ -73,18 +64,7 @@ class RecipesScreenRecipeList extends _$RecipesScreenRecipeList {
   }
 
   Future<void> toggleFavorite(RecipeModel recipe) async {
-    final sharedPreferences = ref.watch(sharedPreferencesProvider);
-
-    await sharedPreferences.toggleFavoriteRecipe(recipe);
-
-    final favoriteIds = await sharedPreferences.getFavoriteRecipes();
-
-    _recipes = _recipes.map((recipe) {
-      return recipe.copyWith(
-        isFavorite: favoriteIds.contains(recipe.id.toString()),
-      );
-    }).toList();
-
+    await ref.read(favoriteRecipesProvider.notifier).toggle(recipe);
     state = AsyncData(_recipes);
   }
 

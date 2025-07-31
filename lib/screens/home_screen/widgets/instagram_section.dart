@@ -5,7 +5,9 @@ import 'package:foodieland/resources/app_colors.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 
 class InstagramSection extends StatelessWidget {
-  InstagramSection({super.key});
+  final VoidCallback goToInstagram;
+
+  InstagramSection({super.key, required this.goToInstagram});
 
   final List<Widget> instagramPosts = [
     Assets.images.instagramPost1.image(),
@@ -101,7 +103,7 @@ class InstagramSection extends StatelessWidget {
                   ),
                 ),
               ),
-              onPressed: () {},
+              onPressed: goToInstagram,
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [

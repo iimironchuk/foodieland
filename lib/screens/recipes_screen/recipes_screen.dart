@@ -7,6 +7,7 @@ import 'package:foodieland/screens/widgets/subscription_section.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 
 import '../../models/category_model/category_model.dart';
+import '../../providers/favorites_provider/favorites_provider.dart';
 import '../../resources/app_colors.dart';
 
 class RecipesScreen extends ConsumerWidget {
@@ -91,6 +92,7 @@ class RecipesScreen extends ConsumerWidget {
                 data: (recipes) => RecipeGrid(
                   crossAxisCount: smallerThanLaptop ? 2 : 3,
                   recipeList: recipes,
+                  toggleFavorite: (recipe) => ref.read(favoriteRecipesProvider.notifier).toggle(recipe),
                 ),
                 error: (error, stack) => Text('Error: $error'),
                 loading: () => CircularProgressIndicator(),

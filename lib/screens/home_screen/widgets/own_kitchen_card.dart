@@ -5,7 +5,9 @@ import 'package:responsive_framework/responsive_framework.dart';
 import '../../../resources/app_colors.dart';
 
 class OwnKitchenCard extends StatelessWidget {
-  const OwnKitchenCard({super.key});
+  final VoidCallback onLearnMore;
+
+  const OwnKitchenCard({super.key, required this.onLearnMore});
 
   @override
   Widget build(BuildContext context) {
@@ -79,7 +81,7 @@ class OwnKitchenCard extends StatelessWidget {
                       ),
                     ),
                   ),
-                  onPressed: () {},
+                  onPressed: onLearnMore,
                   child: Text(
                     'Learn More',
                     style: textTheme.labelSmall!.copyWith(
@@ -96,31 +98,39 @@ class OwnKitchenCard extends StatelessWidget {
             ],
           ),
         ),
-        SizedBox(width: 10.0,),
-        if(!isMobile) Expanded(
-          child: AspectRatio(
-            aspectRatio: 660 / 597,
-            child: Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(30),
-                gradient: LinearGradient(
-                  colors: [
-                    AppColors.scaffold,
-                    AppColors.lightBlue.withValues(alpha: 0),
-                    AppColors.lightBlue,
-                  ],
-                  stops: [0.0, 0.0, 1.0],
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
+        SizedBox(width: 10.0),
+        if (!isMobile)
+          Expanded(
+            child: AspectRatio(
+              aspectRatio: 660 / 597,
+              child: Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(30),
+                  gradient: LinearGradient(
+                    colors: [
+                      AppColors.scaffold,
+                      AppColors.lightBlue.withValues(alpha: 0),
+                      AppColors.lightBlue,
+                    ],
+                    stops: [0.0, 0.0, 1.0],
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                  ),
                 ),
-              ),
-              child: Transform.translate(
-                offset: Offset(smallerThanLaptop ? -25.0 : smallerThanDesktop ? -40.0 : -50, 0),
-                child: Assets.images.chef.image(),
+                child: Transform.translate(
+                  offset: Offset(
+                    smallerThanLaptop
+                        ? -25.0
+                        : smallerThanDesktop
+                        ? -40.0
+                        : -50,
+                    0,
+                  ),
+                  child: Assets.images.chef.image(),
+                ),
               ),
             ),
           ),
-        ),
       ],
     );
   }

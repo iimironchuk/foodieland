@@ -4,10 +4,15 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:foodieland/screens/home_screen/home_screen_providers/recipes_providers/home_recipes_providers.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 
+import '../../../navigation/routes.dart';
 import 'hot_recipe_item.dart';
 
 class HotRecipesCarousel extends ConsumerWidget {
   const HotRecipesCarousel({super.key});
+
+  void _goToDetails(BuildContext context, String recipeId) {
+    RecipeDetailRoute(id: recipeId).go(context);
+  }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -23,10 +28,15 @@ class HotRecipesCarousel extends ConsumerWidget {
         child: CarouselSlider.builder(
           itemCount: recipes.length,
           itemBuilder: (context, index, realIndex) {
-            return HotRecipeItem(recipe: recipes[index]);
+            return HotRecipeItem(
+              recipe: recipes[index],
+              toDetails: () => _goToDetails(context, recipes[index].documentId),
+            );
           },
           options: CarouselOptions(
-            height: isMobile ? 380.0 : isSmallTablet
+            height: isMobile
+                ? 380.0
+                : isSmallTablet
                 ? 440
                 : smallerThanLaptop
                 ? 540

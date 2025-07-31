@@ -1,16 +1,19 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:foodieland/gen/assets.gen.dart';
 import 'package:foodieland/models/recipe_model/recipe_model.dart';
 import 'package:foodieland/resources/app_colors.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 
-class RecipeItem extends StatelessWidget {
+import '../../../providers/favorites_provider/favorites_provider.dart';
+
+class RecipeItem extends ConsumerWidget {
   final double titleFontSize;
   final double infoFontSize;
 
-  final VoidCallback toggleFavorite;
+  final void Function(RecipeModel) toggleFavorite;
   final RecipeModel recipe;
   final bool isGradientNeeded;
 
@@ -49,7 +52,8 @@ class RecipeItem extends StatelessWidget {
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final isFavorite = ref.watch(isRecipeFavoriteProvider(recipe.id.toString()));
     final textTheme = Theme.of(context).textTheme;
     final smallerThanDesktop = ResponsiveBreakpoints.of(
       context,
@@ -97,7 +101,7 @@ class RecipeItem extends StatelessWidget {
                     top: smallerThanLaptop ? 10.0 : 20.0,
                     right: smallerThanLaptop ? 10.0 : 20.0,
                     child: GestureDetector(
-                      onTap: toggleFavorite,
+                      onTap: () => toggleFavorite(recipe),
                       child: Container(
                         decoration: BoxDecoration(
                           shape: BoxShape.circle,
@@ -110,7 +114,7 @@ class RecipeItem extends StatelessWidget {
                             width: isMobile ? 15.0 : null,
                             height: isMobile ? 15.0 : null,
                             colorFilter: ColorFilter.mode(
-                              recipe.isFavorite
+                              isFavorite
                                   ? Colors.red
                                   : AppColors.lightGrey,
                               BlendMode.srcIn,
@@ -130,7 +134,11 @@ class RecipeItem extends StatelessWidget {
                     : smallerThanDesktop
                     ? 16.0
                     : 24.0,
-                top: isGradientNeeded && isMobile ? 8.0 : isGradientNeeded ? 24.0 : 16.0,
+                top: isGradientNeeded && isMobile
+                    ? 8.0
+                    : isGradientNeeded
+                    ? 24.0
+                    : 16.0,
               ),
               child: Align(
                 alignment: Alignment.centerLeft,
@@ -159,7 +167,7 @@ class RecipeItem extends StatelessWidget {
                       textTheme,
                       Assets.icons.duration,
                       '${recipe.duration} Minutes',
-                      isMobile
+                      isMobile,
                     ),
                   ),
                   IntrinsicWidth(

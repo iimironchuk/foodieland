@@ -11,8 +11,13 @@ import '../../navigation/routes.dart';
 
 class OtherRecipesGrid extends ConsumerWidget {
   final List<RecipeModel> recipes;
+  final void Function(RecipeModel) toggleFavorite;
 
-  const OtherRecipesGrid({super.key, required this.recipes});
+  const OtherRecipesGrid({
+    super.key,
+    required this.recipes,
+    required this.toggleFavorite,
+  });
 
   void _goToAnotherRecipe(String recipeId, BuildContext context) {
     final path = RecipeDetailRoute(id: recipeId).location;
@@ -76,14 +81,12 @@ class OtherRecipesGrid extends ConsumerWidget {
           ),
           itemCount: recipes.length,
           itemBuilder: (context, index) {
+            final recipe = recipes[index];
             return GestureDetector(
-              onTap: () =>
-                  _goToAnotherRecipe(recipes[index].documentId, context),
+              onTap: () => _goToAnotherRecipe(recipe.documentId, context),
               child: RecipeItem(
                 recipe: recipes[index],
-                toggleFavorite: () => ref
-                    .read(recipeListProvider.notifier)
-                    .toggleFavorite(recipes[index]),
+                toggleFavorite: (recipe) => toggleFavorite(recipe),
                 titleFontSize: isTablet
                     ? 16.0
                     : smallerThanLaptop

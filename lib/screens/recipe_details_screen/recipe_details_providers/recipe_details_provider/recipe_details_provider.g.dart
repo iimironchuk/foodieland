@@ -272,7 +272,7 @@ class _OtherThreeRecipesProviderElement
 }
 
 String _$otherRecipesByCategoryHash() =>
-    r'ec7b9a1a1857f303877278d9b0c1de3af9a03bd0';
+    r'81e1a2fe8cc8c8541a8c8ab391d4ba43aa9599b3';
 
 /// See also [otherRecipesByCategory].
 @ProviderFor(otherRecipesByCategory)
@@ -285,15 +285,15 @@ class OtherRecipesByCategoryFamily
   const OtherRecipesByCategoryFamily();
 
   /// See also [otherRecipesByCategory].
-  OtherRecipesByCategoryProvider call(String category) {
-    return OtherRecipesByCategoryProvider(category);
+  OtherRecipesByCategoryProvider call(String category, String currentRecipeId) {
+    return OtherRecipesByCategoryProvider(category, currentRecipeId);
   }
 
   @override
   OtherRecipesByCategoryProvider getProviderOverride(
     covariant OtherRecipesByCategoryProvider provider,
   ) {
-    return call(provider.category);
+    return call(provider.category, provider.currentRecipeId);
   }
 
   static const Iterable<ProviderOrFamily>? _dependencies = null;
@@ -315,10 +315,13 @@ class OtherRecipesByCategoryFamily
 class OtherRecipesByCategoryProvider
     extends AutoDisposeFutureProvider<List<RecipeModel>> {
   /// See also [otherRecipesByCategory].
-  OtherRecipesByCategoryProvider(String category)
+  OtherRecipesByCategoryProvider(String category, String currentRecipeId)
     : this._internal(
-        (ref) =>
-            otherRecipesByCategory(ref as OtherRecipesByCategoryRef, category),
+        (ref) => otherRecipesByCategory(
+          ref as OtherRecipesByCategoryRef,
+          category,
+          currentRecipeId,
+        ),
         from: otherRecipesByCategoryProvider,
         name: r'otherRecipesByCategoryProvider',
         debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
@@ -328,6 +331,7 @@ class OtherRecipesByCategoryProvider
         allTransitiveDependencies:
             OtherRecipesByCategoryFamily._allTransitiveDependencies,
         category: category,
+        currentRecipeId: currentRecipeId,
       );
 
   OtherRecipesByCategoryProvider._internal(
@@ -338,9 +342,11 @@ class OtherRecipesByCategoryProvider
     required super.debugGetCreateSourceHash,
     required super.from,
     required this.category,
+    required this.currentRecipeId,
   }) : super.internal();
 
   final String category;
+  final String currentRecipeId;
 
   @override
   Override overrideWith(
@@ -357,6 +363,7 @@ class OtherRecipesByCategoryProvider
         allTransitiveDependencies: null,
         debugGetCreateSourceHash: null,
         category: category,
+        currentRecipeId: currentRecipeId,
       ),
     );
   }
@@ -369,13 +376,15 @@ class OtherRecipesByCategoryProvider
   @override
   bool operator ==(Object other) {
     return other is OtherRecipesByCategoryProvider &&
-        other.category == category;
+        other.category == category &&
+        other.currentRecipeId == currentRecipeId;
   }
 
   @override
   int get hashCode {
     var hash = _SystemHash.combine(0, runtimeType.hashCode);
     hash = _SystemHash.combine(hash, category.hashCode);
+    hash = _SystemHash.combine(hash, currentRecipeId.hashCode);
 
     return _SystemHash.finish(hash);
   }
@@ -387,6 +396,9 @@ mixin OtherRecipesByCategoryRef
     on AutoDisposeFutureProviderRef<List<RecipeModel>> {
   /// The parameter `category` of this provider.
   String get category;
+
+  /// The parameter `currentRecipeId` of this provider.
+  String get currentRecipeId;
 }
 
 class _OtherRecipesByCategoryProviderElement
@@ -396,6 +408,9 @@ class _OtherRecipesByCategoryProviderElement
 
   @override
   String get category => (origin as OtherRecipesByCategoryProvider).category;
+  @override
+  String get currentRecipeId =>
+      (origin as OtherRecipesByCategoryProvider).currentRecipeId;
 }
 
 // ignore_for_file: type=lint

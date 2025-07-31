@@ -2,15 +2,19 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:foodieland/gen/assets.gen.dart';
 import 'package:foodieland/models/recipe_model/recipe_model.dart';
+import 'package:foodieland/navigation/routes.dart';
 import 'package:foodieland/resources/app_colors.dart';
 import 'package:foodieland/screens/home_screen/widgets/info_with_icon_container.dart';
+import 'package:foodieland/screens/recipe_details_screen/recipe_details_screen.dart';
 import 'package:intl/intl.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 
 class HotRecipeItem extends StatelessWidget {
   final RecipeModel recipe;
+  final VoidCallback toDetails;
+  const HotRecipeItem({super.key, required this.recipe, required this.toDetails});
 
-  const HotRecipeItem({super.key, required this.recipe});
+
 
   Widget _buildAuthorContent(
     TextTheme textTheme,
@@ -59,7 +63,7 @@ class HotRecipeItem extends StatelessWidget {
       SizedBox(
         height: smallerThanDesktop ? 40.0 : 60.0,
         child: ElevatedButton(
-          onPressed: () {},
+          onPressed: toDetails,
           child: Text(
             'View Recipe',
             style: textTheme.labelSmall!.copyWith(

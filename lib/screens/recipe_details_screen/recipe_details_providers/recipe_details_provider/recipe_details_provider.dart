@@ -29,8 +29,12 @@ Future<List<RecipeModel>> otherThreeRecipes(
 Future<List<RecipeModel>> otherRecipesByCategory(
   Ref ref,
   String category,
+  String currentRecipeId,
 ) async {
   final repository = ref.read(recipeRepositoryProvider);
 
-  return repository.getOtherRecipesByCategory(category: category);
+  return repository.getOtherRecipesByCategory(
+    category: category,
+    currentRecipeId: currentRecipeId,
+  );
 }
