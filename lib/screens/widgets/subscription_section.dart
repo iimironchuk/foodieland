@@ -1,3 +1,4 @@
+import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:foodieland/gen/assets.gen.dart';
@@ -12,11 +13,15 @@ class SubscriptionSection extends ConsumerWidget {
 
   Future<void> _subscribe(WidgetRef ref) async {
     final email = _emailController.text.trim();
+    final emailRegex = RegExp(r"^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$");
 
-    if (email.isNotEmpty) {
+    if(email.isEmpty){
+      BotToast.showText(text: 'Enter your email to subscribe');
+    } else if (!emailRegex.hasMatch(email)){
+      BotToast.showText(text: 'Invalid format');
+    } else{
       await ref.read(subscribeProvider(email).future);
-    } else {
-      return;
+      BotToast.showText(text: 'Thanks for subscription');
     }
   }
 

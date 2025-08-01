@@ -8,14 +8,18 @@ import 'package:foodieland/screens/home_screen/widgets/recipe_item.dart';
 import 'package:go_router/go_router.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 
+import '../../../providers/favorites_provider/favorites_provider.dart';
+
 class RecipeGrid extends ConsumerWidget {
   final int crossAxisCount;
   final List<RecipeModel> recipeList;
+  final void Function(RecipeModel) toggleFavorite;
 
   const RecipeGrid({
     super.key,
     required this.crossAxisCount,
     required this.recipeList,
+    required this.toggleFavorite,
   });
 
   void _goToDetails(BuildContext context, String recipeId) {
@@ -24,6 +28,7 @@ class RecipeGrid extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+
     final smallerThanDesktop = ResponsiveBreakpoints.of(
       context,
     ).smallerThan(DESKTOP);
@@ -79,10 +84,10 @@ class RecipeGrid extends ConsumerWidget {
         }
         final numOfAdsBefore = (index / 6).floor();
         final recipeIndex = index - numOfAdsBefore;
+        final recipe = recipeList[recipeIndex];
 
         return GestureDetector(
-          onTap: () =>
-              _goToDetails(context, recipeList[recipeIndex].documentId),
+          onTap: () => _goToDetails(context, recipe.documentId),
           child: RecipeItem(
             titleFontSize: isMobile
                 ? 12.0
@@ -98,9 +103,7 @@ class RecipeGrid extends ConsumerWidget {
                 : 14.0,
             isGradientNeeded: true,
             recipe: recipeList[recipeIndex],
-            toggleFavorite: () => ref
-                .read(recipeListProvider.notifier)
-                .toggleFavorite(recipeList[recipeIndex]),
+            toggleFavorite: (recipe) => toggleFavorite(recipe),
           ),
         );
       },

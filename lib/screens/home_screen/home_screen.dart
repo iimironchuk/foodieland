@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:foodieland/navigation/routes.dart';
+import 'package:foodieland/providers/favorites_provider/favorites_provider.dart';
 import 'package:foodieland/providers/search_providers/search_providers.dart';
 import 'package:foodieland/resources/app_colors.dart';
 import 'package:foodieland/screens/home_screen/home_screen_providers/categories_provider/categories_provider.dart';
@@ -13,6 +14,7 @@ import 'package:foodieland/screens/home_screen/widgets/own_kitchen_card.dart';
 import 'package:foodieland/screens/home_screen/widgets/recipe_grid.dart';
 import 'package:foodieland/screens/widgets/subscription_section.dart';
 import 'package:responsive_framework/responsive_framework.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class HomeScreen extends ConsumerWidget {
   const HomeScreen({super.key});
@@ -60,12 +62,28 @@ class HomeScreen extends ConsumerWidget {
     RecipesScreenRoute().go(context);
   }
 
+  void _learnMore(BuildContext context) {
+    BlogScreenRoute().go(context);
+  }
+
+  void _openInstagramProfile() async {
+    final String username = 'epic.lviv';
+    final Uri igAppUrl = Uri.parse('instagram://user?username=$username');
+    final Uri igWebUrl = Uri.parse('https://instagram.com/$username');
+
+    if (await canLaunchUrl(igAppUrl)) {
+      await launchUrl(igAppUrl, mode: LaunchMode.externalApplication);
+    } else {
+      await launchUrl(igWebUrl, mode: LaunchMode.externalApplication);
+    }
+  }
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final textTheme = Theme.of(context).textTheme;
     final categoryListAsync = ref.watch(categoryListProvider);
     final recipeList = ref.watch(recipeListProvider);
-    final otherRecipesList = ref.watch(otherRecipesListProvider);
+    final otherRecipesList = ref.watch(homeOtherRecipesProvider);
     final smallerThanDesktop = ResponsiveBreakpoints.of(
       context,
     ).smallerThan(DESKTOP);
@@ -192,6 +210,9 @@ class HomeScreen extends ConsumerWidget {
                       return RecipeGrid(
                         crossAxisCount: smallerThanLaptop ? 2 : 3,
                         recipeList: recipes,
+                        toggleFavorite: (recipe) => ref
+                            .read(favoriteRecipesProvider.notifier)
+                            .toggle(recipe),
                       );
                     },
                     error: (error, stack) => Text('Error: $error'),
@@ -204,11 +225,11 @@ class HomeScreen extends ConsumerWidget {
                         ? 100.0
                         : 140.0,
                   ),
-                  OwnKitchenCard(),
+                  OwnKitchenCard(onLearnMore: () => _learnMore(context)),
                 ],
               ),
             ),
-            InstagramSection(),
+            InstagramSection(goToInstagram: _openInstagramProfile),
             ConstrainedBox(
               constraints: BoxConstraints(maxWidth: 1280.0),
               child: Column(
@@ -230,7 +251,12 @@ class HomeScreen extends ConsumerWidget {
                   ),
                   SizedBox(height: 80.0),
                   otherRecipesList.when(
-                    data: (recipes) => OtherRecipesGrid(recipes: recipes),
+                    data: (recipes) => OtherRecipesGrid(
+                      recipes: recipes,
+                      toggleFavorite: (recipe) => ref
+                          .read(favoriteRecipesProvider.notifier)
+                          .toggle(recipe),
+                    ),
                     error: (error, stack) => Text(error.toString()),
                     loading: () => CircularProgressIndicator(),
                   ),

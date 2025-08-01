@@ -93,8 +93,9 @@ class RecipeRepository {
     }
   }
 
-  Future<List<RecipeModel>> getThreeRandomRecipe({
+  Future<List<RecipeModel>> getRandomRecipe({
     String? currentRecipeId,
+    required int numberOfRecipes,
   }) async {
     final response = await _dio.get(
       'recipes',
@@ -119,7 +120,7 @@ class RecipeRepository {
       List<RecipeModel> shuffledRecipes = List<RecipeModel>.from(recipes)
         ..shuffle();
 
-      return shuffledRecipes.take(3).toList();
+      return shuffledRecipes.take(numberOfRecipes).toList();
     } else {
       return [];
     }
@@ -127,21 +128,30 @@ class RecipeRepository {
 
   Future<List<RecipeModel>> getOtherRecipesByCategory({
     required String category,
+    required String currentRecipeId,
   }) async {
     final response = await _dio.get(
       'recipes',
       queryParameters: {
         'filters[category][title][\$eq]': category,
         'populate': {'recipeAvatar': true, 'category': true},
-        'pagination[pageSize]': 4,
+        'pagination[pageSize]': 5,
         'pagination[page]': 1,
       },
     );
 
     if (response.isSuccess) {
-      return (response.data['data'] as List)
+      List<RecipeModel> recipes = (response.data['data'] as List)
           .map((json) => RecipeModel.fromJson(json as Map<String, dynamic>))
           .toList();
+
+      recipes =
+          recipes
+              .where((recipe) => recipe.documentId != currentRecipeId)
+              .toList()
+            ..take(4);
+
+      return recipes;
     } else {
       return [];
     }

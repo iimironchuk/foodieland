@@ -9,7 +9,7 @@ part 'blog_recipes_provider.g.dart';
 Future<List<RecipeModel>> threeOtherRecipesBlog(Ref ref) async {
   final repository = ref.watch(recipeRepositoryProvider);
 
-  final recipes = repository.getThreeRandomRecipe();
+  final recipes = repository.getRandomRecipe(numberOfRecipes: 3);
 
   return recipes;
 }
