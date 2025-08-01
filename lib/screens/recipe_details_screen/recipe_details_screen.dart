@@ -276,7 +276,7 @@ class RecipeDetailsScreen extends ConsumerWidget {
                   ),
 
                   otherCategoryRecipesAsync.when(
-                    data: (recipes) => Column(
+                    data: (recipes) => recipes.isEmpty ? SizedBox() : Column(
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         Align(
@@ -301,18 +301,19 @@ class RecipeDetailsScreen extends ConsumerWidget {
                               .read(favoriteRecipesProvider.notifier)
                               .toggle(recipe),
                         ),
+                        SizedBox(
+                          height: isMobile
+                              ? 40.0
+                              : smallerThanDesktop
+                              ? 80.0
+                              : 160.0,
+                        ),
                       ],
                     ),
                     error: (error, stack) => Text(error.toString()),
                     loading: () => CircularProgressIndicator(),
                   ),
-                  SizedBox(
-                    height: isMobile
-                        ? 40.0
-                        : smallerThanDesktop
-                        ? 80.0
-                        : 160.0,
-                  ),
+
                 ],
               ),
             );

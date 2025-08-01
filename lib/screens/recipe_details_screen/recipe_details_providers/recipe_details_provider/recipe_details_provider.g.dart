@@ -147,7 +147,7 @@ class _RecipeWithDetailsProviderElement
   String get documentId => (origin as RecipeWithDetailsProvider).documentId;
 }
 
-String _$otherThreeRecipesHash() => r'c44ef6830807c9a9b2305f494fe4b9fab213887d';
+String _$otherThreeRecipesHash() => r'0544fda452b862d47a9be3e38e2ed6b4c2be8214';
 
 /// See also [otherThreeRecipes].
 @ProviderFor(otherThreeRecipes)

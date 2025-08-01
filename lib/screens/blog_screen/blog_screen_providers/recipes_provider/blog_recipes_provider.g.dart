@@ -7,7 +7,7 @@ part of 'blog_recipes_provider.dart';
 // **************************************************************************
 
 String _$threeOtherRecipesBlogHash() =>
-    r'7cf2ac105c4e98dd88aa08ba0c67f381d7030b6e';
+    r'2645ead098e332320baffdd58535563a11655dee';
 
 /// See also [threeOtherRecipesBlog].
 @ProviderFor(threeOtherRecipesBlog)

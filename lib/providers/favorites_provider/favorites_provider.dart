@@ -38,3 +38,5 @@ bool isRecipeFavorite(Ref ref, String recipeId) {
     orElse: () => false,
   );
 }
+
+final showOnlyFavoritesProvider = StateProvider<bool>((ref) => false);

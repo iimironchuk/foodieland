@@ -22,7 +22,10 @@ Future<List<RecipeModel>> otherThreeRecipes(
 ) async {
   final repository = ref.read(recipeRepositoryProvider);
 
-  return repository.getThreeRandomRecipe(currentRecipeId: currentRecipeId);
+  return repository.getRandomRecipe(
+    currentRecipeId: currentRecipeId,
+    numberOfRecipes: 3,
+  );
 }
 
 @riverpod

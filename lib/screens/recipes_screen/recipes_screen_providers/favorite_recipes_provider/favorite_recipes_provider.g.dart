@@ -1,13 +1,13 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'recipes_recipe_provider.dart';
+part of 'favorite_recipes_provider.dart';
 
 // **************************************************************************
 // RiverpodGenerator
 // **************************************************************************
 
-String _$recipesScreenRecipeListHash() =>
-    r'5b75fcc7e3cde0787896b18a7e7dda33791b237b';
+String _$recipeScreenFavoritesHash() =>
+    r'd95ed75974822097e6347ead8c37911a210ba459';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -30,31 +30,31 @@ class _SystemHash {
   }
 }
 
-abstract class _$RecipesScreenRecipeList
-    extends BuildlessAutoDisposeAsyncNotifier<List<RecipeModel>> {
+abstract class _$RecipeScreenFavorites
+    extends BuildlessAsyncNotifier<List<RecipeModel>> {
   late final CategoryModel? categoryModel;
 
   FutureOr<List<RecipeModel>> build(CategoryModel? categoryModel);
 }
 
-/// See also [RecipesScreenRecipeList].
-@ProviderFor(RecipesScreenRecipeList)
-const recipesScreenRecipeListProvider = RecipesScreenRecipeListFamily();
+/// See also [RecipeScreenFavorites].
+@ProviderFor(RecipeScreenFavorites)
+const recipeScreenFavoritesProvider = RecipeScreenFavoritesFamily();
 
-/// See also [RecipesScreenRecipeList].
-class RecipesScreenRecipeListFamily
+/// See also [RecipeScreenFavorites].
+class RecipeScreenFavoritesFamily
     extends Family<AsyncValue<List<RecipeModel>>> {
-  /// See also [RecipesScreenRecipeList].
-  const RecipesScreenRecipeListFamily();
+  /// See also [RecipeScreenFavorites].
+  const RecipeScreenFavoritesFamily();
 
-  /// See also [RecipesScreenRecipeList].
-  RecipesScreenRecipeListProvider call(CategoryModel? categoryModel) {
-    return RecipesScreenRecipeListProvider(categoryModel);
+  /// See also [RecipeScreenFavorites].
+  RecipeScreenFavoritesProvider call(CategoryModel? categoryModel) {
+    return RecipeScreenFavoritesProvider(categoryModel);
   }
 
   @override
-  RecipesScreenRecipeListProvider getProviderOverride(
-    covariant RecipesScreenRecipeListProvider provider,
+  RecipeScreenFavoritesProvider getProviderOverride(
+    covariant RecipeScreenFavoritesProvider provider,
   ) {
     return call(provider.categoryModel);
   }
@@ -71,32 +71,29 @@ class RecipesScreenRecipeListFamily
       _allTransitiveDependencies;
 
   @override
-  String? get name => r'recipesScreenRecipeListProvider';
+  String? get name => r'recipeScreenFavoritesProvider';
 }
 
-/// See also [RecipesScreenRecipeList].
-class RecipesScreenRecipeListProvider
+/// See also [RecipeScreenFavorites].
+class RecipeScreenFavoritesProvider
     extends
-        AutoDisposeAsyncNotifierProviderImpl<
-          RecipesScreenRecipeList,
-          List<RecipeModel>
-        > {
-  /// See also [RecipesScreenRecipeList].
-  RecipesScreenRecipeListProvider(CategoryModel? categoryModel)
+        AsyncNotifierProviderImpl<RecipeScreenFavorites, List<RecipeModel>> {
+  /// See also [RecipeScreenFavorites].
+  RecipeScreenFavoritesProvider(CategoryModel? categoryModel)
     : this._internal(
-        () => RecipesScreenRecipeList()..categoryModel = categoryModel,
-        from: recipesScreenRecipeListProvider,
-        name: r'recipesScreenRecipeListProvider',
+        () => RecipeScreenFavorites()..categoryModel = categoryModel,
+        from: recipeScreenFavoritesProvider,
+        name: r'recipeScreenFavoritesProvider',
         debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
             ? null
-            : _$recipesScreenRecipeListHash,
-        dependencies: RecipesScreenRecipeListFamily._dependencies,
+            : _$recipeScreenFavoritesHash,
+        dependencies: RecipeScreenFavoritesFamily._dependencies,
         allTransitiveDependencies:
-            RecipesScreenRecipeListFamily._allTransitiveDependencies,
+            RecipeScreenFavoritesFamily._allTransitiveDependencies,
         categoryModel: categoryModel,
       );
 
-  RecipesScreenRecipeListProvider._internal(
+  RecipeScreenFavoritesProvider._internal(
     super._createNotifier, {
     required super.name,
     required super.dependencies,
@@ -110,16 +107,16 @@ class RecipesScreenRecipeListProvider
 
   @override
   FutureOr<List<RecipeModel>> runNotifierBuild(
-    covariant RecipesScreenRecipeList notifier,
+    covariant RecipeScreenFavorites notifier,
   ) {
     return notifier.build(categoryModel);
   }
 
   @override
-  Override overrideWith(RecipesScreenRecipeList Function() create) {
+  Override overrideWith(RecipeScreenFavorites Function() create) {
     return ProviderOverride(
       origin: this,
-      override: RecipesScreenRecipeListProvider._internal(
+      override: RecipeScreenFavoritesProvider._internal(
         () => create()..categoryModel = categoryModel,
         from: from,
         name: null,
@@ -132,17 +129,14 @@ class RecipesScreenRecipeListProvider
   }
 
   @override
-  AutoDisposeAsyncNotifierProviderElement<
-    RecipesScreenRecipeList,
-    List<RecipeModel>
-  >
+  AsyncNotifierProviderElement<RecipeScreenFavorites, List<RecipeModel>>
   createElement() {
-    return _RecipesScreenRecipeListProviderElement(this);
+    return _RecipeScreenFavoritesProviderElement(this);
   }
 
   @override
   bool operator ==(Object other) {
-    return other is RecipesScreenRecipeListProvider &&
+    return other is RecipeScreenFavoritesProvider &&
         other.categoryModel == categoryModel;
   }
 
@@ -157,24 +151,20 @@ class RecipesScreenRecipeListProvider
 
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
-mixin RecipesScreenRecipeListRef
-    on AutoDisposeAsyncNotifierProviderRef<List<RecipeModel>> {
+mixin RecipeScreenFavoritesRef on AsyncNotifierProviderRef<List<RecipeModel>> {
   /// The parameter `categoryModel` of this provider.
   CategoryModel? get categoryModel;
 }
 
-class _RecipesScreenRecipeListProviderElement
+class _RecipeScreenFavoritesProviderElement
     extends
-        AutoDisposeAsyncNotifierProviderElement<
-          RecipesScreenRecipeList,
-          List<RecipeModel>
-        >
-    with RecipesScreenRecipeListRef {
-  _RecipesScreenRecipeListProviderElement(super.provider);
+        AsyncNotifierProviderElement<RecipeScreenFavorites, List<RecipeModel>>
+    with RecipeScreenFavoritesRef {
+  _RecipeScreenFavoritesProviderElement(super.provider);
 
   @override
   CategoryModel? get categoryModel =>
-      (origin as RecipesScreenRecipeListProvider).categoryModel;
+      (origin as RecipeScreenFavoritesProvider).categoryModel;
 }
 
 // ignore_for_file: type=lint
