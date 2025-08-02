@@ -7,7 +7,7 @@ part of 'favorite_recipes_provider.dart';
 // **************************************************************************
 
 String _$recipeScreenFavoritesHash() =>
-    r'd95ed75974822097e6347ead8c37911a210ba459';
+    r'd822f95b3909da3f8c6c8fc104c8cb281402541d';
 
 /// Copied from Dart SDK
 class _SystemHash {

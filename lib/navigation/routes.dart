@@ -2,14 +2,14 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:foodieland/navigation/app_wrapper.dart';
-import 'package:foodieland/screens/about_us_screen.dart';
+import 'package:foodieland/screens/about_us_screen/about_us_screen.dart';
 import 'package:foodieland/screens/blog_screen/blog_screen.dart';
 import 'package:foodieland/screens/post_details_screen/post_details_screen.dart';
 import 'package:foodieland/screens/recipe_details_screen/recipe_details_screen.dart';
 import 'package:foodieland/screens/recipes_screen/recipes_screen.dart';
 import 'package:go_router/go_router.dart';
 
-import '../screens/contact_screen.dart';
+import '../screens/contact_screen/contact_screen.dart';
 import '../screens/home_screen/home_screen.dart';
 
 part 'routes.g.dart';

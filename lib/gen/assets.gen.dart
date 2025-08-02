@@ -70,6 +70,10 @@ class $AssetsImagesGen {
   /// File path: assets/images/chef.png
   AssetGenImage get chef => const AssetGenImage('assets/images/chef.png');
 
+  /// File path: assets/images/contact_page_cook.png
+  AssetGenImage get contactPageCook =>
+      const AssetGenImage('assets/images/contact_page_cook.png');
+
   /// File path: assets/images/hot_recipe.png
   AssetGenImage get hotRecipe =>
       const AssetGenImage('assets/images/hot_recipe.png');
@@ -101,6 +105,7 @@ class $AssetsImagesGen {
     advertisment,
     badge,
     chef,
+    contactPageCook,
     hotRecipe,
     instagramPost1,
     instagramPost2,
