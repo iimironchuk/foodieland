@@ -34,9 +34,9 @@ class OtherRecipesGrid extends ConsumerWidget {
     ).smallerThan('Laptop');
     final isSmallLaptop =
         MediaQuery.of(context).size.width < 1100 &&
-        MediaQuery.of(context).size.width > 800;
+        MediaQuery.of(context).size.width > 950;
     final isVerySmallLaptop =
-        MediaQuery.of(context).size.width < 900 &&
+        MediaQuery.of(context).size.width < 950 &&
         MediaQuery.of(context).size.width > 800;
 
     final isSmallTablet = MediaQuery.of(context).size.width < 650;
@@ -45,9 +45,9 @@ class OtherRecipesGrid extends ConsumerWidget {
     final isTablet = ResponsiveBreakpoints.of(context).isTablet;
     double getAspectRatio() {
       if (isSmallMobile) {
-        return 290 / 380;
+        return 290 / 350;
       } else if (isMobile) {
-        return 290 / 330;
+        return 290 / 320;
       } else if (isSmallTablet) {
         return 290 / 330;
       } else if (isTablet) {
@@ -55,7 +55,7 @@ class OtherRecipesGrid extends ConsumerWidget {
       } else if (isVerySmallLaptop) {
         return 290 / 430;
       } else if (isSmallLaptop) {
-        return 290 / 400;
+        return 290 / 350;
       }
       return 290 / 316;
     }

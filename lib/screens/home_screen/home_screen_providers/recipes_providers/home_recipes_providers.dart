@@ -29,12 +29,10 @@ class RecipeList extends _$RecipeList {
   @override
   Future<List<RecipeModel>> build() async {
     final repository = ref.watch(recipeRepositoryProvider);
-    final sharedPreferences = ref.watch(sharedPreferencesProvider);
     final recipesFromServer = await repository.getRecipesForOverview(
       page: _page,
       limit: _limit,
     );
-
 
     _recipes = recipesFromServer;
 

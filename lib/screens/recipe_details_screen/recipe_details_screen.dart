@@ -15,7 +15,6 @@ import 'package:foodieland/screens/widgets/other_recipes_grid.dart';
 import 'package:foodieland/screens/widgets/subscription_section.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 import 'package:printing/printing.dart';
-import 'package:share_plus/share_plus.dart';
 
 import '../../providers/services_providers.dart';
 

@@ -72,19 +72,24 @@ class InstagramSection extends StatelessWidget {
           ),
           ConstrainedBox(
             constraints: BoxConstraints(maxWidth: 1280.0),
-            child: GridView.builder(
-              physics: NeverScrollableScrollPhysics(),
-              shrinkWrap: true,
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: smallerThanLaptop ? 2 : 4,
-                mainAxisSpacing: 40.0,
-                crossAxisSpacing: 40.0,
-                childAspectRatio: 290 / 445,
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: smallerThanDesktop ? 20.0 : 0),
+              child: GridView.builder(
+                physics: NeverScrollableScrollPhysics(),
+                shrinkWrap: true,
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: smallerThanLaptop ? 2 : 4,
+                  mainAxisSpacing: 10.0,
+                  crossAxisSpacing: 40.0,
+                  childAspectRatio: 290 / 445,
+                ),
+                itemCount: instagramPosts.length,
+                itemBuilder: (context, index) {
+                  return AspectRatio(
+                    aspectRatio: 290/445,
+                      child: instagramPosts[index]);
+                },
               ),
-              itemCount: instagramPosts.length,
-              itemBuilder: (context, index) {
-                return instagramPosts[index];
-              },
             ),
           ),
           SizedBox(height: 80.0),

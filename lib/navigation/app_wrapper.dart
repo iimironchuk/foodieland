@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:foodieland/gen/assets.gen.dart';
+import 'package:foodieland/providers/services_providers.dart';
 import 'package:foodieland/resources/app_colors.dart';
 import 'package:foodieland/screens/widgets/custom_drawer.dart';
 import 'package:foodieland/screens/widgets/footer.dart';
@@ -8,7 +10,7 @@ import 'package:go_router/go_router.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 import 'package:separated_row/separated_row.dart';
 
-class AppWrapper extends StatelessWidget {
+class AppWrapper extends ConsumerWidget {
   final StatefulNavigationShell navigationShell;
 
   const AppWrapper({super.key, required this.navigationShell});
@@ -21,7 +23,7 @@ class AppWrapper extends StatelessWidget {
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final textTheme = Theme.of(context).textTheme;
     final smallerThanDesktop = ResponsiveBreakpoints.of(
       context,
@@ -31,11 +33,26 @@ class AppWrapper extends StatelessWidget {
     ).smallerThan('Laptop');
     return Scaffold(
       endDrawer: CustomDrawer(
-        goHome: () => _goToBranch(0),
-        goToRecipes: () => _goToBranch(1),
-        goToBlog: () => _goToBranch(2),
-        goToContacts: () => _goToBranch(3),
-        goToAboutUs: () => _goToBranch(4),
+        goHome: () {
+          _goToBranch(0);
+          context.pop();
+        },
+        goToRecipes: () {
+          _goToBranch(1);
+          context.pop();
+        },
+        goToBlog: () {
+          _goToBranch(2);
+          context.pop();
+        },
+        goToContacts: () {
+          _goToBranch(3);
+          context.pop();
+        },
+        goToAboutUs: () {
+          _goToBranch(4);
+          context.pop();
+        },
       ),
       backgroundColor: Colors.white,
       appBar: PreferredSize(
@@ -103,15 +120,21 @@ class AppWrapper extends StatelessWidget {
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         IconButton(
-                          onPressed: () {},
+                          onPressed: () => ref
+                              .read(socialLinksServiceProvider)
+                              .goToFacebook(),
                           icon: SvgPicture.asset(Assets.icons.facebook),
                         ),
                         IconButton(
-                          onPressed: () {},
+                          onPressed: () => ref
+                              .read(socialLinksServiceProvider)
+                              .goToTwitter(),
                           icon: SvgPicture.asset(Assets.icons.twitter),
                         ),
                         IconButton(
-                          onPressed: () {},
+                          onPressed: () => ref
+                              .read(socialLinksServiceProvider)
+                              .goToInstagram(),
                           icon: SvgPicture.asset(Assets.icons.instagarm),
                         ),
                       ],
@@ -131,7 +154,7 @@ class AppWrapper extends StatelessWidget {
                             ),
                           ),
                         );
-                      }
+                      },
                     ),
                 ],
               ),
@@ -145,11 +168,19 @@ class AppWrapper extends StatelessWidget {
             Divider(color: AppColors.dividerColor),
             navigationShell,
             Padding(
-              padding:  EdgeInsets.symmetric(horizontal: smallerThanDesktop ? 10.0 : 0),
+              padding: EdgeInsets.symmetric(
+                horizontal: smallerThanDesktop ? 10.0 : 0,
+              ),
               child: Center(
                 child: ConstrainedBox(
                   constraints: BoxConstraints(maxWidth: 1280.0),
-                  child: Footer(),
+                  child: Footer(
+                    onLabelTap: () => _goToBranch(0),
+                    goToRecipes: () => _goToBranch(1),
+                    goToBlog: () => _goToBranch(2),
+                    goToContacts: () => _goToBranch(3),
+                    goToAboutUs: () => _goToBranch(4),
+                  ),
                 ),
               ),
             ),

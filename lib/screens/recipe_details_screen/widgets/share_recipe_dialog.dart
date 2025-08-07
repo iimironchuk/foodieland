@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:foodieland/gen/assets.gen.dart';
+import 'package:foodieland/providers/services_providers.dart';
 import 'package:foodieland/resources/app_colors.dart';
 import 'package:foodieland/screens/recipe_details_screen/widgets/share_item.dart';
 import 'package:separated_row/separated_row.dart';
-import 'package:url_launcher/url_launcher.dart';
 
-class ShareRecipeDialog extends StatelessWidget {
+class ShareRecipeDialog extends ConsumerWidget {
   const ShareRecipeDialog({super.key});
 
   void _copyToClipboard(BuildContext context) {
@@ -19,39 +20,23 @@ class ShareRecipeDialog extends StatelessWidget {
     );
   }
 
-  void _shareToFacebook() async {
+  void _shareToFacebook(WidgetRef ref) async {
     final urlToShare = Uri.base;
-    final fbShareUrl = Uri.parse('https://www.facebook.com/sharer/sharer.php?u=$urlToShare');
-    if (await canLaunchUrl(fbShareUrl)) {
-      await launchUrl(fbShareUrl, mode: LaunchMode.externalApplication);
-    } else {
-      throw 'Could not launch $fbShareUrl';
-    }
+    await ref.read(shareServiceProvider).facebookShare(urlToShare: urlToShare);
   }
 
-  void _shareToTwitter() async {
+  void _shareToTwitter(WidgetRef ref) async {
     final urlToShare = Uri.base;
-    final twitterUrl = Uri.parse(
-      'https://twitter.com/intent/tweet?url=$urlToShare',
-    );
-    if (await canLaunchUrl(twitterUrl)) {
-      await launchUrl(twitterUrl, mode: LaunchMode.externalApplication);
-    }
+    await ref.read(shareServiceProvider).twitterShare(urlToShare: urlToShare);
   }
 
-  void _shareToWhatsApp() async {
+  void _shareToWhatsApp(WidgetRef ref) async {
     final urlToShare = Uri.base.toString();
-
-    final whatsappUrl = Uri.parse('https://wa.me/?text=${Uri.encodeComponent(urlToShare)}');
-    if (await canLaunchUrl(whatsappUrl)) {
-      await launchUrl(whatsappUrl, mode: LaunchMode.externalApplication);
-    }
+    await ref.read(shareServiceProvider).whatsAppShare(urlToShare: urlToShare);
   }
-
-
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final textTheme = Theme.of(context).textTheme;
     return ConstrainedBox(
       constraints: BoxConstraints(maxWidth: 700.0),
@@ -76,17 +61,17 @@ class ShareRecipeDialog extends StatelessWidget {
                   ShareItem(
                     backgroundColor: Color(0xFF3c5997),
                     asset: Assets.icons.facebook,
-                    onTap: _shareToFacebook,
+                    onTap: () => _shareToFacebook(ref),
                   ),
                   ShareItem(
                     backgroundColor: Color(0xFF189cf1),
                     asset: Assets.icons.twitter,
-                    onTap: _shareToTwitter,
+                    onTap: () => _shareToTwitter(ref),
                   ),
                   ShareItem(
                     backgroundColor: Color(0xFF29d045),
                     asset: Assets.icons.whatsapp,
-                    onTap: _shareToWhatsApp,
+                    onTap: () => _shareToWhatsApp(ref),
                   ),
                 ],
                 separatorBuilder: (_, _) => SizedBox(width: 20.0),

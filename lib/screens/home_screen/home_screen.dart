@@ -90,16 +90,17 @@ class HomeScreen extends ConsumerWidget {
     final smallerThanLaptop = ResponsiveBreakpoints.of(
       context,
     ).smallerThan('Laptop');
+    final isMobile = ResponsiveBreakpoints.of(context).isMobile;
     return Center(
-      child: Padding(
-        padding: EdgeInsets.symmetric(
-          horizontal: smallerThanDesktop ? 20.0 : 0,
-        ),
-        child: Column(
-          children: [
-            HotRecipesCarousel(),
-            ConstrainedBox(
-              constraints: BoxConstraints(maxWidth: 1280.0),
+      child: Column(
+        children: [
+          HotRecipesCarousel(),
+          ConstrainedBox(
+            constraints: BoxConstraints(maxWidth: 1280.0),
+            child: Padding(
+              padding: EdgeInsets.symmetric(
+                horizontal: smallerThanDesktop ? 20.0 : 0,
+              ),
               child: Column(
                 children: [
                   SizedBox(height: 160.0),
@@ -204,7 +205,7 @@ class HomeScreen extends ConsumerWidget {
                       ),
                     ),
                   ),
-                  SizedBox(height: 50.0),
+                  SizedBox(height: smallerThanDesktop ? 25.0 : 50.0),
                   recipeList.when(
                     data: (recipes) {
                       return RecipeGrid(
@@ -229,12 +230,23 @@ class HomeScreen extends ConsumerWidget {
                 ],
               ),
             ),
-            InstagramSection(goToInstagram: _openInstagramProfile),
-            ConstrainedBox(
-              constraints: BoxConstraints(maxWidth: 1280.0),
+          ),
+          InstagramSection(goToInstagram: _openInstagramProfile),
+          ConstrainedBox(
+            constraints: BoxConstraints(maxWidth: 1280.0),
+            child: Padding(
+              padding: EdgeInsets.symmetric(
+                horizontal: smallerThanDesktop ? 20.0 : 0,
+              ),
               child: Column(
                 children: [
-                  SizedBox(height: 160.0),
+                  SizedBox(
+                    height: isMobile
+                        ? 40.0
+                        : smallerThanDesktop
+                        ? 80.0
+                        : 160.0,
+                  ),
                   _buildTitleContent(
                     textTheme: textTheme,
                     smallerThanLaptop: smallerThanDesktop,
@@ -249,7 +261,13 @@ class HomeScreen extends ConsumerWidget {
                         ? 14.0
                         : 16.0,
                   ),
-                  SizedBox(height: 80.0),
+                  SizedBox(
+                    height: isMobile
+                        ? 20.0
+                        : smallerThanDesktop
+                        ? 40.0
+                        : 80.0,
+                  ),
                   otherRecipesList.when(
                     data: (recipes) => OtherRecipesGrid(
                       recipes: recipes,
@@ -261,14 +279,26 @@ class HomeScreen extends ConsumerWidget {
                     loading: () => CircularProgressIndicator(),
                   ),
 
-                  SizedBox(height: 160.0),
+                  SizedBox(
+                    height: isMobile
+                        ? 40.0
+                        : smallerThanDesktop
+                        ? 80.0
+                        : 160.0,
+                  ),
                   SubscriptionSection(),
-                  SizedBox(height: 160.0),
+                  SizedBox(
+                    height: isMobile
+                        ? 40.0
+                        : smallerThanDesktop
+                        ? 80.0
+                        : 160.0,
+                  ),
                 ],
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

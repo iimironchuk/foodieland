@@ -6,13 +6,31 @@ import 'package:separated_column/separated_column.dart';
 import 'package:separated_row/separated_row.dart';
 
 class ShareColumn extends StatelessWidget {
-  const ShareColumn({super.key});
+  final VoidCallback facebookShare;
+  final VoidCallback twitterShare;
+  final VoidCallback instagramShare;
+
+  const ShareColumn({
+    super.key,
+    required this.facebookShare,
+    required this.twitterShare,
+    required this.instagramShare,
+  });
 
   Widget _buildShareRow(bool smallerThanDesktop) {
     final children = [
-      SvgPicture.asset(Assets.icons.facebook),
-      SvgPicture.asset(Assets.icons.twitter),
-      SvgPicture.asset(Assets.icons.instagarm),
+      IconButton(
+        onPressed: facebookShare,
+        icon: SvgPicture.asset(Assets.icons.facebook),
+      ),
+      IconButton(
+        onPressed: twitterShare,
+        icon: SvgPicture.asset(Assets.icons.twitter),
+      ),
+      IconButton(
+        onPressed: instagramShare,
+        icon: SvgPicture.asset(Assets.icons.instagarm),
+      ),
     ];
 
     return smallerThanDesktop

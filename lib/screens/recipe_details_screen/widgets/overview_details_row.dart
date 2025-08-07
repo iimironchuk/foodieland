@@ -6,7 +6,6 @@ import 'package:foodieland/resources/app_colors.dart';
 import 'package:foodieland/screens/recipe_details_screen/widgets/print_share_container.dart';
 import 'package:intl/intl.dart';
 import 'package:responsive_framework/responsive_framework.dart';
-import 'package:separated_row/separated_row.dart';
 
 class OverviewDetailsRow extends StatelessWidget {
   final String authorImageUrl;

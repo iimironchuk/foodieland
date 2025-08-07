@@ -40,6 +40,13 @@ class ContactScreen extends ConsumerWidget {
           ),
           child: Column(
             children: [
+              SizedBox(
+                height: isMobile
+                    ? 20.0
+                    : smallerThanDesktop
+                    ? 40.0
+                    : 80.0,
+              ),
               Text(
                 'Contact us',
                 style: textTheme.labelMedium!.copyWith(
@@ -89,9 +96,17 @@ class ContactScreen extends ConsumerWidget {
               ),
               SizedBox(height: 48.0),
               SizedBox(
-                height: 64.0,
-                width: 180.0,
-                child: ElevatedButton(onPressed: () {}, child: Text('Submit')),
+                height: isMobile ? 44.0 : 64.0,
+                width: isMobile ? 100.0 : 180.0,
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(isMobile ? 8 : 16),
+                    ),
+                  ),
+                  onPressed: () {},
+                  child: Text('Submit'),
+                ),
               ),
               SizedBox(height: bigSizedBoxHeight()),
               SubscriptionSection(),
@@ -106,12 +121,13 @@ class ContactScreen extends ConsumerWidget {
                       : 36.0,
                 ),
               ),
-              SizedBox(height:
-              isMobile
-                  ? 20.0
-                  : smallerThanDesktop
-                  ? 40.0
-                  : 80.0),
+              SizedBox(
+                height: isMobile
+                    ? 20.0
+                    : smallerThanDesktop
+                    ? 40.0
+                    : 80.0,
+              ),
               otherRecipesAsync.when(
                 data: (recipes) => OtherRecipesGrid(
                   recipes: recipes,
