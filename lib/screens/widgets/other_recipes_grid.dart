@@ -45,7 +45,7 @@ class OtherRecipesGrid extends ConsumerWidget {
     final isTablet = ResponsiveBreakpoints.of(context).isTablet;
     double getAspectRatio() {
       if (isSmallMobile) {
-        return 290 / 350;
+        return 290 / 370;
       } else if (isMobile) {
         return 290 / 320;
       } else if (isSmallTablet) {

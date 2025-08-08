@@ -7,13 +7,14 @@ class CustomTextField extends StatelessWidget {
   final int maxLines;
   final double? contentTopPadding;
   final double? contentBottomPadding;
+  final void Function(String)? onChanged;
 
   const CustomTextField({
     super.key,
     required this.hintText,
     required this.title,
     required this.maxLines,
-    this.contentTopPadding, this.contentBottomPadding,
+    this.contentTopPadding, this.contentBottomPadding, this.onChanged,
   });
 
   @override
@@ -45,6 +46,7 @@ class CustomTextField extends StatelessWidget {
               // isDense: true
             ),
             maxLines: maxLines,
+            onChanged: onChanged,
           ),
         ),
       ],

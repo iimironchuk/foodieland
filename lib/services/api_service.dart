@@ -10,7 +10,7 @@ class ApiService {
   ApiService() {
     dio = Dio(
       BaseOptions(
-        baseUrl: 'http://localhost:1337/api/',
+        baseUrl: 'http://strapi2.demodev.cc/api/',
       ),
     )..interceptors.addAll(
       [
@@ -29,7 +29,7 @@ class ApiService {
               RequestOptions options,
               RequestInterceptorHandler handler,
               ) {
-            final String accessToken = 'b85c1958a87a9fb10e1379f0c7111d04a0e11fa3bb4c09d787e528f09adff16a087c990bb685bf6aa180e205743967c0e3137bdeec584d39c3db5951f23de318e53f5ccc14a6eb8052e759af9ffa2a5878fd6b3f10baece712271b7c5d287814a85999f2997c30b563e5be0e47d80075a24c232ecd818e37766178ac3cfdd99f';
+            final String accessToken = '8f08666c3f8e1aefb95317160837393a69d05b268dc04ca7108fdae2b8dd9514ec0279a5c4f61507a00f372b8f3e3c7e970fd79418f3e083a5faad0753fac365947e6c855928d30ef28c1c35ccc390b0943771e1af3ad62bf03404dfa397396c2201c4b73dd522c73d76a319fc2886b4ec2d926bd0535f4c5abeb942ed7c88ef';
             // final String? accessToken = SecureStorageService.token;
 
             options.headers['Authorization'] = 'Bearer $accessToken';

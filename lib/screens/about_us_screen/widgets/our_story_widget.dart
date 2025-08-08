@@ -45,9 +45,19 @@ class OurStoryWidget extends StatelessWidget {
                     : 24.0,
               ),
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                child: Text(
-                  'Lorem ipsum dolor sit amet, consectetuipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqut enim ad minim. Lorem ipsum dolor sit amet, consectetuipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqut enim ad minim',
+                padding:  EdgeInsets.symmetric(horizontal: isMobile ? 0 : 20.0),
+                child: Text('''
+                At Foodieland, our journey began with a simple yet powerful idea — to bring the joy of cooking into every home. We believe that food is more than just nourishment; it's a universal language that connects people, cultures, and stories.
+
+                What started as a passion project by a group of food lovers has grown into a vibrant community of home cooks, professional chefs, and recipe explorers. We created Foodieland to be your go-to companion in the kitchen — whether you're discovering new flavors, recreating traditional meals, or experimenting with your own creations.
+
+                Our mission is to make cooking accessible, enjoyable, and inspiring for everyone. With carefully curated recipes, easy-to-follow steps, and a touch of culinary creativity, we hope to turn everyday cooking into something extraordinary.
+
+                This is more than an app. It’s a celebration of flavor, family, and the stories that unfold around the table.
+
+                Welcome to Foodieland — where every recipe has a story.
+
+                ''',
                   style: textTheme.labelSmall!.copyWith(
                     fontSize: smallerThanLaptop
                         ? 12.0
@@ -55,7 +65,7 @@ class OurStoryWidget extends StatelessWidget {
                         ? 14.0
                         : 16.0,
                   ),
-                  textAlign: TextAlign.center,
+                  textAlign: TextAlign.start,
                 ),
               ),
               SizedBox(

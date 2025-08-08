@@ -153,8 +153,7 @@ class RecipeItem extends ConsumerWidget {
                 ),
               ),
             ),
-            Spacer(),
-
+            // Spacer(),
             Align(
               alignment: Alignment.centerLeft,
               child: Wrap(
@@ -181,6 +180,7 @@ class RecipeItem extends ConsumerWidget {
                 ],
               ),
             ),
+            // SizedBox(height: 32.0,),
           ],
         ),
       ),

@@ -8,7 +8,7 @@ class ImagePathConverter implements JsonConverter<String, Map<String, dynamic>?>
     if (json == null || json['url'] == null) {
       return '';
     }
-    return 'http://localhost:1337${json['url']}';
+    return 'http://localhost:3012${json['url']}';
   }
 
   @override

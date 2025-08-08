@@ -208,6 +208,9 @@ class HomeScreen extends ConsumerWidget {
                   SizedBox(height: smallerThanDesktop ? 25.0 : 50.0),
                   recipeList.when(
                     data: (recipes) {
+                      // return Wrap(
+                      //   children: recipes.map((recipe)),
+                      // );
                       return RecipeGrid(
                         crossAxisCount: smallerThanLaptop ? 2 : 3,
                         recipeList: recipes,
@@ -230,6 +233,13 @@ class HomeScreen extends ConsumerWidget {
                 ],
               ),
             ),
+          ),
+          SizedBox(
+            height: smallerThanLaptop
+                ? 40.0
+                : smallerThanDesktop
+                ? 80.0
+                : 120.0,
           ),
           InstagramSection(goToInstagram: _openInstagramProfile),
           ConstrainedBox(

@@ -77,12 +77,12 @@ class RecipeGrid extends ConsumerWidget {
       itemCount: recipeList.length + adCount,
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: crossAxisCount,
-        mainAxisSpacing: isSmallTablet
+        mainAxisSpacing: isMobile
             ? 10.0
             : smallerThanLaptop
             ? 20.0
             : 40.0,
-        crossAxisSpacing: isSmallTablet
+        crossAxisSpacing: isMobile
             ? 10.0
             : smallerThanLaptop
             ? 20.0
