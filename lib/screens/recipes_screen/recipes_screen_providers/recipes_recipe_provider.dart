@@ -15,8 +15,6 @@ class RecipesScreenRecipeList extends _$RecipesScreenRecipeList {
   bool _isLoadingNext = false;
   bool _hasReachedEnd = false;
   List<RecipeModel> _recipes = [];
-  bool _showFavorites = false;
-  int _favPage = 1;
 
   @override
   Future<List<RecipeModel>> build(CategoryModel? categoryModel) async {
@@ -39,7 +37,11 @@ class RecipesScreenRecipeList extends _$RecipesScreenRecipeList {
 
     _isLoadingNext = true;
     _page++;
-    _limit = 9;
+    if (_page % 2 == 0) {
+      _limit = 7;
+    } else {
+      _limit = 8;
+    }
     final repository = ref.watch(recipeRepositoryProvider);
     final recipesFromServer = await repository.getRecipesForOverview(
       page: _page,

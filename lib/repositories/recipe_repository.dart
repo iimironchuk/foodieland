@@ -5,6 +5,7 @@ import 'package:foodieland/models/category_model/category_model.dart';
 import 'package:foodieland/models/direction_model/cooking_step_mapper.dart';
 import 'package:foodieland/models/ingredients_model/ingredients_mapper.dart';
 import 'package:foodieland/models/recipe_model/recipe_model.dart';
+import 'package:foodieland/services/shared_preferences_service.dart';
 import 'package:foodieland/utils/extensions.dart';
 
 import '../services/api_service.dart';
@@ -45,6 +46,37 @@ class RecipeRepository {
         'pagination[pageSize]': limit,
         'pagination[page]': page,
         if (category != null) 'filters[category][title][\$eq]': category.title,
+      },
+    );
+
+    if (response.isSuccess) {
+      return (response.data['data'] as List)
+          .map((json) => RecipeModel.fromJson(json as Map<String, dynamic>))
+          .toList();
+    } else {
+      return [];
+    }
+  }
+
+  Future<List<RecipeModel>> getFavoritesForOverview({
+    required int page,
+    required int limit,
+    CategoryModel? category,
+  }) async {
+    final sharedPreferencesService = SharedPreferencesService();
+
+    final List<String> idList = await sharedPreferencesService.getFavoriteRecipes();
+
+    final intIds = idList.map((id)=> int.parse(id)).toList();
+
+    final response = await _dio.get(
+      'recipes',
+      queryParameters: {
+        'populate': {'recipeAvatar': true, 'category': true},
+        'pagination[pageSize]': limit,
+        'pagination[page]': page,
+        if (category != null) 'filters[category][title][\$eq]': category.title,
+        if (intIds.isNotEmpty) 'filters[id][\$in]': intIds,
       },
     );
 

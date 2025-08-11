@@ -19,9 +19,9 @@ class RecipeScreenFavorites extends _$RecipeScreenFavorites {
   Future<List<RecipeModel>> build(CategoryModel? categoryModel) async {
     final repository = ref.watch(recipeRepositoryProvider);
 
-    final favoriteIds = await ref.watch(favoriteRecipesProvider.future);
+    _page = 1;
 
-    final recipes = await repository.getRecipesForOverview(
+    final recipes = await repository.getFavoritesForOverview(
       page: _page,
       limit: _limit,
       category: categoryModel,
@@ -31,25 +31,24 @@ class RecipeScreenFavorites extends _$RecipeScreenFavorites {
 
     _hasReachedEnd = recipes.length < _limit;
 
-    final favoriteRecipes = recipes
-        .where((recipe) => favoriteIds.contains(recipe.id.toString()))
-        .toList();
-
-    return favoriteRecipes;
+    return _allRecipes;
   }
-
 
   Future<void> loadMore(CategoryModel? categoryModel) async {
     if (_isLoadingNext || _hasReachedEnd) return;
 
     _isLoadingNext = true;
     _page++;
-    _limit = 8;
+
+    if (_page % 2 == 0) {
+      _limit = 7;
+    } else {
+      _limit = 8;
+    }
 
     final repository = ref.watch(recipeRepositoryProvider);
-    final favoriteIds = await ref.read(favoriteRecipesProvider.future);
 
-    final newRecipes = await repository.getRecipesForOverview(
+    final newRecipes = await repository.getFavoritesForOverview(
       page: _page,
       limit: _limit,
       category: categoryModel,
@@ -60,11 +59,7 @@ class RecipeScreenFavorites extends _$RecipeScreenFavorites {
     _hasReachedEnd = newRecipes.length < _limit;
     _isLoadingNext = false;
 
-    final filtered = _allRecipes
-        .where((recipe) => favoriteIds.contains(recipe.id.toString()))
-        .toList();
-
-    state = AsyncData(filtered);
+    state = AsyncData(_allRecipes);
   }
 
   Future<void> toggleFavorite(RecipeModel recipe) async {
@@ -81,4 +76,3 @@ class RecipeScreenFavorites extends _$RecipeScreenFavorites {
 
   bool get hasReachedEnd => _hasReachedEnd;
 }
-

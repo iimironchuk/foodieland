@@ -47,15 +47,15 @@ class OtherRecipesGrid extends ConsumerWidget {
       if (isSmallMobile) {
         return 290 / 370;
       } else if (isMobile) {
-        return 290 / 320;
+        return 290 / 340;
       } else if (isSmallTablet) {
-        return 290 / 330;
+        return 290 / 360;
       } else if (isTablet) {
-        return 290 / 290;
+        return 290 / 300;
       } else if (isVerySmallLaptop) {
         return 290 / 430;
       } else if (isSmallLaptop) {
-        return 290 / 350;
+        return 290 / 360;
       }
       return 290 / 316;
     }
@@ -87,14 +87,14 @@ class OtherRecipesGrid extends ConsumerWidget {
               child: RecipeItem(
                 recipe: recipes[index],
                 toggleFavorite: (recipe) => toggleFavorite(recipe),
-                titleFontSize: isTablet
-                    ? 16.0
+                titleFontSize: isMobile ? 12.0 : isSmallTablet ? 15.0 : isTablet
+                    ? 18.0
                     : smallerThanLaptop
                     ? 12.0
                     : smallerThanDesktop
                     ? 15.0
                     : 18.0,
-                infoFontSize: smallerThanLaptop
+                infoFontSize: isMobile ? 10.0 : isTablet ? 14.0 : smallerThanLaptop
                     ? 10.0
                     : smallerThanDesktop
                     ? 12.0

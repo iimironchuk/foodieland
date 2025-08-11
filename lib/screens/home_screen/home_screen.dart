@@ -7,6 +7,7 @@ import 'package:foodieland/resources/app_colors.dart';
 import 'package:foodieland/screens/home_screen/home_screen_providers/categories_provider/categories_provider.dart';
 import 'package:foodieland/screens/home_screen/home_screen_providers/recipes_providers/home_recipes_providers.dart';
 import 'package:foodieland/screens/home_screen/widgets/category_item.dart';
+import 'package:foodieland/screens/home_screen/widgets/recipe_item.dart';
 import 'package:foodieland/screens/widgets/other_recipes_grid.dart';
 import 'package:foodieland/screens/home_screen/widgets/hot_recipes_carousel.dart';
 import 'package:foodieland/screens/home_screen/widgets/instagram_section.dart';
@@ -15,6 +16,8 @@ import 'package:foodieland/screens/home_screen/widgets/recipe_grid.dart';
 import 'package:foodieland/screens/widgets/subscription_section.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 import 'package:url_launcher/url_launcher.dart';
+
+import '../../gen/assets.gen.dart';
 
 class HomeScreen extends ConsumerWidget {
   const HomeScreen({super.key});
@@ -99,7 +102,7 @@ class HomeScreen extends ConsumerWidget {
             constraints: BoxConstraints(maxWidth: 1280.0),
             child: Padding(
               padding: EdgeInsets.symmetric(
-                horizontal: smallerThanDesktop ? 20.0 : 0,
+                horizontal: smallerThanDesktop ? 16.0 : 0,
               ),
               child: Column(
                 children: [
@@ -208,9 +211,7 @@ class HomeScreen extends ConsumerWidget {
                   SizedBox(height: smallerThanDesktop ? 25.0 : 50.0),
                   recipeList.when(
                     data: (recipes) {
-                      // return Wrap(
-                      //   children: recipes.map((recipe)),
-                      // );
+
                       return RecipeGrid(
                         crossAxisCount: smallerThanLaptop ? 2 : 3,
                         recipeList: recipes,
