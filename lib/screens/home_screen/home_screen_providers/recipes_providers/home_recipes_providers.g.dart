@@ -42,7 +42,7 @@ final homeOtherRecipesProvider =
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
 typedef HomeOtherRecipesRef = AutoDisposeFutureProviderRef<List<RecipeModel>>;
-String _$recipeListHash() => r'28cb1747433174854f70d1c2fcd862c6cb800282';
+String _$recipeListHash() => r'f577ca8cd08cc453e82fe877b47eba3eda330fdd';
 
 /// See also [RecipeList].
 @ProviderFor(RecipeList)

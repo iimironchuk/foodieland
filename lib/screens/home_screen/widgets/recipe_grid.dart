@@ -3,12 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:foodieland/gen/assets.gen.dart';
 import 'package:foodieland/models/recipe_model/recipe_model.dart';
 import 'package:foodieland/navigation/routes.dart';
-import 'package:foodieland/screens/home_screen/home_screen_providers/recipes_providers/home_recipes_providers.dart';
 import 'package:foodieland/screens/home_screen/widgets/recipe_item.dart';
-import 'package:go_router/go_router.dart';
 import 'package:responsive_framework/responsive_framework.dart';
-
-import '../../../providers/favorites_provider/favorites_provider.dart';
 
 class RecipeGrid extends ConsumerWidget {
   final int crossAxisCount;
@@ -28,7 +24,6 @@ class RecipeGrid extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-
     final smallerThanDesktop = ResponsiveBreakpoints.of(
       context,
     ).smallerThan(DESKTOP);
@@ -36,26 +31,37 @@ class RecipeGrid extends ConsumerWidget {
       context,
     ).smallerThan('Laptop');
     final isSmallLaptop =
-        MediaQuery.of(context).size.width < 1100 &&
+        MediaQuery.of(context).size.width < 1000 &&
         MediaQuery.of(context).size.width > 800;
-    final isVerySmallLaptop =
-        MediaQuery.of(context).size.width < 900 &&
-        MediaQuery.of(context).size.width > 800;
+    final isSmallTablet =
+        MediaQuery.of(context).size.width < 650 &&
+        MediaQuery.of(context).size.width > 480;
 
-    final isSmallTablet = MediaQuery.of(context).size.width < 650;
-    final isLittleBiggerThanMobile = MediaQuery.of(context).size.width < 550.0;
-
+    final isVerySmallTablet =
+        MediaQuery.of(context).size.width < 555 &&
+        MediaQuery.of(context).size.width > 480;
     final isMobile = ResponsiveBreakpoints.of(context).isMobile;
+    final isTablet = ResponsiveBreakpoints.of(context).isTablet;
+
+    final isSmallMobile = MediaQuery.of(context).size.width < 420;
 
     double getAspectRatio() {
-      if (isLittleBiggerThanMobile) {
+      if (isSmallMobile) {
         return 400 / 540;
-      } else if (isVerySmallLaptop) {
-        return 400 / 550;
-      } else if (isSmallLaptop || isSmallTablet) {
-        return 400 / 460;
+      } else if (isMobile) {
+        return 400 / 490;
+      } else if (isVerySmallTablet) {
+        return 400 / 540;
+      } else if (isSmallTablet) {
+        return 400 / 480;
+      } else if (isTablet) {
+        return 400 / 420;
+      } else if (isSmallLaptop) {
+        return 400 / 480;
+      } else if (smallerThanDesktop) {
+        return 400 / 450;
       }
-      return 400 / 434;
+      return 400 / 440;
     }
 
     int adCount = (recipeList.length / 5).floor();
@@ -66,12 +72,12 @@ class RecipeGrid extends ConsumerWidget {
       itemCount: recipeList.length + adCount,
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: crossAxisCount,
-        mainAxisSpacing: isSmallTablet
+        mainAxisSpacing: isMobile
             ? 10.0
             : smallerThanLaptop
             ? 20.0
             : 40.0,
-        crossAxisSpacing: isSmallTablet
+        crossAxisSpacing: isMobile
             ? 10.0
             : smallerThanLaptop
             ? 20.0
@@ -89,14 +95,20 @@ class RecipeGrid extends ConsumerWidget {
         return GestureDetector(
           onTap: () => _goToDetails(context, recipe.documentId),
           child: RecipeItem(
-            titleFontSize: isMobile
+            titleFontSize:
+            isMobile
                 ? 12.0
-                : smallerThanLaptop
+                :  isSmallTablet ? 14.0 : smallerThanLaptop
                 ? 16.0
                 : smallerThanDesktop
                 ? 18.0
                 : 24.0,
-            infoFontSize: smallerThanLaptop
+            infoFontSize:
+            isSmallTablet
+                ? 12.0
+                : isTablet
+                ? 14.0
+                : smallerThanLaptop
                 ? 10.0
                 : smallerThanDesktop
                 ? 12.0

@@ -204,16 +204,14 @@ class SubscriptionSection extends ConsumerWidget {
                     ? -150
                     : -110,
                 bottom: smallerThanLaptop
-                    ? -180
+                    ? -160
                     : isSmallLaptop
                     ? -150
                     : -110,
                 child: Transform.rotate(
                   angle: 0.5,
                   child: Transform.scale(
-                    scale: isMobile
-                        ? 0.4
-                        : smallerThanLaptop
+                    scale: smallerThanLaptop
                         ? 0.5
                         : smallerThanDesktop
                         ? 0.6
@@ -229,22 +227,20 @@ class SubscriptionSection extends ConsumerWidget {
             if (!isMobile)
               Positioned(
                 right: smallerThanLaptop
-                    ? -170
+                    ? -180
                     : isSmallLaptop
                     ? -120
-                    : -70,
+                    : -100,
                 bottom: smallerThanLaptop
-                    ? -170
+                    ? -130
                     : isSmallLaptop
-                    ? -120
-                    : -70,
+                    ? -100
+                    : -90,
                 child: Transform.scale(
-                  scale: isMobile
-                      ? 0.4
-                      : smallerThanLaptop
-                      ? 0.5
-                      : smallerThanDesktop
+                  scale:  smallerThanLaptop
                       ? 0.6
+                      : isSmallLaptop ? 0.7 : smallerThanDesktop
+                      ? 0.8
                       : 0.9,
                   child: Assets.images.salad2.image(
                     width: 470.0,

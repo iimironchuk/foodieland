@@ -10,7 +10,11 @@ class CategoryItem extends StatelessWidget {
   final VoidCallback onCategoryTap;
   final CategoryModel category;
 
-  const CategoryItem({super.key, required this.category, required this.onCategoryTap});
+  const CategoryItem({
+    super.key,
+    required this.category,
+    required this.onCategoryTap,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -58,11 +62,21 @@ class CategoryItem extends StatelessWidget {
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
                 ),
-                borderRadius: BorderRadius.circular( smallerThanLaptop ? 10 : smallerThanDesktop ? 20 :30),
+                borderRadius: BorderRadius.circular(
+                  smallerThanLaptop
+                      ? 10
+                      : smallerThanDesktop
+                      ? 20
+                      : 30,
+                ),
               ),
             ),
             Positioned(
-              top: -50,
+              top: smallerThanLaptop
+                  ? -40.0
+                  : smallerThanDesktop
+                  ? -45.0
+                  : -50.0,
               left: 0,
               right: 0,
               child: Column(
@@ -81,7 +95,13 @@ class CategoryItem extends StatelessWidget {
                         ? 80.0
                         : 100.0,
                   ),
-                  SizedBox(height: 50.0),
+                  SizedBox(
+                    height: smallerThanLaptop
+                        ? 5.0
+                        : smallerThanDesktop
+                        ? 35.0
+                        : 50.0,
+                  ),
                   Text(
                     category.title,
                     style: Theme.of(context).textTheme.labelMedium!.copyWith(

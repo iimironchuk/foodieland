@@ -29,12 +29,17 @@ class RecipesScreen extends ConsumerWidget {
     final smallerThanDesktop = ResponsiveBreakpoints.of(
       context,
     ).smallerThan(DESKTOP);
+    final isMobile = ResponsiveBreakpoints.of(context).isMobile;
     final hasReachedEnd = ref
         .read(recipesScreenRecipeListProvider(categoryForFilter).notifier)
         .hasReachedEnd;
 
-    final favoritesAsync = ref.watch(recipeScreenFavoritesProvider(categoryForFilter));
-    final hasFavReachedEnd = ref.watch(recipeScreenFavoritesProvider(categoryForFilter).notifier).hasReachedEnd;
+    final favoritesAsync = ref.watch(
+      recipeScreenFavoritesProvider(categoryForFilter),
+    );
+    final hasFavReachedEnd = ref
+        .watch(recipeScreenFavoritesProvider(categoryForFilter).notifier)
+        .hasReachedEnd;
 
     final showFav = ref.watch(showOnlyFavoritesProvider);
     return Center(
@@ -42,7 +47,7 @@ class RecipesScreen extends ConsumerWidget {
         constraints: BoxConstraints(maxWidth: 1280.0),
         child: Padding(
           padding: EdgeInsets.symmetric(
-            horizontal: smallerThanLaptop ? 8.0 : 0,
+            horizontal: smallerThanLaptop ? 20.0 : 0,
           ),
           child: Column(
             children: [
@@ -94,7 +99,9 @@ class RecipesScreen extends ConsumerWidget {
                       onChanged: (value) {
                         ref.read(showOnlyFavoritesProvider.notifier).state =
                             value;
-
+                        ref.invalidate(
+                          recipeScreenFavoritesProvider(categoryForFilter),
+                        );
                       },
                     ),
                   ],
@@ -121,59 +128,80 @@ class RecipesScreen extends ConsumerWidget {
                   ),
                 ),
               SizedBox(height: 24.0),
-              showFav ? favoritesAsync.when(
-                data: (recipes) {
-                  return RecipeGrid(
-                    crossAxisCount: smallerThanLaptop ? 2 : 3,
-                    recipeList: recipes,
-                    toggleFavorite: (recipe) => ref
-                        .read(favoriteRecipesProvider.notifier)
-                        .toggle(recipe),
-                  );
-                },
-                error: (error, stack) => Text('Error: $error'),
-                loading: () => CircularProgressIndicator(),
-              ) : recipeList.when(
-                data: (recipes) {
-                  return RecipeGrid(
-                    crossAxisCount: smallerThanLaptop ? 2 : 3,
-                    recipeList: recipes,
-                    toggleFavorite: (recipe) => ref
-                        .read(favoriteRecipesProvider.notifier)
-                        .toggle(recipe),
-                  );
-                },
-                error: (error, stack) => Text('Error: $error'),
-                loading: () => CircularProgressIndicator(),
-              ),
-              SizedBox(height: 60.0),
-              SizedBox(
-                height: smallerThanLaptop
-                    ? 40.0
-                    : smallerThanDesktop
-                    ? 50.0
-                    : 60.0,
-                child: hasReachedEnd || hasFavReachedEnd
-                    ? SizedBox()
-                    : ElevatedButton(
-                        onPressed: showFav
-                            ? () => ref
-                                  .read(
-                                    recipeScreenFavoritesProvider(
-                                      categoryForFilter,
-                                    ).notifier,
-                                  )
-                                  .loadMore(categoryForFilter)
-                            : () => ref
-                                  .read(
-                                    recipesScreenRecipeListProvider(
-                                      categoryForFilter,
-                                    ).notifier,
-                                  )
-                                  .loadMore(categoryForFilter),
-                        child: Text('Show more'),
-                      ),
-              ),
+              showFav
+                  ? favoritesAsync.when(
+                      data: (recipes) {
+                        return Column(
+                          children: [
+                            RecipeGrid(
+                              crossAxisCount: smallerThanLaptop ? 2 : 3,
+                              recipeList: recipes,
+                              toggleFavorite: (recipe) => ref
+                                  .read(favoriteRecipesProvider.notifier)
+                                  .toggle(recipe),
+                            ),
+                            SizedBox(
+                              height: isMobile
+                                  ? 15.0
+                                  : smallerThanDesktop
+                                  ? 30.0
+                                  : 60.0,
+                            ),
+                            hasFavReachedEnd
+                                ? SizedBox()
+                                : ElevatedButton(
+                                    onPressed: () => ref
+                                        .read(
+                                          recipeScreenFavoritesProvider(
+                                            categoryForFilter,
+                                          ).notifier,
+                                        )
+                                        .loadMore(categoryForFilter),
+                                    child: Text('Show more'),
+                                  ),
+                          ],
+                        );
+                      },
+                      error: (error, stack) => Text('Error: $error'),
+                      loading: () => SizedBox(),
+                    )
+                  : recipeList.when(
+                      data: (recipes) {
+                        return Column(
+                          children: [
+                            RecipeGrid(
+                              crossAxisCount: smallerThanLaptop ? 2 : 3,
+                              recipeList: recipes,
+                              toggleFavorite: (recipe) => ref
+                                  .read(favoriteRecipesProvider.notifier)
+                                  .toggle(recipe),
+                            ),
+                            SizedBox(
+                              height: isMobile
+                                  ? 15.0
+                                  : smallerThanDesktop
+                                  ? 30.0
+                                  : 60.0,
+                            ),
+                            hasReachedEnd
+                                ? SizedBox()
+                                : ElevatedButton(
+                                    onPressed: () => ref
+                                        .read(
+                                          recipesScreenRecipeListProvider(
+                                            categoryForFilter,
+                                          ).notifier,
+                                        )
+                                        .loadMore(categoryForFilter),
+                                    child: Text('Show more'),
+                                  ),
+                          ],
+                        );
+                      },
+                      error: (error, stack) => Text('Error: $error'),
+                      loading: () => CircularProgressIndicator(),
+                    ),
+
               SizedBox(height: 60.0),
               SubscriptionSection(),
               SizedBox(height: 60.0),

@@ -1,4 +1,3 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:foodieland/models/post_text_model/post_text_model.dart';
 import 'package:foodieland/screens/post_details_screen/widgets/italic_text_with_container.dart';
@@ -67,6 +66,7 @@ class PostContentBuilder extends StatelessWidget {
                 ),
               );
             }
+            return SizedBox();
           },
         ),
       ),

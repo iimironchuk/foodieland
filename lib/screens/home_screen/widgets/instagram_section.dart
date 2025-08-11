@@ -25,6 +25,7 @@ class InstagramSection extends StatelessWidget {
     final smallerThanLaptop = ResponsiveBreakpoints.of(
       context,
     ).smallerThan('Laptop');
+    final isMobile = ResponsiveBreakpoints.of(context).isMobile;
     return Container(
       width: double.infinity,
       decoration: BoxDecoration(
@@ -38,24 +39,25 @@ class InstagramSection extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Padding(
-            padding: EdgeInsets.symmetric(vertical: 80.0),
-            child: ConstrainedBox(
-              constraints: BoxConstraints(maxWidth: 860.0),
-              child: Column(
-                children: [
-                  Text(
-                    'Check out @foodieland on Instagram',
-                    style: textTheme.labelMedium!.copyWith(
-                      fontSize: smallerThanLaptop
-                          ? 24.0
-                          : smallerThanDesktop
-                          ? 36.0
-                          : 48.0,
-                    ),
+          ConstrainedBox(
+            constraints: BoxConstraints(maxWidth: 860.0),
+            child: Column(
+              children: [
+                Text(
+                  'Check out @foodieland on Instagram',
+                  style: textTheme.labelMedium!.copyWith(
+                    fontSize: smallerThanLaptop
+                        ? 24.0
+                        : smallerThanDesktop
+                        ? 36.0
+                        : 48.0,
                   ),
-                  SizedBox(height: 24.0),
-                  Text(
+                  textAlign: TextAlign.center,
+                ),
+                SizedBox(height: 24.0),
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: isMobile ? 15.0 : 0),
+                  child: Text(
                     'Lorem ipsum dolor sit amet, consectetuipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqut enim ad minim ',
                     style: textTheme.labelSmall!.copyWith(
                       fontSize: smallerThanLaptop
@@ -66,25 +68,31 @@ class InstagramSection extends StatelessWidget {
                     ),
                     textAlign: TextAlign.center,
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
-          ),
+          ),SizedBox(height: 24.0),
+
           ConstrainedBox(
             constraints: BoxConstraints(maxWidth: 1280.0),
-            child: GridView.builder(
-              physics: NeverScrollableScrollPhysics(),
-              shrinkWrap: true,
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: smallerThanLaptop ? 2 : 4,
-                mainAxisSpacing: 40.0,
-                crossAxisSpacing: 40.0,
-                childAspectRatio: 290 / 445,
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: smallerThanDesktop ? 20.0 : 0),
+              child: GridView.builder(
+                physics: NeverScrollableScrollPhysics(),
+                shrinkWrap: true,
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: smallerThanLaptop ? 2 : 4,
+                  mainAxisSpacing: 10.0,
+                  crossAxisSpacing: 40.0,
+                  childAspectRatio: 290 / 445,
+                ),
+                itemCount: instagramPosts.length,
+                itemBuilder: (context, index) {
+                  return AspectRatio(
+                    aspectRatio: 290/445,
+                      child: instagramPosts[index]);
+                },
               ),
-              itemCount: instagramPosts.length,
-              itemBuilder: (context, index) {
-                return instagramPosts[index];
-              },
             ),
           ),
           SizedBox(height: 80.0),

@@ -2,12 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:foodieland/resources/app_colors.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 
-class SearchTextField extends StatelessWidget {
+class SearchTextField extends StatefulWidget {
   final Function(String) onSearch;
   final Function(String)? onSubmitted;
-  final TextEditingController _controller = TextEditingController();
 
-  SearchTextField({super.key, required this.onSearch, this.onSubmitted});
+  const SearchTextField({super.key, required this.onSearch, this.onSubmitted});
+
+  @override
+  State<SearchTextField> createState() => _SearchTextFieldState();
+}
+
+class _SearchTextFieldState extends State<SearchTextField> {
+  final TextEditingController _controller = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +40,12 @@ class SearchTextField extends StatelessWidget {
               ),
               child: TextField(
                 controller: _controller,
-                onSubmitted: onSubmitted,
+                onSubmitted: widget.onSubmitted,
+                onChanged: (value){
+                  if(_controller.text.isEmpty){
+                    widget.onSearch(value);
+                  }
+                },
                 decoration: InputDecoration(
                   border: InputBorder.none,
                   hintText: 'Search article, news or recipe...',
@@ -65,7 +76,7 @@ class SearchTextField extends StatelessWidget {
                 ),
                 onPressed: () {
                   final text = _controller.text;
-                  onSearch(text);
+                  widget.onSearch(text);
                 },
                 child: Text('Search'),
               ),

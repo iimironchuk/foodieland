@@ -53,7 +53,9 @@ class RecipeItem extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final isFavorite = ref.watch(isRecipeFavoriteProvider(recipe.id.toString()));
+    final isFavorite = ref.watch(
+      isRecipeFavoriteProvider(recipe.id.toString()),
+    );
     final textTheme = Theme.of(context).textTheme;
     final smallerThanDesktop = ResponsiveBreakpoints.of(
       context,
@@ -80,7 +82,10 @@ class RecipeItem extends ConsumerWidget {
         borderRadius: BorderRadius.circular(smallerThanLaptop ? 20.0 : 30),
       ),
       child: Padding(
-        padding: EdgeInsets.all(isGradientNeeded ? 16.0 : 0),
+        padding: EdgeInsets.symmetric(
+          horizontal: isGradientNeeded ? (isMobile ? 5.0 : 16) : 0,
+          vertical: isGradientNeeded ? 16 : 0,
+        ),
         child: Column(
           children: [
             AspectRatio(
@@ -114,9 +119,7 @@ class RecipeItem extends ConsumerWidget {
                             width: isMobile ? 15.0 : null,
                             height: isMobile ? 15.0 : null,
                             colorFilter: ColorFilter.mode(
-                              isFavorite
-                                  ? Colors.red
-                                  : AppColors.lightGrey,
+                              isFavorite ? Colors.red : AppColors.lightGrey,
                               BlendMode.srcIn,
                             ),
                           ),
@@ -154,7 +157,6 @@ class RecipeItem extends ConsumerWidget {
               ),
             ),
             Spacer(),
-
             Align(
               alignment: Alignment.centerLeft,
               child: Wrap(
@@ -181,6 +183,7 @@ class RecipeItem extends ConsumerWidget {
                 ],
               ),
             ),
+            // SizedBox(height: 32.0,),
           ],
         ),
       ),

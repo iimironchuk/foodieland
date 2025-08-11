@@ -46,6 +46,7 @@ class HotRecipeItem extends StatelessWidget {
                   fontSize: isSmallTablet ? 12.0 : 16.0,
                   fontWeight: FontWeight.w700,
                 ),
+                overflow: TextOverflow.ellipsis,
               ),
               SizedBox(height: 8),
               Text(

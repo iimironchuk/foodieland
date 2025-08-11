@@ -100,6 +100,9 @@ class $AssetsImagesGen {
   /// File path: assets/images/salad2.png
   AssetGenImage get salad2 => const AssetGenImage('assets/images/salad2.png');
 
+  /// File path: assets/images/why_us.png
+  AssetGenImage get whyUs => const AssetGenImage('assets/images/why_us.png');
+
   /// List of all assets
   List<AssetGenImage> get values => [
     advertisment,
@@ -113,6 +116,7 @@ class $AssetsImagesGen {
     instagramPost4,
     salad1,
     salad2,
+    whyUs,
   ];
 }
 

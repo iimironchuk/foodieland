@@ -1,7 +1,8 @@
+import 'package:bot_toast/bot_toast.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:foodieland/models/post_text_model/post_text_model.dart';
 import 'package:foodieland/resources/app_colors.dart';
 import 'package:foodieland/screens/post_details_screen/post_details_providers/post_details_providers.dart';
 import 'package:foodieland/screens/post_details_screen/widgets/post_content_builder.dart';
@@ -10,10 +11,31 @@ import 'package:foodieland/screens/widgets/subscription_section.dart';
 import 'package:intl/intl.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 
+import '../../providers/services_providers.dart';
+
 class PostDetailsScreen extends ConsumerWidget {
   final String postId;
 
   const PostDetailsScreen({super.key, required this.postId});
+
+  Future<void> _shareViaFacebook(WidgetRef ref) async {
+    final urlToShare = Uri.base;
+    await ref.read(shareServiceProvider).facebookShare(urlToShare: urlToShare);
+  }
+
+  Future<void> _shareViaTwitter(WidgetRef ref) async {
+    final urlToShare = Uri.base;
+    await ref.read(shareServiceProvider).twitterShare(urlToShare: urlToShare);
+  }
+
+  Future<void> _shareViaInstagram(WidgetRef ref) async {
+    Clipboard.setData(ClipboardData(text: Uri.base.toString()));
+    BotToast.showText(text: 'Link copied to clipboard');
+
+    Future.delayed(Duration(seconds: 1)).then((_) {
+      ref.read(shareServiceProvider).instagramShare();
+    });
+  }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -122,7 +144,7 @@ class PostDetailsScreen extends ConsumerWidget {
                         alignment: Alignment.centerLeft,
                         child: Wrap(
                           spacing: 50.0,
-                              runSpacing: 30.0,
+                          runSpacing: 30.0,
                           children: [
                             ConstrainedBox(
                               constraints: BoxConstraints(maxWidth: 940.0),
@@ -135,7 +157,13 @@ class PostDetailsScreen extends ConsumerWidget {
                               constraints: BoxConstraints(
                                 maxWidth: smallerThanDesktop ? 180.0 : 140.0,
                               ),
-                              child: Center(child: ShareColumn()),
+                              child: Center(
+                                child: ShareColumn(
+                                  facebookShare: () => _shareViaFacebook(ref),
+                                  twitterShare: () => _shareViaTwitter(ref),
+                                  instagramShare: () => _shareViaInstagram(ref),
+                                ),
+                              ),
                             ),
                           ],
                         ),

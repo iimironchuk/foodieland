@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:foodieland/screens/contact_screen/contact_screen_providers/contact_screen_providers.dart';
 
 import '../../../gen/assets.gen.dart';
 import '../../../resources/app_colors.dart';
 import 'custom_text_field.dart';
 import 'enquiry_dropdown.dart';
 
-class FormSection extends StatelessWidget {
+class FormSection extends ConsumerWidget {
   const FormSection({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Column(
       children: [
         Row(
@@ -21,6 +23,7 @@ class FormSection extends StatelessWidget {
                 maxLines: 1,
                 contentTopPadding: 20.0,
                 contentBottomPadding: 20.0,
+                onChanged: (value) => ref.read(contactNameProvider.notifier).state = value,
               ),
             ),
             SizedBox(width: 20.0),
@@ -31,6 +34,7 @@ class FormSection extends StatelessWidget {
                 maxLines: 1,
                 contentTopPadding: 20.0,
                 contentBottomPadding: 20.0,
+                onChanged: (value) => ref.read(contactEmailProvider.notifier).state = value,
               ),
             ),
           ],
@@ -45,6 +49,7 @@ class FormSection extends StatelessWidget {
                 maxLines: 1,
                 contentTopPadding: 20.0,
                 contentBottomPadding: 20.0,
+                onChanged: (value) => ref.read(contactSubjectProvider.notifier).state = value,
               ),
             ),
             SizedBox(width: 20.0),
@@ -57,6 +62,7 @@ class FormSection extends StatelessWidget {
           hintText: 'Enter your messages...',
           title: 'MESSAGES',
           maxLines: 6,
+          onChanged: (value) => ref.read(contactMessageProvider.notifier).state = value,
         ),
       ],
     );

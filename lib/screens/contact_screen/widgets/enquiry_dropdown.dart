@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:foodieland/screens/contact_screen/contact_screen_providers/contact_screen_providers.dart';
 import '../../../resources/app_colors.dart';
 
-class EnquiryDropdown extends StatefulWidget {
+class EnquiryDropdown extends ConsumerStatefulWidget {
   const EnquiryDropdown({super.key});
 
   @override
-  State<EnquiryDropdown> createState() => _EnquiryDropdownState();
+  ConsumerState<EnquiryDropdown> createState() => _EnquiryDropdownState();
 }
 
-class _EnquiryDropdownState extends State<EnquiryDropdown> {
+class _EnquiryDropdownState extends ConsumerState<EnquiryDropdown> {
   final List<String> enquiryTypes = [
     'Advertising',
     'Partnership',
@@ -16,12 +18,19 @@ class _EnquiryDropdownState extends State<EnquiryDropdown> {
     'Feedback',
   ];
 
-  String selectedType = 'Advertising';
+  //  late String selectedType;
+  //
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   selectedType = 'Advertising';
+  //   ref.read(contactEnquiryProvider.notifier).state = selectedType;
+  // }
 
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
-
+    final selectedType = ref.watch(contactEnquiryProvider);
     return Expanded(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -50,9 +59,8 @@ class _EnquiryDropdownState extends State<EnquiryDropdown> {
                 style: textTheme.labelSmall,
                 onChanged: (value) {
                   if (value != null) {
-                    setState(() {
-                      selectedType = value;
-                    });
+                    ref.read(contactEnquiryProvider.notifier).state = value;
+
                   }
                 },
                 items: enquiryTypes.map((type) {

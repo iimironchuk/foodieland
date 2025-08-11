@@ -1,3 +1,4 @@
+import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:foodieland/gen/assets.gen.dart';
@@ -9,8 +10,29 @@ import 'package:foodieland/screens/widgets/other_recipes_grid.dart';
 import 'package:foodieland/screens/widgets/subscription_section.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 
+import 'contact_screen_providers/contact_screen_providers.dart';
+
 class ContactScreen extends ConsumerWidget {
   const ContactScreen({super.key});
+
+  Future<void> _onSubmit(WidgetRef ref) async {
+    final name = ref.watch(contactNameProvider);
+    final email = ref.watch(contactEmailProvider);
+    final subject = ref.watch(contactSubjectProvider);
+    final enquiry = ref.watch(contactEnquiryProvider);
+    final message = ref.watch(contactMessageProvider);
+
+    final emailRegex = RegExp(r"^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$");
+    
+    if(name.isEmpty || email.isEmpty || subject.isEmpty || enquiry.isEmpty || message.isEmpty){
+
+      BotToast.showText(text: 'All fields required');
+    } else if (!emailRegex.hasMatch(email)){
+      BotToast.showText(text: 'Invalid email format');
+    } else{
+      await ref.read(createContactProvider.future);
+    }
+  }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -40,6 +62,13 @@ class ContactScreen extends ConsumerWidget {
           ),
           child: Column(
             children: [
+              SizedBox(
+                height: isMobile
+                    ? 20.0
+                    : smallerThanDesktop
+                    ? 40.0
+                    : 80.0,
+              ),
               Text(
                 'Contact us',
                 style: textTheme.labelMedium!.copyWith(
@@ -89,9 +118,17 @@ class ContactScreen extends ConsumerWidget {
               ),
               SizedBox(height: 48.0),
               SizedBox(
-                height: 64.0,
-                width: 180.0,
-                child: ElevatedButton(onPressed: () {}, child: Text('Submit')),
+                height: isMobile ? 44.0 : 64.0,
+                width: isMobile ? 100.0 : 180.0,
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(isMobile ? 8 : 16),
+                    ),
+                  ),
+                  onPressed: () => _onSubmit(ref),
+                  child: Text('Submit'),
+                ),
               ),
               SizedBox(height: bigSizedBoxHeight()),
               SubscriptionSection(),
@@ -106,12 +143,13 @@ class ContactScreen extends ConsumerWidget {
                       : 36.0,
                 ),
               ),
-              SizedBox(height:
-              isMobile
-                  ? 20.0
-                  : smallerThanDesktop
-                  ? 40.0
-                  : 80.0),
+              SizedBox(
+                height: isMobile
+                    ? 20.0
+                    : smallerThanDesktop
+                    ? 40.0
+                    : 80.0,
+              ),
               otherRecipesAsync.when(
                 data: (recipes) => OtherRecipesGrid(
                   recipes: recipes,
