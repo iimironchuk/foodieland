@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:dio/dio.dart';
 import 'package:foodieland/models/category_model/category_model.dart';
 import 'package:foodieland/models/direction_model/cooking_step_mapper.dart';
@@ -69,6 +67,8 @@ class RecipeRepository {
 
     final intIds = idList.map((id)=> int.parse(id)).toList();
 
+    if(intIds.isEmpty) return [];
+
     final response = await _dio.get(
       'recipes',
       queryParameters: {
@@ -76,7 +76,7 @@ class RecipeRepository {
         'pagination[pageSize]': limit,
         'pagination[page]': page,
         if (category != null) 'filters[category][title][\$eq]': category.title,
-        if (intIds.isNotEmpty) 'filters[id][\$in]': intIds,
+        'filters[id][\$in]': intIds,
       },
     );
 

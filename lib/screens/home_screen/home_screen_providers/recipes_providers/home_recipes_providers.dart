@@ -2,10 +2,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:foodieland/models/recipe_model/recipe_model.dart';
 import 'package:foodieland/providers/repository_providers.dart';
 import 'package:foodieland/providers/services_providers.dart';
-import 'package:foodieland/utils/toggle_favorites_helper.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-
-import '../../../../providers/favorites_provider/favorites_provider.dart';
 
 part 'home_recipes_providers.g.dart';
 

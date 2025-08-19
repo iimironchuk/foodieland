@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:foodieland/gen/assets.gen.dart';
 import 'package:foodieland/resources/app_colors.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 

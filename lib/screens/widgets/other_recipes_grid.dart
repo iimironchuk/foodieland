@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:foodieland/models/recipe_model/recipe_model.dart';
-import 'package:foodieland/screens/home_screen/home_screen_providers/recipes_providers/home_recipes_providers.dart';
-import 'package:foodieland/screens/home_screen/widgets/recipe_grid.dart';
 import 'package:foodieland/screens/home_screen/widgets/recipe_item.dart';
 import 'package:go_router/go_router.dart';
 import 'package:responsive_framework/responsive_framework.dart';

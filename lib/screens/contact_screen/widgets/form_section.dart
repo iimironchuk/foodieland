@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:foodieland/screens/contact_screen/contact_screen_providers/contact_screen_providers.dart';
 
-import '../../../gen/assets.gen.dart';
-import '../../../resources/app_colors.dart';
 import 'custom_text_field.dart';
 import 'enquiry_dropdown.dart';
 

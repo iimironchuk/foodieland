@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:foodieland/gen/assets.gen.dart';
-import 'package:foodieland/navigation/routes.dart';
 import 'package:foodieland/screens/about_us_screen/widgets/our_story_widget.dart';
 import 'package:foodieland/screens/home_screen/widgets/instagram_section.dart';
-import 'package:foodieland/screens/home_screen/widgets/own_kitchen_card.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 import 'package:url_launcher/url_launcher.dart';
 

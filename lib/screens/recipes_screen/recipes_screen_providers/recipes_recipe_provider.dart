@@ -4,7 +4,6 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 import '../../../models/recipe_model/recipe_model.dart';
 import '../../../providers/favorites_provider/favorites_provider.dart';
 import '../../../providers/repository_providers.dart';
-import '../../../providers/services_providers.dart';
 
 part 'recipes_recipe_provider.g.dart';
 

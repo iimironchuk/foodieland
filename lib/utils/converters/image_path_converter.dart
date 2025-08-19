@@ -8,7 +8,7 @@ class ImagePathConverter implements JsonConverter<String, Map<String, dynamic>?>
     if (json == null || json['url'] == null) {
       return '';
     }
-    return 'http://strapi2.demodev.cc${json['url']}';
+    return 'https://strapi2.demodev.cc${json['url']}';
   }
 
   @override

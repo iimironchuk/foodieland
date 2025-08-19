@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:foodieland/gen/fonts.gen.dart';
 import 'package:foodieland/resources/app_colors.dart';

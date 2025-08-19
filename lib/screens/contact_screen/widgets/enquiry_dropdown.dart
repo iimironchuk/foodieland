@@ -18,15 +18,6 @@ class _EnquiryDropdownState extends ConsumerState<EnquiryDropdown> {
     'Feedback',
   ];
 
-  //  late String selectedType;
-  //
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   selectedType = 'Advertising';
-  //   ref.read(contactEnquiryProvider.notifier).state = selectedType;
-  // }
-
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;

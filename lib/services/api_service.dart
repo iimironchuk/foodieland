@@ -10,7 +10,7 @@ class ApiService {
   ApiService() {
     dio = Dio(
       BaseOptions(
-        baseUrl: 'http://strapi2.demodev.cc/api/',
+        baseUrl: 'https://strapi2.demodev.cc/api/',
       ),
     )..interceptors.addAll(
       [

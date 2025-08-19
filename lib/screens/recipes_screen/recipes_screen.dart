@@ -14,6 +14,8 @@ import '../../resources/app_colors.dart';
 class RecipesScreen extends ConsumerWidget {
   const RecipesScreen({super.key});
 
+
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final textTheme = Theme.of(context).textTheme;
@@ -90,7 +92,10 @@ class RecipesScreen extends ConsumerWidget {
                   children: [
                     Text(
                       'Show only favorites',
-                      style: textTheme.labelMedium!.copyWith(fontSize: 24.0),
+                      style: textTheme.labelMedium!.copyWith(fontSize: isMobile
+                          ? 12.0
+                          : smallerThanDesktop
+                          ? 18.0 : 24.0),
                     ),
                     SizedBox(width: 24.0),
                     Switch(
@@ -131,6 +136,20 @@ class RecipesScreen extends ConsumerWidget {
               showFav
                   ? favoritesAsync.when(
                       data: (recipes) {
+                        if (recipes.isEmpty) {
+                          return Center(
+                            child: Text(
+                              'You have no favorite recipes yet!',
+                              style: textTheme.labelSmall!.copyWith(
+                                fontSize: smallerThanLaptop
+                                    ? 12.0
+                                    : smallerThanDesktop
+                                    ? 14.0
+                                    : 16.0,
+                              ),
+                            ),
+                          );
+                        }
                         return Column(
                           children: [
                             RecipeGrid(

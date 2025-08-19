@@ -34,24 +34,29 @@ class AppWrapper extends ConsumerWidget {
     return Scaffold(
       endDrawer: CustomDrawer(
         goHome: () {
-          _goToBranch(0);
           context.pop();
+          _goToBranch(0);
+          // context.pop();
         },
         goToRecipes: () {
-          _goToBranch(1);
           context.pop();
+          _goToBranch(1);
+
         },
         goToBlog: () {
-          _goToBranch(2);
           context.pop();
+          _goToBranch(2);
+          // context.pop();
         },
         goToContacts: () {
-          _goToBranch(3);
           context.pop();
+          _goToBranch(3);
+
         },
         goToAboutUs: () {
-          _goToBranch(4);
           context.pop();
+          _goToBranch(4);
+
         },
       ),
       backgroundColor: Colors.white,

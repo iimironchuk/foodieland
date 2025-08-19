@@ -29,6 +29,16 @@ class OverviewDetailsRow extends StatelessWidget {
     required this.onPrint,
   });
 
+  String _formatMinutes(int totalMinutes) {
+    if (totalMinutes < 60) {
+      return '$totalMinutes Minutes';
+    } else {
+      final hours = totalMinutes ~/ 60;
+      final minutes = totalMinutes % 60;
+      return '$hours H ${minutes.toString().padLeft(2, '0')} m';
+    }
+  }
+
   Widget _buildTimeRow(String timeType, TextTheme textTheme, int time) {
     return Row(
       mainAxisSize: MainAxisSize.min,
@@ -46,7 +56,7 @@ class OverviewDetailsRow extends StatelessWidget {
               ),
             ),
             SizedBox(height: 8.0),
-            Text('$time Minutes', style: textTheme.labelSmall),
+            Text(_formatMinutes(time), style: textTheme.labelSmall),
           ],
         ),
       ],

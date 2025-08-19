@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:foodieland/resources/app_colors.dart';
 import 'package:separated_row/separated_row.dart';
 
 import '../../gen/assets.gen.dart';
+import '../../providers/services_providers.dart';
 
-class CustomDrawer extends StatelessWidget {
+class CustomDrawer extends ConsumerWidget {
   final VoidCallback goHome;
   final VoidCallback goToRecipes;
   final VoidCallback goToBlog;
@@ -22,13 +24,13 @@ class CustomDrawer extends StatelessWidget {
   });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final textTheme = Theme.of(context).textTheme;
     return Drawer(
       backgroundColor: AppColors.lightBlue,
       child: Column(
         children: [
-          SizedBox(height: 40.0,),
+          SizedBox(height: 40.0),
           Text.rich(
             TextSpan(
               children: [
@@ -54,15 +56,18 @@ class CustomDrawer extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             children: [
               IconButton(
-                onPressed: () {},
+                onPressed: () =>
+                    ref.read(socialLinksServiceProvider).goToFacebook(),
                 icon: SvgPicture.asset(Assets.icons.facebook),
               ),
               IconButton(
-                onPressed: () {},
+                onPressed: () =>
+                    ref.read(socialLinksServiceProvider).goToTwitter(),
                 icon: SvgPicture.asset(Assets.icons.twitter),
               ),
               IconButton(
-                onPressed: () {},
+                onPressed: () =>
+                    ref.read(socialLinksServiceProvider).goToInstagram(),
                 icon: SvgPicture.asset(Assets.icons.instagarm),
               ),
             ],

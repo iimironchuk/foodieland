@@ -1,13 +1,5 @@
-import 'package:flutter/cupertino.dart';
 import 'package:foodieland/navigation/routes.dart';
-import 'package:foodieland/screens/about_us_screen/about_us_screen.dart';
-import 'package:foodieland/screens/blog_screen/blog_screen.dart';
-import 'package:foodieland/screens/contact_screen/contact_screen.dart';
-import 'package:foodieland/screens/recipes_screen/recipes_screen.dart';
 import 'package:go_router/go_router.dart';
-
-import '../screens/home_screen/home_screen.dart';
-import 'app_wrapper.dart';
 
 class AppRouter {
   static final AppRouter _instance = AppRouter._internal();

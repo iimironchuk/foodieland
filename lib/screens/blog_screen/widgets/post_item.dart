@@ -10,60 +10,6 @@ class PostItem extends StatelessWidget {
 
   const PostItem({super.key, required this.post});
 
-  // Widget _buildAuthorRow(TextThe){
-  //   final children = [
-  //     Row(
-  //       mainAxisSize: MainAxisSize.min,
-  //       children: [
-  //         SizedBox(
-  //           width: isMobile ? 30.0 : 40.0,
-  //           height: isMobile ? 30.0 : 40.0,
-  //           child: ClipOval(
-  //             child: CachedNetworkImage(
-  //               imageUrl: post.authorAvatar,
-  //             ),
-  //           ),
-  //         ),
-  //         SizedBox(
-  //           width: isMobile
-  //               ? 10.0
-  //               : isTablet
-  //               ? 13.0
-  //               : 16.0,
-  //         ),
-  //         Text(
-  //           post.authorName,
-  //           style: textTheme.labelMedium!.copyWith(
-  //             fontSize: isMobile
-  //                 ? 12.0
-  //                 : isTablet
-  //                 ? 14.0
-  //                 : 16.0,
-  //           ),
-  //         ),
-  //       ],
-  //     ),
-  //     Padding(
-  //       padding: EdgeInsets.symmetric(
-  //         horizontal: isMobile
-  //             ? 12.0
-  //             : isTablet
-  //             ? 18.0
-  //             : 24.0,
-  //       ),
-  //       child: SizedBox(
-  //         height: isMobile ? 25.0 : 40.0,
-  //         child: VerticalDivider(color: AppColors.veryLightGrey),
-  //       ),
-  //     ),
-  //     Text(
-  //       DateFormat('d MMMM yyyy').format(post.publishedAt),
-  //       style: textTheme.labelSmall!.copyWith(
-  //         fontWeight: FontWeight.w500,
-  //       ),
-  //     ),
-  //   ];
-  // }
 
   @override
   Widget build(BuildContext context) {
